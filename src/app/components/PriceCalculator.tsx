@@ -2,34 +2,38 @@
 'use client'
 import React, { useState } from 'react'
 
+// Добавляем типы
+type CasingType = 'steel' | 'plastic' | 'asbestos'
+type CasingPrices = Record<CasingType, number>
+
 const PriceCalculator = () => {
     const [depth, setDepth] = useState(30)
-    const [type, setType] = useState('sand')
-    const [casingType, setCasingType] = useState('steel')
+    const [type, setType] = useState<'sand' | 'artesian'>('sand')
+    const [casingType, setCasingType] = useState<CasingType>('steel')
     const [equipment, setEquipment] = useState(false)
     const [waterCleaning, setWaterCleaning] = useState(false)
 
-    // Цены за метр для разных типов труб (актуальные на 2024 год)
-    const CASING_PRICES = {
-        steel: 500,     // Стальная труба
-        plastic: 300,   // Пластиковая труба
-        asbestos: 200   // Асбоцементная труба
+    // Явно типизированный объект
+    const CASING_PRICES: CasingPrices = {
+        steel: 500,
+        plastic: 300,
+        asbestos: 200
     }
 
     const calculatePrice = () => {
         const basePrice = type === 'sand' ? 2000 : 3500
         const depthPrice = depth * (type === 'sand' ? 1500 : 3000)
-        const casingPrice = CASING_PRICES[casingType] * depth
+        const casingPrice = CASING_PRICES[casingType] * depth // Теперь ошибки нет
         const equipmentPrice = equipment ? 25000 : 0
         const cleaningPrice = waterCleaning ? 30000 : 0
-        
+
         return (basePrice + depthPrice + casingPrice + equipmentPrice + cleaningPrice).toLocaleString('ru-RU')
     }
 
     return (
         <section className="container mx-auto px-4 py-8">
             <div className="border-b border-black border-opacity-10 mb-6"></div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8">
                 РАСЧЕТ СТОИМОСТИ
             </h2>
@@ -41,21 +45,19 @@ const PriceCalculator = () => {
                     <div className="grid gap-3">
                         <button
                             onClick={() => setType('sand')}
-                            className={`w-full p-3 text-left rounded-lg transition-all ${
-                                type === 'sand' 
+                            className={`w-full p-3 text-left rounded-lg transition-all ${type === 'sand'
                                     ? 'bg-[#218CE9] text-white'
                                     : 'bg-white hover:bg-[#218CE9]/10'
-                            }`}
+                                }`}
                         >
                             Песчаная (до 30 метров)
                         </button>
                         <button
                             onClick={() => setType('artesian')}
-                            className={`w-full p-3 text-left rounded-lg transition-all ${
-                                type === 'artesian'
+                            className={`w-full p-3 text-left rounded-lg transition-all ${type === 'artesian'
                                     ? 'bg-[#218CE9] text-white'
                                     : 'bg-white hover:bg-[#218CE9]/10'
-                            }`}
+                                }`}
                         >
                             Артезианская (до 150 метров)
                         </button>
@@ -69,12 +71,11 @@ const PriceCalculator = () => {
                         {Object.entries(CASING_PRICES).map(([key, price]) => (
                             <button
                                 key={key}
-                                onClick={() => setCasingType(key)}
-                                className={`w-full p-3 text-left rounded-lg transition-all ${
-                                    casingType === key
+                                onClick={() => setCasingType(key as CasingType)}
+                                className={`w-full p-3 text-left rounded-lg transition-all ${casingType === key
                                         ? 'bg-[#218CE9] text-white'
                                         : 'bg-white hover:bg-[#218CE9]/10'
-                                }`}
+                                    }`}
                             >
                                 {{
                                     steel: 'Стальные (+500₽/м)',
@@ -113,7 +114,7 @@ const PriceCalculator = () => {
                         />
                         <span className="text-[#666]">Монтаж насосного оборудования (+25 000 ₽)</span>
                     </label>
-                    
+
                     <label className="flex items-center space-x-3">
                         <input
                             type="checkbox"

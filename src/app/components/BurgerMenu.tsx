@@ -3,7 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const BurgerMenu = () => {
+interface BurgerMenuProps {
+    className?: string; // Добавляем принятие className
+  }
+
+const BurgerMenu: React.FC<BurgerMenuProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);

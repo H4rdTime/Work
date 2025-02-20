@@ -7,22 +7,20 @@ const WorkSteps = () => {
     {
       title: 'Выезд инженера',
       content: (
-        <>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Анализ грунта, подбор типа скважины</li>
-          </ul>
-        </>
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Анализ грунта, подбор типа скважины</li>
+        </ul>
       )
     },
     {
-        title: 'Заключение договора',
-        content: (
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Фиксируем сроки, стоимость, гарантии.</li>
-            <li>Без скрытых платежей.</li>
-          </ul>
-        )
-      },
+      title: 'Заключение договора',
+      content: (
+        <ul className="list-disc pl-5 space-y-2">
+          <li>Фиксируем сроки, стоимость, гарантии.</li>
+          <li>Без скрытых платежей.</li>
+        </ul>
+      )
+    },
     {
       title: 'Бурение и обустройство',
       content: (
@@ -64,11 +62,12 @@ const WorkSteps = () => {
         Этапы работы — от заявки до чистой воды
       </h3>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid justify-items-center md:grid-cols-2 lg:grid-cols-4 gap-8">
         {steps.map((step, index) => (
           <div 
             key={index}
-            className="bg-[#F5F5F5] rounded-xl p-6 shadow-lg"
+            className={`bg-[#F5F5F5] rounded-xl p-6 shadow-lg
+              ${index === steps.length - 1 ? "md:col-span-2 lg:col-start-2 lg:col-span-2" : ""}`}
           >
             <div className="flex gap-4 mb-4 items-center">
               {/* Кружок с цифрой */}
@@ -83,7 +82,7 @@ const WorkSteps = () => {
             </div>
             
             {/* Контент этапа */}
-            <div className="text-[#666]"> {/* Добавлен отступ слева */}
+            <div className="text-[#666]">
               {step.content}
             </div>
           </div>

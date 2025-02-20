@@ -20,15 +20,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Плавные переходы */
-.advantage-card {
-  transition: all 0.5s ease;
-}
-
-/* Градиент для текста на изображении */
-.image-overlay {
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
-}
+/* Оставляем только общие утилиты */
 
 .transition-all {
   transition-property: all;
@@ -36,9 +28,86 @@ body {
   transition-duration: 300ms;
 }
 
-/* Для плавной адаптации текста */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+/* Добавляем стили для Embla Carousel */
+.embla {
+  --slide-spacing: 1rem;
+  --slide-size: 80%;
+  --slide-height: 400px;
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  height: auto;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .embla {
+    --slide-size: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .embla {
+    --slide-size: calc(100% / 3);
+  }
+}
+
+@media (max-width: 1080px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.swiper-slide-active .form-animation {
+  animation: formSlideIn 1s ease-out forwards;
+}
+
+/* Анимация для элементов формы */
+@keyframes formItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-item-animation {
+  animation: formItemFadeIn 0.8s ease-out forwards;
+}
+
+.form-item-animation:nth-child(1) { animation-delay: 0.3s; }
+.form-item-animation:nth-child(2) { animation-delay: 0.5s; }
+.form-item-animation:nth-child(3) { animation-delay: 0.7s; }

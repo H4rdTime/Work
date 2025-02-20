@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import BurgerMenu from "./BurgerMenu";
-import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi"; // Добавляем новые иконки
+import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
 
 const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -14,67 +14,90 @@ const Header = () => {
     window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
   };
 
+  // Ссылки для навигации
+  const navLinks = [
+    { href: "/services", text: "Услуги" },
+    { href: "/about", text: "О нас" },
+    { href: "/projects", text: "Проекты" },
+    { href: "/contacts", text: "Контакты" },
+  ];
+
   return (
-    <header className="flex flex-wrap items-center justify-between p-4 bg-white shadow-md md:flex-nowrap">
-      {/* Лого и бургер-меню */}
-      <div className="flex items-center md:w-auto">
-        <BurgerMenu />
-        <h1 className="ml-2 font-bold text-xl md:text-2xl text-[#218CE9]"> 
-          АкваСервис
-        </h1>
-      </div>
-      <div className="flex items-center space-x-4 mt-2 md:mt-0 md:w-auto">
-
-      {/* Поисковая строка (для десктопа) */}
-      <form 
-        onSubmit={handleSearch}
-        className="hidden md:flex items-center bg-white/20 rounded-lg px-4 py-2 w-[400px]"
-      >
-        <FiSearch className="text-white mr-2" />
-        <input
-          type="text"
-          placeholder="Поиск услуг..."
-          className="bg-transparent w-full focus:outline-none text-[#218CE9] placeholder-[#218CE9]/70"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </form>
-
-      {/* Иконки управления */}
-        {/* Иконка поиска для мобильных */}
-        <button 
-          onClick={() => setSearchOpen(!searchOpen)}
-          className="md:hidden text-[#218CE9]"
-        >
-          <FiSearch size={24} />
-        </button>
-
-        <Link href="/cart" className="text-[#218CE9] hover:text-[#218CE9]/80">
-          <FiShoppingCart size={24} />
-        </Link>
-        <Link href="/profile" className="text-[#218CE9] hover:text-[#218CE9]/80">
-          <FiUser size={24} />
-        </Link>
-      </div>
-
-      {/* Мобильный поиск (раскрывающийся) */}
-      {searchOpen && (
-        <form 
-          onSubmit={handleSearch}
-          className="w-full mt-2 md:hidden"
-        >
-          <div className="flex items-center bg-[#218CE9]/20 rounded-lg px-4 py-2">
-            <FiSearch className="text-white mr-2" />
-            <input
-              type="text"
-              placeholder="Поиск услуг..."
-              className="bg-transparent w-full focus:outline-none text-[#218CE9] placeholder-[#218CE9]/70"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+    <header className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="  px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Левая часть: лого и мобильное меню */}
+          <div className="flex items-center gap-4">
+            {/* Оборачиваем бургер-меню в блок, который скрыт на md и выше */}
+            <div className="md:hidden">
+              <BurgerMenu />
+            </div>
+            <Link href="/" className="text-2xl font-bold text-[#218CE9]">
+              АкваСервис
+            </Link>
           </div>
-        </form>
-      )}
+
+          {/* Центральная часть: навигация (только для десктопа) */}
+          <nav className="hidden md:flex items-center gap-6 mx-6 flex-1 justify-end">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="whitespace-nowrap text-gray-700 hover:text-[#218CE9] transition-colors font-medium"
+              >
+                {link.text}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Правая часть: иконки и поиск */}
+          <div className="flex items-center gap-2 md:gap-4"> {/* Добавляем адаптивные отступы */}
+            {/* Поиск для десктопа */}
+            <form
+              onSubmit={handleSearch}
+              className="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2 w-full transition-all focus-within:bg-white focus-within:ring-2 ring-[#218CE9]"
+            >
+              <FiSearch className="text-gray-400 mr-2" />
+              <input
+                type="text"
+                placeholder="Поиск услуг..."
+                className="bg-transparent w-full focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </form>
+
+            {/* Кнопка поиска для мобильной версии */}
+            <button className="md:hidden text-[#218CE9] p-1"> {/* Добавляем padding */}
+              <FiSearch size={24} />
+            </button>
+
+            <Link href="/cart" className="p-1 text-gray-700 hover:text-[#218CE9]"> {/* Добавляем padding */}
+              <FiShoppingCart size={24} />
+            </Link>
+
+            <Link href="/profile" className="p-1 text-gray-700 hover:text-[#218CE9]"> {/* Добавляем padding */}
+              <FiUser size={24} />
+            </Link>
+          </div>
+        </div>
+
+        {/* Мобильный поиск */}
+        {searchOpen && (
+          <form onSubmit={handleSearch} className="md:hidden my-4">
+            <div className="flex items-center bg-gray-100 rounded-lg px-4 py-2">
+              <FiSearch className="text-gray-400 mr-2" />
+              <input
+                type="text"
+                placeholder="Поиск услуг..."
+                className="bg-transparent w-full focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </form>
+        )}
+      </div>
     </header>
   );
 };
