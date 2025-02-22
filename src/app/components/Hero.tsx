@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Hero = () => {
     return (
@@ -49,10 +50,13 @@ const Hero = () => {
                 </div>
             </div>
 
-            <img
+            <Image
                 src="/images/hero.jpeg"
                 alt="Статистика бурения"
+                width={800}
+                height={600}
                 className="mt-5 w-full mx-auto rounded-[20px]"
+                priority
             />
         </section>
     );

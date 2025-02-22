@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import Image from "next/image";
 
 const services = [
   {
@@ -89,15 +90,17 @@ const ServicesSlider = () => {
         <div className="embla overflow-hidden mx-4 flex-1" ref={emblaRef}>
           <div className="embla__container flex gap-4">
             {services.map((service, index) => (
-              <div 
+              <div
                 className="embla__slide flex-none w-[150px] md:w-[280px]"
                 key={index}
               >
                 <div className="bg-[#F5F5F5] rounded-xl overflow-hidden shadow-lg flex flex-col h-full">
                   <div className="h-48 md:h-64 flex-shrink-0">
-                    <img
+                    <Image
                       src={service.image}
                       alt={service.title}
+                      width={128}
+                      height={128}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -148,11 +151,10 @@ const ServicesSlider = () => {
           <button
             key={index}
             onClick={() => emblaApi?.scrollTo(index)}
-            className={`w-3 h-3 rounded-full transition-opacity ${
-              selectedIndex === index
+            className={`w-3 h-3 rounded-full transition-opacity ${selectedIndex === index
                 ? "bg-[#218CE9] opacity-100"
                 : "bg-[#218CE9] opacity-30"
-            }`}
+              }`}
           />
         ))}
       </div>

@@ -1,6 +1,7 @@
 // src/app/components/Advantages.tsx
 'use client'
 import React from 'react'
+import Image from 'next/image'; // Добавить в начале файла
 
 const Advantages = () => {
     const advantages = [
@@ -81,9 +82,11 @@ const Advantages = () => {
                     >
                         {/* Кружок с изображением */}
                         <div className="w-20 h-20 md:w-32 md:h-32 mx-auto mb-4 md:mb-6 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            <img
+                            <Image
                                 src={item.image}
                                 alt={item.title}
+                                width={128}
+                                height={128}
                                 className="w-full h-full object-cover"
                             />
                         </div>
@@ -96,7 +99,7 @@ const Advantages = () => {
                             <p className="text-xs md:text-sm text-[#666] italic mb-2 md:mb-4">
                                 {item.subtitle}
                             </p>
-                            
+
                             {/* Дополнительный контент */}
                             <div className="max-h-0 overflow-hidden transition-all duration-500 group-hover:max-h-[500px]">
                                 <div className="pt-2 md:pt-4 border-t border-[#218CE9]/20">

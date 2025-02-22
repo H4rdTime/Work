@@ -6,6 +6,7 @@ import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import Image from 'next/image';
 
 const FullscreenSlider = () => {
   return (
@@ -43,7 +44,7 @@ const FullscreenSlider = () => {
                   <ul className="space-y-2 md:space-y-3">
                     <li className="flex items-center gap-1 md:gap-2">
                       <span className="text-[#218CE9]">✓</span>
-                      Полный цикл работ "под ключ"
+                      Полный цикл работ &quot;под ключ&quot;
                     </li>
                     <li className="flex items-center gap-1 md:gap-2">
                       <span className="text-[#218CE9]">✓</span>
@@ -260,9 +261,11 @@ const FullscreenSlider = () => {
                     key={item}
                     className="relative aspect-square bg-white rounded-lg shadow-md overflow-hidden"
                   >
-                    <img
-                      src={`/projects/project-${item}.jpg`}
+                    <Image
+                      src={`/images/${item}.jpg`}
                       alt={`Проект ${item}`}
+                      width={400}
+                      height={400}
                       className="object-cover w-full h-full"
                     />
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import Image from "next/image";
 
 const equipmentItems = [
   {
@@ -93,9 +94,11 @@ const EquipmentSlider = () => {
               >
                 <div className="bg-[#F5F5F5] rounded-xl overflow-hidden shadow-lg flex flex-col h-full">
                   <div className="h-40 md:h-48 flex-shrink-0">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      width={280}
+                      height={192}
                       className="w-full h-full object-cover"
                     />
                   </div>

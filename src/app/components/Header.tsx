@@ -6,7 +6,6 @@ import BurgerMenu from "./BurgerMenu";
 import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi";
 
 const Header = () => {
-  const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -83,20 +82,19 @@ const Header = () => {
         </div>
 
         {/* Мобильный поиск */}
-        {searchOpen && (
-          <form onSubmit={handleSearch} className="md:hidden my-4">
-            <div className="flex items-center bg-gray-100 rounded-lg px-4 py-2">
-              <FiSearch className="text-gray-400 mr-2" />
-              <input
-                type="text"
-                placeholder="Поиск услуг..."
-                className="bg-transparent w-full focus:outline-none"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </form>
-        )}
+        <form onSubmit={handleSearch} className="md:hidden my-4">
+          <div className="flex items-center bg-gray-100 rounded-lg px-4 py-2">
+            <FiSearch className="text-gray-400 mr-2" />
+            <input
+              type="text"
+              placeholder="Поиск услуг..."
+              className="bg-transparent w-full focus:outline-none"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </form>
+
       </div>
     </header>
   );

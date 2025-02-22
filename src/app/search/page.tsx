@@ -1,13 +1,24 @@
-// src/app/search/page.tsx
-export default function SearchPage({
-    searchParams,
-  }: {
-    searchParams: { q: string }
-  }) {
-    return (
-      <div className="container mx-auto p-4">
-        <h1>Результаты поиска: {searchParams.q}</h1>
-        {/* Добавьте логику отображения результатов */}
-      </div>
-    )
-  }
+'use client'
+
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+
+function SearchResults() {
+  const searchParams = useSearchParams()
+  const query = searchParams.get('q') || ''
+
+  return (
+    <div>
+      <h1>Результаты поиска для: {query}</h1>
+      {/* ... */}
+    </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <SearchResults />
+    </Suspense>
+  )
+}
