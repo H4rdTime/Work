@@ -1,34 +1,18 @@
+// next.config.js
 import type { NextConfig } from "next";
-
-const isDev = process.env.NODE_ENV === 'development';
 
 const nextConfig: NextConfig = {
   images: {
-    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.supabase.co',
-      },
-      {
-        protocol: 'https',
-        hostname: 'supabase.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'aqua-service.netlify.app',
-      },
-      {
-        protocol: 'https',
-        hostname: 'jsisjfkucnluxaaxraxt.supabase.co',
+        protocol: "https",
+        hostname: "**.supabase.co",
       },
     ],
   },
   async headers() {
+    const isDev = process.env.NODE_ENV === "development";
+    
     return [
       {
         source: "/(.*)",
@@ -40,7 +24,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
 
               // Скрипты
-              `script-src 'self' ${isDev ? "'unsafe-eval' 'unsafe-inline'" : ""}`,
+              `script-src 'self' ${isDev ? "'unsafe-inline'" : ""} https://jsisjfkucnluxaaxraxt.supabase.co`,
 
               // Стили
               "style-src 'self' 'unsafe-inline'",
@@ -55,10 +39,10 @@ const nextConfig: NextConfig = {
               "connect-src 'self' https://*.supabase.co",
 
               // Фреймы
-              "frame-src 'self' https://yandex.ru"
-            ].join('; ')
-          }
-        ]
+              "frame-src 'self'"
+            ].join("; "),
+          },
+        ],
       },
     ];
   },
