@@ -11,8 +11,6 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
-    const isDev = process.env.NODE_ENV === "development";
-    
     return [
       {
         source: "/(.*)",
@@ -22,22 +20,22 @@ const nextConfig: NextConfig = {
             value: [
               // Базовые настройки
               "default-src 'self'",
-
+              
               // Скрипты
-              `script-src 'self' ${isDev ? "'unsafe-inline'" : ""} https://jsisjfkucnluxaaxraxt.supabase.co`,
-
+              "script-src 'self' 'unsafe-eval' https://jsisjfkucnluxaaxraxt.supabase.co",
+              
               // Стили
               "style-src 'self' 'unsafe-inline'",
-
+              
               // Изображения
               "img-src 'self' data: https://*.supabase.co",
-
+              
               // Шрифты
               "font-src 'self' data:",
-
+              
               // Подключения
-              "connect-src 'self' https://*.supabase.co",
-
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+              
               // Фреймы
               "frame-src 'self'"
             ].join("; "),
