@@ -1,7 +1,7 @@
 // app/page.tsx
 
-import Header from "@/app/components/Header";
-import Hero from "@/app/components/Hero";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
 import ServicesSlider from "./components/ServicesSlider";
 import EquipmentSlider from './components/EquipmentSlider';
 import Advantages from './components/Advantages';
@@ -19,11 +19,11 @@ export default function Home() {
       <FullscreenSlider />
       <Hero />
       <MapSection />
+      <PriceForm />
       <ServicesSlider />
       <EquipmentSlider />
       <Advantages />
       <WorkSteps />
-      <PriceForm />
       <PriceCalculator />
       <Footer />
     </main>

@@ -11,7 +11,7 @@ const MapSection = () => {
         
         <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-xl">
           <iframe
-            src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac659d236336f90a81b15f0c74d8389c096a4751a1bcfbb98076b654115bb1eb9&amp;source=constructor"
+            // src="https://yandex.ru/map-widget/v1/?um=constructor%3Ac659d236336f90a81b15f0c74d8389c096a4751a1bcfbb98076b654115bb1eb9&amp;source=constructor"
             width="100%"
             height="400"
             frameBorder="0"

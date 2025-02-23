@@ -2,8 +2,23 @@
 'use client'
 import React from 'react'
 
-const WorkSteps = () => {
-  const steps = [
+interface Step {
+  title: string;
+  content: React.ReactNode;
+}
+
+interface WorkStepsProps {
+  steps?: Step[];
+  title?: string;
+  subtitle?: string;
+}
+
+const WorkSteps: React.FC<WorkStepsProps> = ({
+  steps,
+  title = "КАК МЫ РАБОТАЕМ",
+  subtitle = "Этапы работы — от заявки до чистой воды"
+}) => {
+  const defaultSteps: Step[] = [
     {
       title: 'Выезд инженера',
       content: (
@@ -48,40 +63,37 @@ const WorkSteps = () => {
         </ul>
       )
     }
-  ]
+  ];
+
+  const displayedSteps = steps || defaultSteps;
 
   return (
     <section className="container mx-auto px-4 py-8">
       <div className="border-b border-black border-opacity-10 mb-8"></div>
 
       <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-6">
-        КАК МЫ РАБОТАЕМ
+        {title}
       </h2>
       
       <h3 className="text-xl text-center text-[#666] mb-8">
-        Этапы работы — от заявки до чистой воды
+        {subtitle}
       </h3>
 
       <div className="grid justify-items-center md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {steps.map((step, index) => (
+        {displayedSteps.map((step, index) => (
           <div 
             key={index}
             className={`bg-[#F5F5F5] rounded-xl p-6 shadow-lg
-              ${index === steps.length - 1 ? "md:col-span-2 lg:col-start-2 lg:col-span-2" : ""}`}
+              ${index === displayedSteps.length - 1 ? "md:col-span-2 lg:col-start-2 lg:col-span-2" : ""}`}
           >
             <div className="flex gap-4 mb-4 items-center">
-              {/* Кружок с цифрой */}
               <div className="w-8 h-8 bg-[#218CE9] text-white rounded-full flex items-center justify-center flex-shrink-0">
                 {index + 1}
               </div>
-              
-              {/* Название этапа */}
               <h4 className="text-xl font-bold text-[#218CE9]">
                 {step.title}
               </h4>
             </div>
-            
-            {/* Контент этапа */}
             <div className="text-[#666]">
               {step.content}
             </div>
