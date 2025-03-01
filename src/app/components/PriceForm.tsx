@@ -85,7 +85,9 @@ const PriceForm = () => {
     };
 
     return (
+        
         <section className="container mx-auto px-4 py-8 relative">
+            
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fadeIn">
                     <div className="bg-white rounded-2xl p-8 max-w-md w-[90%] relative">

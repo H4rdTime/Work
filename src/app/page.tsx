@@ -11,10 +11,12 @@ import PriceCalculator from './components/PriceCalculator'
 import Footer from './components/Footer'
 import FullscreenSlider from './components/FullscreenSlider'
 import MapSection from "./components/MapSection";
+import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
 
 export default function Home() {
   return (
     <main>
+      <LocalBusinessSchema />
       <Header />
       <FullscreenSlider />
       <Hero />
