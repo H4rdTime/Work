@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react';
 
+type CasingMaterial = 'steel' | 'plastic' | 'asbestos';
+
 const PriceCalculator = () => {
     const [equipment, setEquipment] = useState(false);
     const [waterCleaning, setWaterCleaning] = useState(false);
@@ -24,17 +26,22 @@ const PriceCalculator = () => {
         return (basePrice + depthPrice + casingPrice + equipmentPrice + cleaningPrice).toLocaleString('ru-RU');
     };
 
+    // Исправленный обработчик для материала трубы
+    const handleCasingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCasingMaterial(e.target.value as CasingMaterial);
+    };
+
     return (
         <section className="container mx-auto px-4 py-8 bg-white rounded-xl shadow-lg">
             <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] mb-8 text-center">
                 Калькулятор стоимости скважины
             </h2>
-            
+
             <div className="space-y-8 max-w-md mx-auto">
                 {/* Тип скважины */}
                 <div className="space-y-4">
                     <label className="block text-lg font-medium text-gray-700">Тип скважины:</label>
-                    <select 
+                    <select
                         value={type}
                         onChange={(e) => setType(e.target.value as 'sand' | 'artesian')}
                         className="w-full p-3 border-2 border-[#218CE9]/20 rounded-lg text-lg focus:ring-2 focus:ring-[#218CE9]"
@@ -49,9 +56,9 @@ const PriceCalculator = () => {
                 {/* Материал трубы */}
                 <div className="space-y-4 pt-4">
                     <label className="block text-lg font-medium text-gray-700">Материал обсадной трубы:</label>
-                    <select 
+                    <select
                         value={casingMaterial}
-                        onChange={(e) => setCasingMaterial(e.target.value as any)}
+                        onChange={handleCasingChange}
                         className="w-full p-3 border-2 border-[#218CE9]/20 rounded-lg text-lg focus:ring-2 focus:ring-[#218CE9]"
                     >
                         <option value="steel">Сталь</option>
@@ -94,7 +101,7 @@ const PriceCalculator = () => {
                         />
                         <span className="text-lg text-gray-700">Насосное оборудование (+25 000 ₽)</span>
                     </label>
-                    
+
                     <label className="flex items-center space-x-3">
                         <input
                             type="checkbox"
