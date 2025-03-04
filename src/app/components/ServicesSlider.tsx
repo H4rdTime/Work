@@ -1,44 +1,30 @@
+// components/ServicesSlider.tsx - Слайдер услуг на главной странице (app/page.tsx)
 "use client";
 import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Image from "next/image";
+import Link from "next/link";
+import { supabase } from '@/lib/supabase';
 
-const services = [
-  {
-    title: "БУРЕНИЕ СКВАЖИН",
-    description: "Глубина: 80-200 м. Гарантия 10 лет",
-    price: "80 000 ₽",
-    image: "/images/slider1.png",
-  },
-  {
-    title: "ОЧИСТКА ВОДЫ",
-    description: "Фильтры и системы. Чистая вода 24/7",
-    price: "20 000 ₽",
-    image: "/images/slider2.png",
-  },
-  {
-    title: "УСТАНОВКА СЕПТИКОВ",
-    description: "Монтаж современных септиков для частных домов",
-    price: "85 000 ₽",
-    image: "/images/slider3.png",
-  },
-  {
-    title: "УСТАНОВКА СЕПТИКОВ",
-    description: "Монтаж современных септиков для частных домов",
-    price: "85 000 ₽",
-    image: "/images/slider3.png",
-  },
-  {
-    title: "УСТАНОВКА СЕПТИКОВ",
-    description: "Монтаж современных септиков для частных домов",
-    price: "85 000 ₽",
-    image: "/images/slider3.png",
-  }
-];
+// Тип данных для услуг из Supabase
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  image_url: string;
+}
 
 const ServicesSlider = () => {
+  // Состояния компонента
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Инициализация слайдера
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -51,8 +37,30 @@ const ServicesSlider = () => {
     [Autoplay({ delay: 5000 }), WheelGesturesPlugin()]
   );
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  // Загрузка данных при монтировании
+  useEffect(() => {
+    const fetchServices = async () => {
+      console.log('Fetching services...');
+      try {
+        const { data, error } = await supabase
+          .from('services')
+          .select('*');  
+        console.log('Data received:', data);
+  
+        if (error) throw error;
+        setServices(data || []);
+      } catch (err) {
+        console.error('Ошибка загрузки:', JSON.stringify(err, null, 2));
+        setError('Не удалось загрузить услуги');
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchServices();
+  }, []);
 
+  // Обработчик изменения слайда
   useEffect(() => {
     if (!emblaApi) return;
     const updateIndex = () => setSelectedIndex(emblaApi.selectedScrollSnap());
@@ -61,111 +69,122 @@ const ServicesSlider = () => {
       emblaApi.off("select", updateIndex);
     };
   }, [emblaApi]);
+  
+
+  // Состояния загрузки
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <div className="animate-spin inline-block w-8 h-8 border-4 rounded-full border-t-blue-500"></div>
+      </div>
+    );
+  }
+
+  // Обработка ошибок
+  if (error) {
+    return (
+      <div className="text-red-500 text-center py-8">
+        {error}. Попробуйте обновить страницу
+      </div>
+    );
+  }
 
   return (
-    <div className="px-4 py-4 container mx-auto md:max-w-full md:px-8 md:py-8">
-      <div className="border-b border-black/10 mb-4 md:mb-6"></div>
-
-      <h2 className="text-center font-bold text-2xl text-[#218CE9] mb-6 md:text-4xl md:mb-8">
+    <section className="px-4 py-8 container mx-auto">
+      <div className="border-b border-black/10 mb-8"></div>
+      
+      <h2 className="text-center font-bold text-3xl text-[#218CE9] mb-8">
         НАШИ УСЛУГИ
       </h2>
 
-      <div className="flex items-center">
-        {/* Левая кнопка навигации (скрыта на мобильных) */}
+      <div className="flex items-center gap-4">
+        {/* Кнопка назад */}
         <button
           onClick={() => emblaApi?.scrollPrev()}
-          className="hidden md:block bg-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform z-10"
+          className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
         >
-          <svg
-            className="w-6 h-6 text-[#218CE9]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+          <svg className="w-6 h-6 text-[#218CE9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
           </svg>
         </button>
 
-        {/* Слайдер */}
-        <div className="embla overflow-hidden mx-4 flex-1" ref={emblaRef}>
-          <div className="embla__container flex gap-4">
-            {services.map((service, index) => (
-              <div
-                className="embla__slide flex-none w-[150px] md:w-[280px]"
-                key={index}
+        {/* Контейнер слайдов */}
+        <div className="embla overflow-hidden flex-1" ref={emblaRef}>
+          <div className="embla__container flex gap-6">
+            {services.map((service) => (
+              <div 
+                className="embla__slide flex-[0_0_280px]" 
+                key={service.id}
               >
-                <div className="bg-[#F5F5F5] rounded-xl overflow-hidden shadow-lg flex flex-col h-full">
-                  <div className="h-48 md:h-64 flex-shrink-0">
+                <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
+                  <div className="relative h-60">
                     <Image
-                      src={service.image}
+                      src={service.image_url}
                       alt={service.title}
-                      width={128}
-                      height={128}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover rounded-t-xl"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
-
+                  
                   <div className="p-4 flex flex-col flex-grow">
-                    <h3 className="text-left font-bold text-lg md:text-2xl text-[#218CE9] mb-2">
+                    <h3 className="text-xl font-bold text-[#218CE9] mb-2">
                       {service.title}
                     </h3>
-
-                    <p className="text-left font-thin italic text-sm md:text-base text-[#666666] flex-grow line-clamp-4">
+                    
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">
                       {service.description}
                     </p>
 
-                    <div className="mt-4">
-                      <p className="text-left font-bold text-base md:text-xl text-[#218CE9]">
+                    <div className="mt-auto">
+                      <p className="text-lg font-bold text-[#218CE9] mb-3">
                         от {service.price}
                       </p>
-                      <button className="w-full h-10 mt-4 bg-[#218CE9] text-white font-bold text-xs md:text-base rounded-lg hover:bg-[#1a6fb9] transition-colors">
+                      <button className="w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors">
                         Заказать
                       </button>
                     </div>
                   </div>
-                </div>
+                </article>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Правая кнопка навигации (скрыта на мобильных) */}
+        {/* Кнопка вперед */}
         <button
           onClick={() => emblaApi?.scrollNext()}
-          className="hidden md:block bg-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform z-10"
+          className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
         >
-          <svg
-            className="w-6 h-6 text-[#218CE9]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+          <svg className="w-6 h-6 text-[#218CE9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
           </svg>
         </button>
       </div>
 
       {/* Пагинация */}
-      <div className="flex justify-center mt-6 gap-2">
+      <div className="flex justify-center gap-2 mt-6">
         {services.map((_, index) => (
           <button
             key={index}
             onClick={() => emblaApi?.scrollTo(index)}
-            className={`w-3 h-3 rounded-full transition-opacity ${selectedIndex === index
-                ? "bg-[#218CE9] opacity-100"
-                : "bg-[#218CE9] opacity-30"
-              }`}
+            className={`w-2 h-2 rounded-full transition-opacity ${
+              selectedIndex === index ? 'opacity-100' : 'opacity-30'
+            } bg-[#218CE9]`}
           />
         ))}
       </div>
 
       {/* Кнопка "Посмотреть все" */}
       <div className="flex justify-center mt-8">
-        <button className="bg-[#218CE9] text-white font-bold text-base rounded-full px-8 py-3 hover:bg-[#1a6fb9] transition-colors">
-          Посмотреть все
-        </button>
+        <Link
+          href="/services"
+          className="bg-[#218CE9] text-white px-6 py-2 rounded-full hover:bg-[#1a6fb9] transition-colors"
+        >
+          Все услуги →
+        </Link>
       </div>
-    </div>
+    </section>
   );
 };
 

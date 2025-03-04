@@ -2,7 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['mc.yandex.ru', 'www.google-analytics.com'],
+    domains: ['mc.yandex.ru', 'www.google-analytics.com','jsisjfkucnluxaaxraxt.supabase.co'],
 
     remotePatterns: [
       {
