@@ -4,6 +4,7 @@ import React from 'react';
 import { FiPhone, FiMail, FiClock, FiMapPin } from 'react-icons/fi';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PriceForm from '../components/PriceForm';
 
 const Contacts = () => {
     return (
@@ -55,6 +56,7 @@ const Contacts = () => {
                     </div>
                 </div>
             </section>
+            <PriceForm />
             <Footer/>
         </main>
 
