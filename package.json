@@ -11,6 +11,7 @@
     "clean-build": "npm run clean && npm run build"
   },
   "dependencies": {
+    "@next/third-parties": "^15.2.1",
     "@supabase/supabase-js": "^2.49.1",
     "@types/react-input-mask": "^3.0.6",
     "axios": "^1.7.9",
