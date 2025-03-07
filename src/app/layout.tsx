@@ -7,9 +7,16 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'АкваСервис',
-  description: 'Профессиональный сервис водных систем',
+export const metadata = {
+  metadataBase: new URL('https://aqua-service-karelia.ru/'),
+  title: {
+    default: 'АкваСервис - Бурение скважин в Карелии',
+    template: '%s | АкваСервис'
+  },
+  description: 'Профессиональное бурение скважин с гарантией 10 лет...',
+  openGraph: {
+    images: '/images/og-image.png',
+  },
 }
 
 interface LayoutProps {
@@ -23,6 +30,9 @@ export default function RootLayout({ children }: LayoutProps) {
       suppressHydrationWarning
       className={`${inter.className} antialiased`}
     >
+      <head>
+        <link rel="icon" href="/images/favicon.ico" sizes="any" />
+      </head>
       <body className="bg-white">
         {children}
         <GoogleAnalytics gaId="G-0YHV1T38RB" />
