@@ -10,7 +10,12 @@ export const metadata = {
   metadataBase: new URL('https://aqua-service-karelia.ru/'),
   title: {
     default: 'АкваСервис - Бурение скважин в Карелии',
-    template: '%s | АкваСервис'
+    template: '%s | АкваСервис',
+    icons: {
+      icon: '/images/favicon.ico',
+      shortcut: '/images/favicon.ico',
+      apple: '/images/apple-touch-icon.png',
+    },
   },
   description: 'Профессиональное бурение скважин с гарантией 10 лет...',
   openGraph: {
@@ -29,9 +34,6 @@ export default function RootLayout({ children }: LayoutProps) {
       suppressHydrationWarning
       className={`${inter.className} antialiased`}
     >
-      <head>
-        <link rel="icon" href="/images/favicon.ico" sizes="any" />
-      </head>
       <body className="bg-white">
         {children}
         <GoogleAnalytics gaId="G-0YHV1T38RB" />
