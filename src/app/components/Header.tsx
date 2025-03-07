@@ -45,7 +45,7 @@ const Header = () => {
       {/* Верхняя контактная панель */}
       <div className={`sticky top-0 z-50 bg-white border-b transition-transform duration-300 ${showTopBar ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container mx-auto px-4 py-1.5 flex flex-wrap items-center justify-center text-[11px] sm:text-sm text-gray-600 text-center gap-x-3 gap-y-1 md:justify-between">
-          <Link href="/" className="relative h-10 w-28 md:h-12 md:w-40">
+          {/* <Link href="/" className="relative h-10 w-28 md:h-12 md:w-40">
             <Image
               src="/images/logo.png" // Путь к вашему логотипу
               alt="АкваСервис"
@@ -54,7 +54,7 @@ const Header = () => {
               priority
               sizes="(max-width: 768px) 100px, 150px" // Адаптивные размеры
             />
-          </Link>
+          </Link> */}
           {/* Левый блок - Телефоны */}
           <div className="flex items-center space-x-1.5">
             <FiPhone className="w-3 h-3 sm:w-4 sm:h-4" />

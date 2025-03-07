@@ -10,18 +10,20 @@ export const metadata = {
   metadataBase: new URL('https://aqua-service-karelia.ru/'),
   title: {
     default: 'АкваСервис - Бурение скважин в Карелии',
-    template: '%s | АкваСервис',
-    icons: {
-      icon: '/images/favicon.ico',
-      shortcut: '/images/favicon.ico',
-      apple: '/images/apple-touch-icon.png',
-    },
+    template: '%s | АкваСервис'
   },
-  description: 'Профессиональное бурение скважин с гарантией 10 лет...',
+  description:
+    'АкваСервис – эксперт по водоочистке, бурению скважин, монтажу систем очистки воды, химическому анализу и установке станций биоочистки в Республике Карелия. Профессиональные услуги для жителей Петрозаводска, Кондопоги, Медвежьегорска, Пряжи, Шуи, Деревянного, Сортавалы, Лахденпохьи, Питкяранты, Олонца, Суоярви и Сегежи. Чистая вода – залог здоровья!',
   openGraph: {
     images: '/images/og-image.png',
   },
+  icons: {
+    icon: '/images/favicon.ico',
+    shortcut: '/images/favicon.ico',
+    apple: '/images/apple-touch-icon.png',
+  },
 }
+
 
 interface LayoutProps {
   children: ReactNode
