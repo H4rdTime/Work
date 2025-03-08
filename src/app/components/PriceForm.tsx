@@ -174,7 +174,7 @@ const PriceForm = () => {
                         },
                         {
                             icon: FiMapPin,
-                            placeholder: 'Ваш адрес',
+                            placeholder: 'Адрес проведения работ',
                             value: address,
                             onChange: handleAddressChange,
                             suggestions: addressSuggestions

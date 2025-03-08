@@ -1,15 +1,21 @@
+// app/page.tsx
 'use client'
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import Header from "./components/Header";
 import ServicesSlider from "./components/ServicesSlider";
 import EquipmentSlider from './components/EquipmentSlider';
 import Advantages from './components/Advantages';
-import WorkSteps from './components/WorkSteps'
-import PriceForm from './components/PriceForm'
-import PriceCalculator from './components/PriceCalculator'
-import Footer from './components/Footer'
-import FullscreenSlider from './components/FullscreenSlider'
+import WorkSteps from './components/WorkSteps';
+import PriceForm from './components/PriceForm';
+import PriceCalculator from './components/PriceCalculator';
+import Footer from './components/Footer';
+import FullscreenSlider from './components/FullscreenSlider';
 import MapSection from "./components/MapSection";
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
+
+// Динамический импорт BlogPreview как серверного компонента
+const BlogPreview = dynamic(() => import('./components/BlogPreview'), { ssr: true });
 
 export default function Home() {
   const scrollToForm = () => {
@@ -26,14 +32,16 @@ export default function Home() {
       <LocalBusinessSchema />
       <Header />
       <FullscreenSlider scrollToForm={scrollToForm} />
-      {/* <Hero /> */}
       <MapSection />
-      <PriceForm /> {/* Убрали ref пропс */}
+      <PriceForm />
       <ServicesSlider />
       <EquipmentSlider />
       <Advantages />
       <WorkSteps />
       <PriceCalculator />
+      <Suspense fallback={<div>Загрузка превью блога...</div>}>
+        <BlogPreview />
+      </Suspense>
       <Footer />
     </main>
   );

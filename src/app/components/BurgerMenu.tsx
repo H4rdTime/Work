@@ -1,21 +1,31 @@
+// BurgerMenu.tsx
 "use client";
 import { useState } from "react";
 import Link from "next/link";
 
-interface BurgerMenuProps {
-  className?: string;
+interface NavLink {
+  href: string;
+  text: string;
 }
 
-const BurgerMenu: React.FC<BurgerMenuProps> = ({ className }) => {
+interface BurgerMenuProps {
+  navLinks: NavLink[];
+}
+
+const BurgerMenu: React.FC<BurgerMenuProps> = ({ navLinks }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
 
   return (
-    <div className={`relative ${className}`}>
-      <button onClick={toggleMenu} className="p-2 focus:outline-none">
+    <div className="relative">
+      <button 
+        onClick={toggleMenu} 
+        className="p-2 focus:outline-none text-[#218CE9] hover:text-[#1a6fb9] transition-colors"
+      >
         <svg
-          className="w-6 h-6 text-[#218CE9]"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -30,29 +40,43 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ className }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg z-10">
-          <ul className="py-1">
-            <li>
-              <Link href="/" className="block px-4 py-2 hover:bg-gray-200">
-                Главная
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="block px-4 py-2 hover:bg-gray-200">
-                О нас
-              </Link>
-            </li>
-            <li>
-              <Link href="/services" className="block px-4 py-2 hover:bg-gray-200">
-                Услуги
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="block px-4 py-2 hover:bg-gray-200">
-                Контакты
-              </Link>
-            </li>
-          </ul>
+        <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={closeMenu}>
+          <div 
+            className="absolute left-0 top-0 h-full w-64 bg-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 border-b">
+              <button 
+                onClick={closeMenu}
+                className="text-gray-500 hover:text-[#218CE9] transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <ul className="py-2">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link 
+                    href={link.href} 
+                    onClick={closeMenu}
+                    className="block px-6 py-3 text-gray-700 hover:bg-[#218CE9]/10 hover:text-[#218CE9] transition-colors"
+                  >
+                    {link.text}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/request"
+                  onClick={closeMenu}
+                  className="block px-6 py-3 mt-2 bg-[#218CE9] text-white hover:bg-[#1a6fb9]"
+                >
+                  Оставить заявку
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </div>

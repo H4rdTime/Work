@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Динамические страницы из Supabase
-  const { data: posts } = await supabase.from('posts').select('id, updated_at');
+  const { data: posts } = await supabase.from('posts_with_hubs').select('id, updated_at');
   
   const dynamicRoutes = posts?.map(post => ({
     url: `${process.env.SITE_URL}/blog/${post.id}`,

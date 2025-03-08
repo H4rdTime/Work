@@ -32,7 +32,13 @@ const PriceCalculator = () => {
     };
 
     return (
-        <section className="container mx-auto px-4 py-8 bg-white rounded-xl shadow-lg">
+
+        <section
+            itemScope
+            itemType="https://schema.org/OfferCatalog"
+            className="container mx-auto px-4 py-8 bg-white rounded-xl shadow-lg">
+            <meta itemProp="name" content="Калькулятор стоимости скважин" />
+            <meta itemProp="description" content="Точный расчет стоимости бурения в Карелии" />
             <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] mb-8 text-center">
                 Калькулятор стоимости скважины
             </h2>

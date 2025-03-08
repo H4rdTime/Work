@@ -54,9 +54,6 @@ export default async function AboutPage() {
       {/* Ценности компании */}
       <section className="bg-white py-12">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8">
-            Наши ценности
-          </h2>
           <Advantages />
         </div>
       </section>

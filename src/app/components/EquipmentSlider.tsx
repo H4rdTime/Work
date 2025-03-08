@@ -93,7 +93,7 @@ const EquipmentSlider = () => {
       <div className="border-b border-black/10 mb-8"></div>
 
       <h2 className="text-center font-bold text-3xl text-[#218CE9] mb-8">
-        НАШЕ ОБОРУДОВАНИЕ
+        КАКОЕ ОБОРУДОВАНИЕ У НАС ЗАКАЗЫВАЮТ
       </h2>
 
       <div className="flex items-center gap-4">

@@ -6,13 +6,15 @@ import Image from 'next/image'; // Добавить в начале файла
 const Advantages = () => {
     const advantages = [
         {
-            title: 'Гарантия 10 лет',
-            subtitle: '«Полная ответственность за каждый метр»',
+            title: 'Гарантия',
+            subtitle: '«Полная ответственность за каждый метр в Карелии»',
             image: '/images/advantage1.png',
             content: (
                 <>
-                    <p className="mb-2  text-left">Мы уверены в качестве работ и материалов, поэтому даем максимальную гарантию на бурение и обустройство скважин.</p>
-                    <ul className="list-disc pl-5 space-y-2  text-left">
+                    <p className="mb-2 text-left">
+                      Мы уверены в качестве работ и материалов в Петрозаводске и Республике Карелия, поэтому даем максимальную гарантию на бурение и обустройство скважин.
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-left">
                         <li>Бесплатное устранение любых дефектов, связанных с нашей работой.</li>
                         <li>Гарантия распространяется на герметичность, дебет воды и оборудование.</li>
                         <li>Мы уверены в качестве работ и материалов, поэтому даем максимальную гарантию на бурение и обустройство скважин.</li>
@@ -26,8 +28,10 @@ const Advantages = () => {
             image: '/images/advantage2.png',
             content: (
                 <>
-                    <p className="mb-2  text-left">2 единицы современной техники в нашем парке — никаких задержек из-за подрядчиков!</p>
-                    <ul className="list-disc pl-5 space-y-2  text-left">
+                    <p className="mb-2 text-left">
+                      2 единицы современной техники в нашем парке — никаких задержек из-за подрядчиков!
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-left">
                         <li>Буровые установки УРБ 2А2, малогабаритные установки для сложных участков.</li>
                         <li>Транспорт для логистики (КАМАЗ-вездеходы, манипуляторы).</li>
                         <li>Регулярный техосмотр и обслуживание — снижаем риски поломок.</li>
@@ -41,25 +45,63 @@ const Advantages = () => {
             image: '/images/advantage3.png',
             content: (
                 <>
-                    <p className="mb-2  text-left">Используем технологии, которые минимизируют воздействие на окружающую среду:</p>
-                    <ul className="list-disc pl-5 space-y-2  text-left">
+                    <p className="mb-2 text-left">
+                      Используем технологии, которые минимизируют воздействие на окружающую среду:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-left">
                         <li>Утилизируем буровой шлам и техническую воду.</li>
                         <li>Не применяем токсичные реагенты.</li>
                         <li>После работ убираем территорию: никаких следов от техники!</li>
                     </ul>
                 </>
             )
-        }, {
+        },
+        {
             title: 'Гарантированные сроки',
             subtitle: '«Четко по графику — или компенсируем простой»',
             image: '/images/advantage4.png',
             content: (
                 <>
-                    <p className="mb-2  text-left">Даже в сложных условиях (плотный грунт, плохая погода) соблюдаем договоренности:</p>
-                    <ul className="list-disc pl-5 space-y-2  text-left">
+                    <p className="mb-2 text-left">
+                      Даже в сложных условиях (плотный грунт, плохая погода) соблюдаем договоренности:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-left">
                         <li>Фиксируем сроки в договоре.</li>
                         <li>При задержке по нашей вине — компенсация 1% от суммы за каждый день.</li>
-                        <li>Ежедневные отчеты о прогрессе работ</li>
+                        <li>Ежедневные отчеты о прогрессе работ.</li>
+                    </ul>
+                </>
+            )
+        },
+        {
+            title: 'Комплексное водоснабжение',
+            subtitle: 'Полное обеспечение систем водоснабжения',
+            image: '/images/advantage5.png',
+            content: (
+                <>
+                    <p className="mb-2 text-left">
+                      Мы выполняем полный комплекс работ по водоснабжению загородного дома, начиная от проектирования и заканчивая монтажом и техническим обслуживанием.
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-left">
+                        <li>Проектирование и расчет систем.</li>
+                        <li>Монтаж оборудования и трубопроводов.</li>
+                        <li>Регулярное техническое обслуживание и гарантийное сопровождение.</li>
+                    </ul>
+                </>
+            )
+        },
+        {
+            title: 'Специальные предложения',
+            subtitle: 'Льготное обслуживание для пенсионеров и участников СВО',
+            image: '/images/advantage6.png',
+            content: (
+                <>
+                    <p className="mb-2 text-left">
+                      Мы предоставляем скидки для пенсионеров и участников СВО, стремясь сделать наши услуги более доступными и поддержать социально значимые группы.
+                    </p>
+                    <ul className="list-disc pl-5 space-y-2 text-left">
+                        <li>Скидки на все виды работ.</li>
+                        <li>Индивидуальный подход к каждому клиенту.</li>
                     </ul>
                 </>
             )
@@ -76,9 +118,10 @@ const Advantages = () => {
 
             <div className="grid grid-cols-2 gap-4 min-[480px]:gap-6 md:gap-8">
                 {advantages.map((item, index) => (
-                    <div
+                    <article
                         key={index}
-                        className="group bg-[#F5F5F5] rounded-xl p-4 md:p-6 shadow-lg transition-all duration-300 hover:shadow-xl"
+                        aria-labelledby={`advantage-${index}`}
+                        className="group bg-[#F5F5F5] rounded-xl p-4 md:p-6 shadow-lg"
                     >
                         {/* Кружок с изображением */}
                         <div className="w-20 h-20 md:w-32 md:h-32 mx-auto mb-4 md:mb-6 rounded-full overflow-hidden border-4 border-white shadow-lg">
@@ -93,7 +136,10 @@ const Advantages = () => {
 
                         {/* Основной контент */}
                         <div className="text-center">
-                            <h3 className="text-base md:text-xl lg:text-2xl font-bold text-[#218CE9] mb-1 md:mb-2">
+                            <h3
+                                id={`advantage-${index}`}
+                                className="text-base md:text-xl lg:text-2xl font-bold text-[#218CE9] mb-1 md:mb-2"
+                            >
                                 {item.title}
                             </h3>
                             <p className="text-xs md:text-sm text-[#666] italic mb-2 md:mb-4">
@@ -109,7 +155,7 @@ const Advantages = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 ))}
             </div>
         </section>

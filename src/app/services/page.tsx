@@ -9,21 +9,17 @@ interface Service {
   description: string;
   price: number;
   image_url: string;
+  area_served: string[];
 }
 
 async function getServices(): Promise<Service[]> {
-  try {
-    const { data, error } = await supabase
-      .from('services')
-      .select('*')
-      .order('id', { ascending: true });
+  const { data, error } = await supabase
+    .from('services')
+    .select('*')
+    .order('price', { ascending: true });
 
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Ошибка загрузки услуг:", error);
-    return [];
-  }
+  if (error) throw error;
+  return data || [];
 }
 
 export default async function ServicesPage() {
@@ -40,7 +36,7 @@ export default async function ServicesPage() {
         {services.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service) => (
-              <ServiceCard 
+              <ServiceCard
                 key={service.id}
                 service={service}
               />
