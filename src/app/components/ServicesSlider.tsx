@@ -110,7 +110,7 @@ const ServicesSlider = () => {
 
         {/* Контейнер слайдов */}
         <div className="embla overflow-hidden flex-1" ref={emblaRef}>
-          <div className="embla__container flex gap-6">
+          <div className="embla__container flex gap-3">
             {services.map((service) => (
               <div 
                 className="embla__slide flex-[0_0_280px]" 

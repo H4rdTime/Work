@@ -74,6 +74,13 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
                     </div>
                   </div>
                 </div>
+                <button
+                  onClick={scrollToForm}
+                  className="w-full bg-[#218CE9] text-white py-3 rounded-full font-bold hover:bg-[#1a6fb9] flex items-center justify-center gap-2"
+                >
+                  <FiArrowDown className="animate-bounce" />
+                  Оставить заявку
+                </button>
               </div>
 
               {/* Desktop вариант */}

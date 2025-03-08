@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   metadataBase: new URL('https://aqua-service-karelia.ru/'),
   title: {
-    default: 'АкваСервис - Бурение скважин в Карелии',
+    default: 'АкваСервис - Бурение скважин, водоочистка, насосы и фильтры в Петрозаводске | Консультации, монтаж и сервис',
     template: '%s | АкваСервис'
   },
   description:

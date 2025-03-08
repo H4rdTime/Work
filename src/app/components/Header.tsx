@@ -5,6 +5,7 @@ import Link from "next/link";
 import BurgerMenu from "./BurgerMenu";
 import { FiPhone, FiClock, FiMapPin, FiMail } from "react-icons/fi";
 import Image from "next/image";
+import { FaInstagram, FaTelegram, FaVk } from "react-icons/fa";
 
 const Header = () => {
   const [showTopBar, setShowTopBar] = useState(true);
@@ -74,7 +75,7 @@ const Header = () => {
           <div className="flex items-center justify-between h-14 md:h-16">
             {/* Левая часть */}
             <div className="flex items-center gap-2 md:gap-4">
-              <div className="sm:hidden">
+              <div className="lg:hidden">
                 <BurgerMenu navLinks={navLinks} />
               </div>
 
@@ -93,7 +94,7 @@ const Header = () => {
             {/* Центральная навигация */}
             <nav
               aria-label="Основное меню"
-              className="hidden sm:flex items-center gap-6 mx-6 flex-1 justify-end">
+              className="hidden lg:flex items-center gap-3 mx-3 flex-1 justify-end">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -104,9 +105,19 @@ const Header = () => {
                 </Link>
               ))}
             </nav>
-
+            <div className="flex items-center gap-4 px-4">
+              <a href="https://vk.com" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+                <FaVk className="w-7 h-7" />
+              </a>
+              <a href="https://telegram.org" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+                <FaTelegram className="w-7 h-7" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+                <FaInstagram className="w-7 h-7" />
+              </a>
+            </div>
             {/* Кнопка заявки */}
-            <div className="hidden items-center gap-3 xl:flex">
+            <div className="hidden items-center gap-3 lg:flex">
               <Link
                 href="/request"
                 className="bg-[#218CE9] text-white px-6 py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors whitespace-nowrap "

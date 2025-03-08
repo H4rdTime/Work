@@ -2,6 +2,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { FaInstagram, FaTelegram, FaVk } from "react-icons/fa";
 
 interface NavLink {
   href: string;
@@ -20,8 +21,8 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ navLinks }) => {
 
   return (
     <div className="relative">
-      <button 
-        onClick={toggleMenu} 
+      <button
+        onClick={toggleMenu}
         className="p-2 focus:outline-none text-[#218CE9] hover:text-[#1a6fb9] transition-colors"
       >
         <svg
@@ -40,25 +41,25 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ navLinks }) => {
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={closeMenu}>
-          <div 
+        <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={closeMenu}>
+          <div
             className="absolute left-0 top-0 h-full w-64 bg-white shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-4 border-b">
-              <button 
+              <button
                 onClick={closeMenu}
                 className="text-gray-500 hover:text-[#218CE9] transition-colors"
               >
                 ✕
               </button>
             </div>
-            
+
             <ul className="py-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link 
-                    href={link.href} 
+                  <Link
+                    href={link.href}
                     onClick={closeMenu}
                     className="block px-6 py-3 text-gray-700 hover:bg-[#218CE9]/10 hover:text-[#218CE9] transition-colors"
                   >
@@ -68,7 +69,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ navLinks }) => {
               ))}
               <li>
                 <Link
-                  href="/request"
+                  href="/contacts"
                   onClick={closeMenu}
                   className="block px-6 py-3 mt-2 bg-[#218CE9] text-white hover:bg-[#1a6fb9]"
                 >
@@ -76,6 +77,18 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ navLinks }) => {
                 </Link>
               </li>
             </ul>
+
+            <div className="flex justify-between gap-4 mt-4 px-6">
+              <a href="https://vk.com" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+                <FaVk className="w-10 h-10" />
+              </a>
+              <a href="https://telegram.org" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+                <FaTelegram className="w-10 h-10" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+                <FaInstagram className="w-10 h-10" />
+              </a>
+            </div>
           </div>
         </div>
       )}

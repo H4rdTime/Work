@@ -79,7 +79,7 @@ export default async function CategoryBlogPage({
                                 priority
                             />
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#218CE9]/80 to-transparent" />
                         <div className="absolute bottom-4 left-4 right-4">
                             <h1 className="text-3xl md:text-4xl font-bold text-white">
                                 {posts[0]?.blog_categories?.title || category}

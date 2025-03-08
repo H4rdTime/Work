@@ -7,11 +7,11 @@ import { FaVk, FaTelegram, FaInstagram } from 'react-icons/fa'
 const Footer = () => {
   return (
     <footer className="w-full bg-white border-t border-gray-100 mt-16">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 ">
         {/* Основные разделы */}
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 justify-items-center gap-8 mb-12">
           {/* Контакты */}
-          <div className="md:col-span-2 lg:col-span-2">
+          <div className="">
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Контакты</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ const Footer = () => {
           </div>
 
           {/* Документы */}
-          <div>
+          {/* <div>
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Документы</h3>
             <ul className="space-y-3">
               {[
@@ -82,16 +82,16 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Соцсети */}
           <div>
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Мы в соцсетях</h3>
             <div className="flex gap-4">
               {[
-                { icon: <FaVk />, href: '/vk', label: 'ВКонтакте' },
-                { icon: <FaTelegram />, href: '/telegram', label: 'Telegram' },
-                { icon: <FaInstagram />, href: '/instagram', label: 'Instagram' },
+                { icon: <FaVk  className="w-10 h-10" />, href: '/vk', label: 'ВКонтакте' },
+                { icon: <FaTelegram className="w-10 h-10" />, href: '/telegram', label: 'Telegram' },
+                { icon: <FaInstagram className="w-10 h-10" />, href: '/instagram', label: 'Instagram' },
               ].map((item) => (
                 <a
                   key={item.href}
