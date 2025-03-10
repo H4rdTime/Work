@@ -89,9 +89,9 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Мы в соцсетях</h3>
             <div className="flex gap-4">
               {[
-                { icon: <FaVk  className="w-10 h-10" />, href: '/vk', label: 'ВКонтакте' },
+                { icon: <FaVk  className="w-10 h-10" />, href: 'https://vk.com/aquaservice_ptz', label: 'ВКонтакте' },
                 { icon: <FaTelegram className="w-10 h-10" />, href: '/telegram', label: 'Telegram' },
-                { icon: <FaInstagram className="w-10 h-10" />, href: '/instagram', label: 'Instagram' },
+                { icon: <FaInstagram className="w-10 h-10" />, href: 'https://www.instagram.com/aquaservice.ptz/', label: 'Instagram' },
               ].map((item) => (
                 <a
                   key={item.href}

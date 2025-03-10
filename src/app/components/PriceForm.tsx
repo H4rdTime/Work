@@ -1,4 +1,3 @@
-// src/app/components/PriceForm.tsx
 'use client';
 import { useState, useCallback } from 'react';
 import { FiUser, FiPhone, FiMail, FiMapPin, FiCheckCircle, FiX } from 'react-icons/fi';
@@ -21,7 +20,9 @@ const PriceForm = () => {
     const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [submittedName, setSubmittedName] = useState('');
+    const [isSubmitting] = useState(false);
 
+    // Запрос подсказок адреса
     const fetchAddressSuggestions = useCallback(async (query: string, signal?: AbortSignal) => {
         if (query.length < 3) {
             setAddressSuggestions([]);
@@ -29,11 +30,9 @@ const PriceForm = () => {
         }
 
         try {
-            const response = await fetch(`/api/yandexSuggest?query=${encodeURIComponent(query)}`, {
-                signal
-            });
+            const response = await fetch(`/api/yandexSuggest?query=${encodeURIComponent(query)}`, { signal });
 
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) throw new Error(`HTTP error ${response.status}`);
 
             const data = await response.json();
             const suggestions = (data.results || [])
@@ -43,13 +42,31 @@ const PriceForm = () => {
             setAddressSuggestions(suggestions);
         } catch (error) {
             if ((error as Error).name !== 'AbortError') {
-                console.error("Ошибка получения подсказок:", error);
+                console.error("Ошибка подсказок:", error);
             }
         }
     }, []);
 
+    // Валидация формы
+    const validateForm = useCallback(() => {
+        const errors = [];
+        if (!name.trim()) errors.push('Имя');
+        if (!phone.match(/^\+7 \(\d{3}\) \d{3}-\d{4}$/)) errors.push('Телефон');
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errors.push('Email');
+        if (!address.trim()) errors.push('Адрес');
+        return errors;
+    }, [name, phone, email, address]);
+
+    // Отправка формы
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Валидация формы
+        const errors = validateForm();
+        if (errors.length > 0) {
+            alert('Пожалуйста, проверьте следующие поля: ' + errors.join(', '));
+            return;
+        }
 
         if (!SUPABASE_URL || !SUPABASE_KEY) {
             console.error("Не настроены параметры Supabase");
@@ -57,6 +74,7 @@ const PriceForm = () => {
         }
 
         try {
+            // Отправляем данные заявки в Supabase
             const response = await fetch(`${SUPABASE_URL}/rest/v1/requests`, {
                 method: "POST",
                 headers: {
@@ -72,18 +90,39 @@ const PriceForm = () => {
                 throw new Error(await response.text());
             }
 
+            // После успешного сохранения в базе, отправляем уведомление в Telegram
+            const telegramResponse = await fetch('/api/telegramNotify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, email, address })
+            });
+
+            const telegramResult = await telegramResponse.json();
+            if (!telegramResult.success) {
+                console.error("Ошибка уведомления в Telegram:", telegramResult.error);
+            }
+
+            // Обновляем UI: показываем модальное окно и очищаем поля формы
             setSubmittedName(name);
             setIsModalOpen(true);
-            setName('');
-            setPhone('');
-            setEmail('');
-            setAddress('');
-            setAddressSuggestions([]);
+
+            // Сброс формы
+            resetForm();
         } catch (error) {
             console.error("Ошибка отправки формы:", error);
         }
-    }, [name, phone, email, address]);
+    }, [name, phone, email, address, validateForm]);
 
+    // Сброс формы
+    const resetForm = () => {
+        setName('');
+        setPhone('');
+        setEmail('');
+        setAddress('');
+        setAddressSuggestions([]);
+    };
+
+    // Изменение адреса
     const handleAddressChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setAddress(value);
@@ -98,15 +137,11 @@ const PriceForm = () => {
         <section id="price-form-section" className="container mx-auto px-4 py-8 relative">
             {/* Модальное окно */}
             {isModalOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fadeIn"
-                    onClick={() => setIsModalOpen(false)}
-                >
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fadeIn"
+                    onClick={() => setIsModalOpen(false)}>
                     <div className="bg-white rounded-2xl p-8 max-w-md w-[90%] relative">
-                        <button
-                            onClick={() => setIsModalOpen(false)}
-                            className="absolute top-4 right-4 text-[#666] hover:text-[#218CE9]"
-                        >
+                        <button onClick={() => setIsModalOpen(false)}
+                            className="absolute top-4 right-4 text-[#666] hover:text-[#218CE9]">
                             <FiX size={24} />
                         </button>
                         <div className="text-center">
@@ -125,73 +160,71 @@ const PriceForm = () => {
 
             <div className="bg-[#F5F5F5] rounded-xl mx-auto px-4 py-8">
                 <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
-                    {/* Поля формы */}
                     {[
                         {
                             icon: FiUser,
                             placeholder: 'Ваше имя',
-                            value: name,
                             component: (
                                 <IMaskInput
-                                    mask={/^[A-Za-zА-Яа-яЁё\s]*$/}
-                                    placeholder= 'Ваше имя'
+                                    mask={/^[A-Za-zА-Яа-яЁё\s-]*$/}
+                                    placeholder="Ваше имя"
+                                    value={name}
                                     onAccept={(value) => setName(value)}
                                     className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
                                     required
                                 />
-                            ),
-                            required: true
+                            )
                         },
                         {
                             icon: FiPhone,
                             placeholder: '+7 (___) ___-____',
-                            value: phone,
                             component: (
                                 <IMaskInput
                                     mask="+7 (000) 000-0000"
-                                    placeholder="+7 (___) ___-____" // Исправлено здесь
+                                    placeholder="+7 (___) ___-____"
+                                    value={phone}
                                     onAccept={(value) => setPhone(value.toString())}
                                     className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
                                     required
                                 />
-                            ),
-                            required: true
+                            )
                         },
                         {
                             icon: FiMail,
                             placeholder: 'Ваш email',
-                            value: email,
                             component: (
                                 <IMaskInput
-                                    mask={/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/}
-                                    placeholder= 'Ваш email'
-                                    onAccept={(value) => setEmail(value)}
+                                    mask={/^[\w-.@]*$/} // Маска для email
+                                    placeholder="Ваш email"
+                                    value={email}
+                                    onAccept={(value) => {
+                                        if (value.length <= 254) setEmail(value);
+                                    }}
                                     className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
                                     required
                                 />
-                            ),
-                            required: true
+
+                            )
                         },
                         {
                             icon: FiMapPin,
                             placeholder: 'Адрес проведения работ',
-                            value: address,
-                            onChange: handleAddressChange,
+                            component: (
+                                <input
+                                    type="text"
+                                    placeholder="Адрес проведения работ"
+                                    value={address}
+                                    onChange={handleAddressChange}
+                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
+                                    required
+                                />
+                            ),
                             suggestions: addressSuggestions
                         }
                     ].map((field, index) => (
                         <div key={index} className="relative">
                             <field.icon className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666]" />
-                            {field.component || (
-                                <input
-                                    type={field.value || 'text'}
-                                    placeholder={field.placeholder}
-                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
-                                    required={field.required}
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                />
-                            )}
+                            {field.component}
                             {field.suggestions && field.suggestions.length > 0 && (
                                 <ul className="absolute bg-white border border-[#ddd] rounded-lg mt-2 w-full shadow-md z-10">
                                     {field.suggestions.map((suggestion, idx) => (
@@ -213,9 +246,13 @@ const PriceForm = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-[#218CE9] text-white py-4 rounded-[62px] font-bold hover:bg-[#1a70c0] transition-colors"
+                        disabled={isSubmitting}
+                        className={`w-full py-4 rounded-[62px] font-bold transition-colors ${isSubmitting
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-[#218CE9] text-white hover:bg-[#1a70c0]'
+                            }`}
                     >
-                        Отправить заявку
+                        {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
                     </button>
                 </form>
             </div>

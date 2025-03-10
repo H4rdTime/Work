@@ -106,25 +106,27 @@ const Header = () => {
               ))}
             </nav>
             <div className="flex items-center gap-4 px-4">
-              <a href="https://vk.com" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+              <a href="https://vk.com/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaVk className="w-7 h-7" />
               </a>
               <a href="https://telegram.org" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaTelegram className="w-7 h-7" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+              <a href="https://www.instagram.com/aquaservice.ptz/" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaInstagram className="w-7 h-7" />
               </a>
             </div>
             {/* Кнопка заявки */}
             <div className="hidden items-center gap-3 lg:flex">
               <Link
-                href="/request"
+                href="/contacts"
                 className="bg-[#218CE9] text-white px-6 py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors whitespace-nowrap "
               >
                 Оставить заявку
               </Link>
             </div>
+
+            
           </div>
         </div>
       </header>
