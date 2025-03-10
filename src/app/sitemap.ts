@@ -12,10 +12,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     '/',
     '/services',
+    '/equipment',
     '/about',
-    '/contact'
+    '/blog',
+    '/contacts'
   ].map(route => ({
-    url: `${process.env.SITE_URL}${route}`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}${route}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 1.0,
@@ -23,9 +25,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Динамические страницы из Supabase
   const { data: posts } = await supabase.from('posts_with_hubs').select('id, updated_at');
-  
+
   const dynamicRoutes = posts?.map(post => ({
-    url: `${process.env.SITE_URL}/blog/${post.id}`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${post.id}`,
     lastModified: new Date(post.updated_at),
     priority: 0.8,
   })) || [];
