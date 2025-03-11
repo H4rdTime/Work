@@ -351,9 +351,12 @@ const PriceForm = () => {
                     ))}
 
                     <div className="relative">
-                        <label className="block text-sm font-medium text-[#666] mb-2 ml-4">
-                            Прикрепить файл (анализ воды){selectedService === 'Очистка воды' && ' *'}
-                        </label>
+                        {selectedService === 'Очистка воды' && (
+                            <label className="block text-sm font-medium text-[#666] mb-2 ml-4">
+                                Прикрепить файл (анализ воды) *
+                            </label>
+                        )}
+
                         {selectedService === 'Очистка воды' && (
                             <div className="relative group">
                                 <input
@@ -367,17 +370,19 @@ const PriceForm = () => {
                                 <label
                                     htmlFor="fileInput"
                                     className="block w-full pl-12 pr-4 py-4 border-2 border-[#218CE9]/20 
-                    rounded-[62px] bg-white text-gray-400 cursor-pointer
-                    group-hover:border-[#218CE9]/40 transition-all"
+          rounded-[62px] bg-white text-gray-400 cursor-pointer
+          group-hover:border-[#218CE9]/40 transition-all"
                                 >
                                     {file ? file.name : 'Выберите файл...'}
                                 </label>
                                 <FiUpload className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666]" />
                             </div>
                         )}
+
                         {fileError && (
                             <p className="text-red-500 text-sm mt-2 ml-4">{fileError}</p>
                         )}
+
                         {file && (
                             <p className="text-green-600 text-sm mt-2 ml-4">
                                 ✓ Файл загружен: {file.name}
@@ -389,8 +394,8 @@ const PriceForm = () => {
                         type="submit"
                         disabled={isSubmitting}
                         className={`w-full py-4 rounded-[62px] font-bold transition-colors ${isSubmitting
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-[#218CE9] text-white hover:bg-[#1a70c0]'
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-[#218CE9] text-white hover:bg-[#1a70c0]'
                             }`}
                     >
                         {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
