@@ -79,12 +79,11 @@ const WorkSteps: React.FC<WorkStepsProps> = ({
         {subtitle}
       </h3>
 
-      <div className="grid justify-items-center md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {displayedSteps.map((step, index) => (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {displayedSteps.slice(0, 3).map((step, index) => (
           <div 
             key={index}
-            className={`bg-[#F5F5F5] rounded-xl p-6 shadow-lg
-              ${index === displayedSteps.length - 1 ? "md:col-span-2 lg:col-start-2 lg:col-span-2" : ""}`}
+            className="bg-[#F5F5F5] rounded-xl p-6 shadow-lg flex flex-col h-full"
           >
             <div className="flex gap-4 mb-4 items-center">
               <div className="w-8 h-8 bg-[#218CE9] text-white rounded-full flex items-center justify-center flex-shrink-0">
@@ -94,11 +93,32 @@ const WorkSteps: React.FC<WorkStepsProps> = ({
                 {step.title}
               </h4>
             </div>
-            <div className="text-[#666]">
+            <div className="text-[#666] flex-grow">
               {step.content}
             </div>
           </div>
         ))}
+
+        <div className="lg:col-span-3 flex flex-col lg:flex-row gap-8">
+          {displayedSteps.slice(3).map((step, index) => (
+            <div 
+              key={index + 3}
+              className="bg-[#F5F5F5] rounded-xl p-6 shadow-lg flex flex-col h-full w-full"
+            >
+              <div className="flex gap-4 mb-4 items-center">
+                <div className="w-8 h-8 bg-[#218CE9] text-white rounded-full flex items-center justify-center flex-shrink-0">
+                  {index + 4}
+                </div>
+                <h4 className="text-xl font-bold text-[#218CE9]">
+                  {step.title}
+                </h4>
+              </div>
+              <div className="text-[#666] flex-grow">
+                {step.content}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

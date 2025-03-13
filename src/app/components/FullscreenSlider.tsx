@@ -266,18 +266,71 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
             </div>
             <div className="flex-1 overflow-y-auto px-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 5, 6].map((item) => (
-                  <div key={item} className="relative aspect-square bg-white rounded-lg shadow-md overflow-hidden">
+                {[
+                  {
+                    id: 1,
+                    title: "Система аэрации",
+                    location: "Московская область",
+                    depth: null,
+                    description: "Комплексная система очистки воды с напорной аэрацией",
+                    image: "/images/aeration-system.webp"
+                  },
+                  {
+                    id: 2,
+                    title: "Станция биоочистки Юнилос Астра 5",
+                    location: "с. Ведлозеро, Пряжинский р-н",
+                    depth: null,
+                    description: "Монтаж автономной канализации для частного дома",
+                    image: "/images/unilos-setup.webp"
+                  },
+                  {
+                    id: 3,
+                    title: "Очистные сооружения",
+                    location: "Калужская область",
+                    depth: null,
+                    description: "Многоступенчатая система фильтрации для коттеджного поселка",
+                    image: "/images/filtration-system.webp"
+                  },
+                  {
+                    id: 4,
+                    title: "Водоподготовка",
+                    location: "Тверская область",
+                    depth: null,
+                    description: "Установка умягчителя и обезжелезивателя",
+                    image: "/images/water-treatment.webp"
+                  },
+                  {
+                    id: 5,
+                    title: "Скважина на песок",
+                    location: "Новгородская область",
+                    depth: "32",
+                    description: "Неглубокая скважина с насосной станцией",
+                    image: "/images/sand-well.webp"
+                  },
+                  {
+                    id: 6,
+                    title: "Автоматизация",
+                    location: "Владимирская область",
+                    depth: null,
+                    description: "Система умного управления водоснабжением",
+                    image: "/images/automation-system.webp"
+                  }
+                ].map((project) => (
+                  <div key={project.id} className="relative aspect-square bg-white rounded-lg shadow-md overflow-hidden">
                     <Image
-                      src={`/images/${item}.jpg`}
-                      alt={`Проект ${item}`}
+                      src={project.image}
+                      alt={project.title}
                       width={400}
                       height={400}
                       className="object-cover w-full h-full"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-3">
-                      <h3 className="text-[#218CE9] font-bold text-sm truncate">Скважина №{item}</h3>
-                      <p className="text-gray-600 text-xs">Московская обл. | {120 + item * 10}м</p>
+                      <h3 className="text-[#218CE9] font-bold text-sm mb-1">{project.title}</h3>
+                      <p className="text-gray-600 text-xs mb-1">{project.description}</p>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-gray-600">{project.location}</span>
+                        {project.depth && <span className="text-[#218CE9]">{project.depth}м</span>}
+                      </div>
                     </div>
                   </div>
                 ))}

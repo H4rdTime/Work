@@ -138,7 +138,7 @@ const ServicesSlider = () => {
 
                     <div className="mt-auto">
                       <p className="text-lg font-bold text-[#218CE9] mb-3">
-                        от {service.price}
+                        от {service.price} ₽
                       </p>
                       <button className="w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors">
                         Заказать

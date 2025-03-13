@@ -1,5 +1,4 @@
-// app/page.tsx
-'use client'
+'use client';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Header from "./components/Header";
@@ -11,8 +10,10 @@ import PriceForm from './components/PriceForm';
 import PriceCalculator from './components/PriceCalculator';
 import Footer from './components/Footer';
 import FullscreenSlider from './components/FullscreenSlider';
-import MapSection from "./components/MapSection";
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
+
+// Динамический импорт MapSection с отключённым SSR
+const MapSection = dynamic(() => import('./components/MapSection').then(mod => mod.default), { ssr: false });
 
 // Динамический импорт BlogPreview как серверного компонента
 const BlogPreview = dynamic(() => import('./components/BlogPreview'), { ssr: true });
@@ -40,7 +41,7 @@ export default function Home() {
       <WorkSteps />
       <PriceCalculator />
       <Suspense fallback={<div>Загрузка превью блога...</div>}>
-        <BlogPreview />
+      <BlogPreview />
       </Suspense>
       <Footer />
     </main>
