@@ -1,7 +1,7 @@
 // app/services/[city]/page.tsx
 import { supabase } from '@/lib/supabase';
-import Header from "../../components/Header";
-import ServiceCard from "../../components/ServiceCard";
+import Header from "../../../components/Header";
+import ServiceCard from "../../../components/ServiceCard";
 
 export async function generateStaticParams() {
     const { data: services } = await supabase

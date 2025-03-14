@@ -51,6 +51,7 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
           href={`/equipment/${encodeURIComponent(equipment.category)}`}
           className="text-sm bg-blue-100 text-[#218CE9] px-3 py-1 rounded-full hover:bg-blue-200 transition-colors"
         >
+          
           {equipment.category}
         </a>
       </div>

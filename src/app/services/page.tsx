@@ -10,6 +10,7 @@ interface Service {
   price: number;
   image_url: string;
   area_served: string[];
+  slug: string;
 }
 
 async function getServices(): Promise<Service[]> {
