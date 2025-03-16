@@ -7,6 +7,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 // Тип данных для оборудования
 interface Equipment {
@@ -16,9 +17,12 @@ interface Equipment {
   price: string;
   image_url: string;
   category: string;
+  slug: string;
 }
 
 const EquipmentSlider = () => {
+  const router = useRouter(); // Инициализируем роутер
+
   // Состояния компонента
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +39,7 @@ const EquipmentSlider = () => {
         "(min-width: 1024px)": { slidesToScroll: 1 }
       }
     },
-    [Autoplay({ delay: 5000 }), WheelGesturesPlugin()]
+    [WheelGesturesPlugin(), Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })]
   );
 
   // Загрузка данных
@@ -109,7 +113,7 @@ const EquipmentSlider = () => {
 
         {/* Контейнер слайдов */}
         <div className="embla overflow-hidden flex-1" ref={emblaRef}>
-          <div className="embla__container flex gap-3">
+          <div className="py-4 embla__container flex gap-3">
             {equipment.map((item) => (
               <div
                 className="embla__slide flex-[0_0_280px]"
@@ -139,9 +143,13 @@ const EquipmentSlider = () => {
                       <p className="text-lg font-bold text-[#218CE9] mb-3">
                         от {item.price} ₽
                       </p>
-                      <button className="w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors">
+                      <Link
+                        href={`/equipment/${item.category}/${item.slug}`}
+                        className="block w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors text-center"
+                        onMouseEnter={() => router.prefetch(`/equipment/${item.category}/${item.slug}`)}
+                      >
                         Подробнее
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>

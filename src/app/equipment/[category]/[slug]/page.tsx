@@ -103,7 +103,10 @@ export default async function EquipmentPage({ params }: { params: Params }) {
                                 src={equipment.image_url}
                                 alt={equipment.title}
                                 fill
-                                className="object-cover"
+                                className={`object-cover ${equipment.image_url.includes('yunilos-astra-5-midi.webp')
+                                        ? 'object-right'
+                                        : 'object-center'
+                                    }`}
                                 sizes="(max-width: 768px) 100vw, 50vw"
                                 priority
                             />

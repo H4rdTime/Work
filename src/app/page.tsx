@@ -20,7 +20,15 @@ const BlogPreview = dynamic(() => import('./components/BlogPreview'), { ssr: tru
 
 export default function Home() {
   const scrollToForm = () => {
-    const element = document.getElementById('price-form-section');
+    scrollToElement('price-form-section');
+  };
+
+  const scrollToMap = () => {
+    scrollToElement('map-section');
+  };
+
+  const scrollToElement = (id: string) => {
+    const element = document.getElementById(id);
     if (element) {
       const yOffset = -80;
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
@@ -32,7 +40,10 @@ export default function Home() {
     <main>
       <LocalBusinessSchema />
       <Header />
-      <FullscreenSlider scrollToForm={scrollToForm} />
+      <FullscreenSlider
+        scrollToForm={scrollToForm}
+        scrollToMap={scrollToMap} // Добавляем новый пропс
+      />
       <MapSection />
       <PriceForm />
       <ServicesSlider />
@@ -41,7 +52,7 @@ export default function Home() {
       <WorkSteps />
       <PriceCalculator />
       <Suspense fallback={<div>Загрузка превью блога...</div>}>
-      <BlogPreview />
+        <BlogPreview />
       </Suspense>
       <Footer />
     </main>

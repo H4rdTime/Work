@@ -15,7 +15,13 @@ const cities = [
   'Олонец', 'Суоярви', 'Сегежа'
 ];
 
-const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
+const FullscreenSlider = ({
+  scrollToForm,
+  scrollToMap // Добавляем новый пропс
+}: {
+  scrollToForm: () => void;
+  scrollToMap: () => void;
+}) => {
   return (
     <div className="relative">
       <Swiper
@@ -182,7 +188,7 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
                 <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 px-2">
                   {[
                     {
-                      icon: '⛏️',
+                      icon: '/images/drilling.png',
                       title: 'Бурение скважин',
                       items: [
                         'Бурение на песчаный/гравийно-галечный грунт',
@@ -193,7 +199,7 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
                       accent: 'bg-blue-100'
                     },
                     {
-                      icon: '⚙️',
+                      icon: '/images/water-pump.png',
                       title: 'Обустройство скважин',
                       items: [
                         'Подбор и монтаж насосов',
@@ -204,7 +210,7 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
                       accent: 'bg-blue-100'
                     },
                     {
-                      icon: '💧',
+                      icon: '/images/save-water.png',
                       title: 'Водоочистка',
                       items: [
                         'Химический анализ воды',
@@ -233,7 +239,17 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
                       <div className={`absolute top-0 left-0 w-full h-1.5 md:h-2 ${service.accent}`}></div>
                       <div className="mt-2">
                         <div className={`mb-3 md:mb-4 p-2 md:p-3 rounded-lg ${service.accent} inline-block shadow-sm md:shadow-md`}>
-                          <span className="text-3xl md:text-4xl text-[#218CE9]">{service.icon}</span>
+                          {service.icon.startsWith('/') ? (
+                            <Image
+                              src={service.icon}
+                              alt={service.title}
+                              width={40}
+                              height={40}
+                              className="w-10 h-10 object-contain"
+                            />
+                          ) : (
+                            <span className="text-3xl md:text-4xl text-[#218CE9]">{service.icon}</span>
+                          )}
                         </div>
                         <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2 md:mb-3">
                           {service.title}
@@ -282,39 +298,39 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
                     depth: null,
                     description: "Монтаж автономной канализации для частного дома",
                     image: "/images/unilos-setup.webp"
-                  },
-                  {
-                    id: 3,
-                    title: "Очистные сооружения",
-                    location: "Калужская область",
-                    depth: null,
-                    description: "Многоступенчатая система фильтрации для коттеджного поселка",
-                    image: "/images/filtration-system.webp"
-                  },
-                  {
-                    id: 4,
-                    title: "Водоподготовка",
-                    location: "Тверская область",
-                    depth: null,
-                    description: "Установка умягчителя и обезжелезивателя",
-                    image: "/images/water-treatment.webp"
-                  },
-                  {
-                    id: 5,
-                    title: "Скважина на песок",
-                    location: "Новгородская область",
-                    depth: "32",
-                    description: "Неглубокая скважина с насосной станцией",
-                    image: "/images/sand-well.webp"
-                  },
-                  {
-                    id: 6,
-                    title: "Автоматизация",
-                    location: "Владимирская область",
-                    depth: null,
-                    description: "Система умного управления водоснабжением",
-                    image: "/images/automation-system.webp"
                   }
+                  // {
+                  //   id: 3,
+                  //   title: "Очистные сооружения",
+                  //   location: "Калужская область",
+                  //   depth: null,
+                  //   description: "Многоступенчатая система фильтрации для коттеджного поселка",
+                  //   image: "/images/filtration-system.webp"
+                  // },
+                  // {
+                  //   id: 4,
+                  //   title: "Водоподготовка",
+                  //   location: "Тверская область",
+                  //   depth: null,
+                  //   description: "Установка умягчителя и обезжелезивателя",
+                  //   image: "/images/water-treatment.webp"
+                  // },
+                  // {
+                  //   id: 5,
+                  //   title: "Скважина на песок",
+                  //   location: "Новгородская область",
+                  //   depth: "32",
+                  //   description: "Неглубокая скважина с насосной станцией",
+                  //   image: "/images/sand-well.webp"
+                  // },
+                  // {
+                  //   id: 6,
+                  //   title: "Автоматизация",
+                  //   location: "Владимирская область",
+                  //   depth: null,
+                  //   description: "Система умного управления водоснабжением",
+                  //   image: "/images/automation-system.webp"
+                  // }
                 ].map((project) => (
                   <div key={project.id} className="relative aspect-square bg-white rounded-lg shadow-md overflow-hidden">
                     <Image
@@ -337,7 +353,9 @@ const FullscreenSlider = ({ scrollToForm }: { scrollToForm: () => void }) => {
               </div>
             </div>
             <div className="text-center pt-6 sticky bottom-4 z-10">
-              <button className="bg-[#218CE9] text-white px-8 py-3 rounded-full hover:bg-[#1a6fb9] transition-colors">
+              <button
+                onClick={scrollToMap}
+                className="bg-[#218CE9] text-white px-8 py-3 rounded-full hover:bg-[#1a6fb9] transition-colors">
                 Все проекты
               </button>
             </div>

@@ -9,8 +9,7 @@ const Footer = () => {
     <footer className="w-full bg-white border-t border-gray-100 mt-16">
       <div className="container mx-auto px-4 py-12 ">
         {/* Основные разделы */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 justify-items-center gap-8 mb-12">
-          {/* Контакты */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 justify-items-start md:justify-items-center gap-8 mb-12 pl-4 md:pl-0">          {/* Контакты */}
           <div className="">
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Контакты</h3>
             <div className="space-y-3">
@@ -89,7 +88,7 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Мы в соцсетях</h3>
             <div className="flex gap-4">
               {[
-                { icon: <FaVk  className="w-10 h-10" />, href: 'https://vk.com/aquaservice_ptz', label: 'ВКонтакте' },
+                { icon: <FaVk className="w-10 h-10" />, href: 'https://vk.com/aquaservice_ptz', label: 'ВКонтакте' },
                 { icon: <FaTelegram className="w-10 h-10" />, href: '/telegram', label: 'Telegram' },
                 { icon: <FaInstagram className="w-10 h-10" />, href: 'https://www.instagram.com/aquaservice.ptz/', label: 'Instagram' },
               ].map((item) => (

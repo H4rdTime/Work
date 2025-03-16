@@ -42,7 +42,7 @@ const Advantages = () => {
         {
             title: 'Собственная техника',
             subtitle: '«Контроль сроков и качества»',
-            image: '/images/advantage2.png',
+            image: '/images/advantage51.png',
             content: (
                 <>
                     <p className="mb-2 text-left">

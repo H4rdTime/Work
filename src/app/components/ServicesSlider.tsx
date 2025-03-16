@@ -7,6 +7,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 // Тип данных для услуг из Supabase
 interface Service {
@@ -15,9 +16,12 @@ interface Service {
   description: string;
   price: string;
   image_url: string;
+  slug: string;
 }
 
 const ServicesSlider = () => {
+  const router = useRouter(); // Инициализируем роутер
+
   // Состояния компонента
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +38,7 @@ const ServicesSlider = () => {
         "(min-width: 1024px)": { slidesToScroll: 1 }
       }
     },
-    [Autoplay({ delay: 5000 }), WheelGesturesPlugin()]
+    [WheelGesturesPlugin(), Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })]
   );
 
   // Загрузка данных при монтировании
@@ -44,9 +48,9 @@ const ServicesSlider = () => {
       try {
         const { data, error } = await supabase
           .from('services')
-          .select('*');  
+          .select('*');
         console.log('Data received:', data);
-  
+
         if (error) throw error;
         setServices(data || []);
       } catch (err) {
@@ -56,7 +60,7 @@ const ServicesSlider = () => {
         setLoading(false);
       }
     };
-  
+
     fetchServices();
   }, []);
 
@@ -69,7 +73,7 @@ const ServicesSlider = () => {
       emblaApi.off("select", updateIndex);
     };
   }, [emblaApi]);
-  
+
 
   // Состояния загрузки
   if (loading) {
@@ -92,7 +96,7 @@ const ServicesSlider = () => {
   return (
     <section className="px-4 py-8 container mx-auto">
       <div className="border-b border-black/10 mb-8"></div>
-      
+
       <h2 className="text-center font-bold text-3xl text-[#218CE9] mb-8">
         НАШИ УСЛУГИ
       </h2>
@@ -104,16 +108,16 @@ const ServicesSlider = () => {
           className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
         >
           <svg className="w-6 h-6 text-[#218CE9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
         {/* Контейнер слайдов */}
-        <div className="embla overflow-hidden flex-1" ref={emblaRef}>
+        <div className="py-4 embla overflow-hidden flex-1" ref={emblaRef}>
           <div className="embla__container flex gap-3">
             {services.map((service) => (
-              <div 
-                className="embla__slide flex-[0_0_280px]" 
+              <div
+                className="embla__slide flex-[0_0_280px]"
                 key={service.id}
               >
                 <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
@@ -126,12 +130,12 @@ const ServicesSlider = () => {
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
-                  
+
                   <div className="p-4 flex flex-col flex-grow">
                     <h3 className="text-xl font-bold text-[#218CE9] mb-2">
                       {service.title}
                     </h3>
-                    
+
                     <p className="text-gray-600 text-sm mb-4 flex-grow">
                       {service.description}
                     </p>
@@ -140,9 +144,13 @@ const ServicesSlider = () => {
                       <p className="text-lg font-bold text-[#218CE9] mb-3">
                         от {service.price} ₽
                       </p>
-                      <button className="w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors">
+                      <Link
+                        href={`/services/${service.slug}`}
+                        className="block w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors text-center"
+                        onMouseEnter={() => router.prefetch(`/services/${service.slug}`)}
+                      >
                         Заказать
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>
@@ -157,7 +165,7 @@ const ServicesSlider = () => {
           className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:scale-110 transition-transform"
         >
           <svg className="w-6 h-6 text-[#218CE9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
@@ -168,9 +176,8 @@ const ServicesSlider = () => {
           <button
             key={index}
             onClick={() => emblaApi?.scrollTo(index)}
-            className={`w-2 h-2 rounded-full transition-opacity ${
-              selectedIndex === index ? 'opacity-100' : 'opacity-30'
-            } bg-[#218CE9]`}
+            className={`w-2 h-2 rounded-full transition-opacity ${selectedIndex === index ? 'opacity-100' : 'opacity-30'
+              } bg-[#218CE9]`}
           />
         ))}
       </div>
