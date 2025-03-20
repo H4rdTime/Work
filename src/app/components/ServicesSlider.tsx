@@ -121,7 +121,7 @@ const ServicesSlider = () => {
                 key={service.id}
               >
                 <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
-                  <div className="relative h-60">
+                  <div className="relative h-48 sm:h-64 2xl:h-80">
                     <Image
                       src={service.image_url}
                       alt={service.title}

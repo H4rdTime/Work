@@ -76,7 +76,7 @@ const Advantages = () => {
         {
             title: 'Гарантированные сроки',
             subtitle: '«Четко по графику — или компенсируем простой»',
-            image: '/images/advantage4.png',
+            image: '/images/advantage7.png',
             content: (
                 <>
                     <p className="mb-2 text-left">

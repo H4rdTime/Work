@@ -109,7 +109,7 @@ const Footer = () => {
         {/* Копирайт */}
         <div className="border-t border-black border-opacity-10 pt-6 text-center">
           <p className="text-gray-500 text-sm">
-            © 2000-{new Date().getFullYear()} ООО «АкваСервис». Все права защищены
+            © 2000-{new Date().getFullYear()} Компания «АкваСервис». Все права защищены
           </p>
         </div>
       </div>

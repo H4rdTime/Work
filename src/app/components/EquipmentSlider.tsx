@@ -120,13 +120,20 @@ const EquipmentSlider = () => {
                 key={item.id}
               >
                 <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
-                  <div className="relative h-48">
+                  <div className="relative h-96 sm:h-64 xl:h-96">
+
                     <Image
                       src={item.image_url}
                       alt={item.title}
                       fill
-                      className="object-cover rounded-t-xl"
                       sizes="(max-width: 768px) 100vw, 50vw"
+                      className={`object-cover rounded-t-xl ${item.image_url.includes('yunilos-astra-5-midi.webp')
+                        ? 'object-right'
+                        : 'object-center'
+                        }
+                       
+                        `}
+                      priority
                     />
                   </div>
 
