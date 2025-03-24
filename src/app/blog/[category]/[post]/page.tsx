@@ -5,6 +5,7 @@ import Script from 'next/script';
 import Header from '../../../components/Header';
 import Image from 'next/image';
 import Head from 'next/head';
+import parse, { domToReact, Element } from 'html-react-parser';
 
 export async function generateStaticParams() {
     const { data: posts, error } = await supabase
