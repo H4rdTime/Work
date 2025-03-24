@@ -75,7 +75,7 @@ const Advantages = () => {
         },
         {
             title: 'Комплект документов',
-            subtitle: '«Несем ответственность за свою работу»',
+            subtitle: '«Серьезно и профессионально относимся к своим клиентам»',
             image: '/images/advantage7.png',
             content: (
                 <>
