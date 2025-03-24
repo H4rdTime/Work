@@ -180,9 +180,9 @@ export default async function PostPage({ params }: PageParams) {
                 )}
 
                 {/* Контент */}
-                <article className="prose max-w-none">
+                <article className="prose max-w-none w-full">
                     <div
-                        className="text-gray-600 text-lg leading-relaxed"
+                        className="text-gray-600 text-lg leading-relaxed w-full"
                         dangerouslySetInnerHTML={{ __html: blogPost.content }}
                     />
                 </article>

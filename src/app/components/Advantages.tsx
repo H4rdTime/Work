@@ -25,7 +25,7 @@ const Advantages = () => {
         {
             title: 'Гарантия',
             subtitle: '«Полная ответственность за каждый метр в Карелии»',
-            image: '/images/advantage1.png',
+            image: '/images/garant.png',
             content: (
                 <>
                     <p className="mb-2 text-left">
@@ -59,7 +59,7 @@ const Advantages = () => {
         {
             title: 'Экологичный подход',
             subtitle: '«Бережем ваш участок и природу»',
-            image: '/images/advantage3.png',
+            image: '/images/clean.png',
             content: (
                 <>
                     <p className="mb-2 text-left">
@@ -96,6 +96,7 @@ const Advantages = () => {
             image: '/images/advantage6.png',
             content: (
                 <>
+
                     <p className="mb-2 text-left">
                       Мы предоставляем скидки для пенсионеров и участников СВО, стремясь сделать наши услуги более доступными и поддержать социально значимые группы.
                     </p>

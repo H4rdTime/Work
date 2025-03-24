@@ -34,7 +34,7 @@ const Contacts = () => {
                         <div className="space-y-4 text-gray-700">
                             <div className="flex items-center gap-2">
                                 <FiMapPin className="text-[#218CE9]" />
-                                <span>Петрозаводск, ул. Коммунистов, д.50, стр.2</span>
+                                <span>Петрозаводск, ул. Коммунистов, д.50, стр.15</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiPhone className="text-[#218CE9]" />

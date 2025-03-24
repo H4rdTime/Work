@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        // Распарсить новое поле preferred_contact
         const { name, phone, email, address, service, file_url, preferred_contact } = await req.json();
 
         const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -14,13 +13,16 @@ export async function POST(req: NextRequest) {
 
         const chatIds = chatIdsStr.split(',').map(id => id.trim());
 
+        // Escape underscores in the email address
+        const escapedEmail = email.replace(/_/g, '\\_');
+
         // Формируем сообщение с Markdown-разметкой, добавляя способ связи
         let message = `
 📌 *Новая заявка!*
 
 👤 *Имя:* ${name || 'Не указано'}
 📞 *Телефон:* \`${phone || 'Не указан'}\`
-📧 *Email:* ${email || 'Не указан'}
+📧 *Email:* ${escapedEmail || 'Не указан'}
 📍 *Адрес:* ${address || 'Не указан'}
 🛠 *Услуга:* ${service || 'Не выбрана'}
 🗣 *Способ связи:* ${preferred_contact || 'Не указан'}
