@@ -298,15 +298,15 @@ const FullscreenSlider = ({
                     depth: null,
                     description: "Монтаж автономной канализации для частного дома",
                     image: "/images/unilos-setup.webp"
+                  },
+                  {
+                    id: 3,
+                    title: "Перистальтический насос",
+                    location: "ТСН Северные Просторы, деревня Бесовец.",
+                    depth: null,
+                    description: "Система водоочистки с дозацией гипохлорита натрия ",
+                    image: "/images/peristaltic-pump.webp"
                   }
-                  // {
-                  //   id: 3,
-                  //   title: "Очистные сооружения",
-                  //   location: "Калужская область",
-                  //   depth: null,
-                  //   description: "Многоступенчатая система фильтрации для коттеджного поселка",
-                  //   image: "/images/filtration-system.webp"
-                  // },
                   // {
                   //   id: 4,
                   //   title: "Водоподготовка",
