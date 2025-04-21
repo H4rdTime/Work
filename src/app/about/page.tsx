@@ -222,7 +222,6 @@ export default function AboutPage() {
               <ul className="list-disc pl-5 space-y-2 text-gray-600">
                 <li>Многолетний практический опыт</li>
                 <li>Круглосуточная техподдержка</li>
-                <li>Гарантия до 10 лет</li>
                 <li>Соблюдение сроков</li>
               </ul>
             </div>

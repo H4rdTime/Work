@@ -41,7 +41,7 @@ const FullscreenSlider = ({
               <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold uppercase mb-6 text-white">
                 БУРЕНИЕ СКВАЖИН В РЕСПУБЛИКЕ КАРЕЛИЯ
                 <span className="block text-lg xs:text-xl sm:text-2xl md:text-3xl font-normal mt-3">
-                  С ГАРАНТИЕЙ 10 ЛЕТ
+                  БЫСТРО КАЧЕСТВЕННО НЕДОРОГО
                 </span>
               </h1>
 

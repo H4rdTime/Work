@@ -7,7 +7,6 @@ import EquipmentSlider from './components/EquipmentSlider';
 import Advantages from './components/Advantages';
 import WorkSteps from './components/WorkSteps';
 import PriceForm from './components/PriceForm';
-import PriceCalculator from './components/PriceCalculator';
 import Footer from './components/Footer';
 import FullscreenSlider from './components/FullscreenSlider';
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
@@ -50,7 +49,6 @@ export default function Home() {
       <EquipmentSlider />
       <Advantages />
       <WorkSteps />
-      <PriceCalculator />
       <Suspense fallback={<div>Загрузка превью блога...</div>}>
         <BlogPreview />
       </Suspense>

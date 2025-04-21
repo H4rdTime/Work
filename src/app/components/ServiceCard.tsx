@@ -73,7 +73,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
             {/* Безопасное отображение городов */}
             <div className="mt-2 text-sm text-gray-500">
-              Доступно в: {areas.length > 0 ? areas.join(', ') : 'Все регионы'}
+              Доступно: {areas.length > 0 ? areas.join(', ') : 'по всей Карелии'}
             </div>
           </div>
         </div>
