@@ -56,7 +56,7 @@ const nextConfig = {
               "font-src 'self' data: https://fonts.gstatic.com",
 
               // Подключения
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://www.google-analytics.com",
 
               // Фреймы
               "frame-src 'self' https://yandex.ru",
