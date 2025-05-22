@@ -27,10 +27,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "mc.yandex.ru",
       },
+       { // <-- Добавлено разрешение для mc.yandex.com
+        protocol: "https",
+        hostname: "mc.yandex.com",
+      },
       {
         protocol: "https",
         hostname: "www.google-analytics.com",
-      }
+      },
+       { // <-- Добавлено разрешение для region1.google-analytics.com, если оно используется
+         protocol: "https",
+         hostname: "region1.google-analytics.com",
+       }
     ],
   },
   async headers() {
@@ -44,22 +52,22 @@ const nextConfig = {
               // Основные директивы
               "default-src 'self'",
 
-              // Скрипты
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://mc.yandex.ru https://www.googletagmanager.com",
+              // Скрипты - ДОБАВЛЕНО https://mc.yandex.com
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://mc.yandex.ru https://mc.yandex.com https://www.googletagmanager.com",
               // Стили
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 
-              // Изображения
-              "img-src 'self' data: https://*.supabase.co https://mc.yandex.ru",
+              // Изображения - ДОБАВЛЕНО https://mc.yandex.com
+              "img-src 'self' data: https://*.supabase.co https://mc.yandex.ru https://mc.yandex.com",
 
               // Шрифты
               "font-src 'self' data: https://fonts.gstatic.com",
 
-              // Подключения
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://www.google-analytics.com",
+              // Подключения - ДОБАВЛЕНО https://mc.yandex.com (на всякий случай, хотя в ошибках connect-src его не было) и region1.google-analytics.com
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
 
-              // Фреймы
-              "frame-src 'self' https://yandex.ru",
+              // Фреймы - ДОБАВЛЕНО https://mc.yandex.com
+              "frame-src 'self' https://yandex.ru https://mc.yandex.com",
 
               // Дополнительные настройки
               "base-uri 'self'",
@@ -76,4 +84,5 @@ const nextConfig = {
 
 };
 
-module.exports = nextConfig;
+// module.exports = withBundleAnalyzer(nextConfig); // Если вы используете bundle analyzer, оставьте эту строку
+module.exports = nextConfig; // Если не используете, используйте эту

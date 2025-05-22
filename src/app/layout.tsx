@@ -1,12 +1,15 @@
 // src/app/layout.tsx
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
-// import Image from 'next/image'; // <-- Этот импорт удален, так как мы больше не используем next/image для метрики
+// import Image from 'next/image'; // Импорт Image должен быть удален, если не используется
 
+// Предположим, вы создали этот файл
+import YandexMetrikaSPA from './components/YandexMetrika/YandexMetrikaSPA';
 const inter = Inter({ subsets: ['latin'] });
+
 
 export const metadata = {
   metadataBase: new URL('https://aqua-service-karelia.ru/'),
@@ -46,8 +49,7 @@ export default function RootLayout({ children }: LayoutProps) {
       <body className="bg-white">
         {children}
 
-        {/* Yandex.Metrika counter */}
-        {/* Основной скрипт загружается с помощью next/script - это правильно */}
+        {/* Yandex.Metrika counter - Основной скрипт */}
         <Script id="yandex-metrika" strategy="afterInteractive">
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -57,6 +59,7 @@ export default function RootLayout({ children }: LayoutProps) {
             (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
             ym(101237027, "init", { // Проверьте ваш номер счетчика
+                  defer: true,
                   clickmap:true,
                   trackLinks:true,
                   accurateTrackBounce:true,
@@ -67,7 +70,7 @@ export default function RootLayout({ children }: LayoutProps) {
         {/* <noscript> часть с обычным HTML тегом <img> */}
         <noscript>
           <div>
-            {/* Здесь используем стандартный <img> тег, а не next/image */}
+            {/* eslint-disable-next-line @next/next/no-img-element */} {/* <-- Убедитесь, что эта строка ТОЛЬКО такая */}
             <img
               src="https://mc.yandex.ru/watch/101237027" // Проверьте ваш номер счетчика
               style={{ position: 'absolute', left: '-9999px' }}
@@ -77,8 +80,14 @@ export default function RootLayout({ children }: LayoutProps) {
         </noscript>
         {/* /Yandex.Metrika counter */}
 
+        {/* Yandex.Metrika SPA page view tracker */}
+        <Suspense fallback={null}>
+          <YandexMetrikaSPA />
+        </Suspense>
+        {/* /Yandex.Metrika SPA page view tracker */}
+
+
         {/* Google Analytics counter */}
-        {/* Загружается с помощью @next/third-parties/google - это правильно */}
         <GoogleAnalytics gaId="G-0YHV1T38RB" />
         {/* /Google Analytics counter */}
       </body>
