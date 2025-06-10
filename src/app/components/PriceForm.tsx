@@ -1,6 +1,6 @@
 'use client';
 import { useState, useCallback, useEffect } from 'react';
-import { FiUser, FiPhone, FiMail, FiMapPin, FiCheckCircle, FiX, FiChevronDown, FiUpload } from 'react-icons/fi';
+import { FiUser, FiPhone, FiMapPin, FiCheckCircle, FiX, FiChevronDown, FiUpload } from 'react-icons/fi';
 import { IMaskInput } from 'react-imask';
 
 interface YandexSuggestion {
@@ -15,7 +15,6 @@ const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const PriceForm = () => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,10 +28,10 @@ const PriceForm = () => {
     const services = [
         'Консультация',
         'Бурение скважины',
-        'Очистка воды',
+        'Установка систем водоочистки', // <-- Изменено для ясности
         'Монтаж канализации',
         'Подбор оборудования',
-        'Химический анализ'
+        'Химический анализ воды', // <-- Изменено для ясности
     ];
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +60,8 @@ const PriceForm = () => {
     };
 
     useEffect(() => {
-        if (selectedService !== 'Очистка воды') {
+        // Очищать файл только если выбранная услуга НЕ "Химический анализ воды"
+        if (selectedService !== 'Химический анализ воды') {
             setFile(null);
             setFileError('');
         }
@@ -94,11 +94,10 @@ const PriceForm = () => {
         const errors = [];
         if (!name.trim()) errors.push('Имя');
         if (!phone.match(/^\+7 \(\d{3}\) \d{3}-\d{4}$/)) errors.push('Телефон');
-        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errors.push('Email');
         if (!address.trim()) errors.push('Адрес');
         if (!preferredContact.trim()) errors.push('Способ связи');
         return errors;
-    }, [name, phone, email, address, preferredContact]);
+    }, [name, phone, address, preferredContact]);
 
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
@@ -148,7 +147,6 @@ const PriceForm = () => {
                 body: JSON.stringify({
                     name,
                     phone,
-                    email,
                     address,
                     service: selectedService,
                     file_url: fileUrl,
@@ -164,7 +162,6 @@ const PriceForm = () => {
                 body: JSON.stringify({
                     name,
                     phone,
-                    email,
                     address,
                     service: selectedService,
                     file_url: fileUrl,
@@ -178,12 +175,11 @@ const PriceForm = () => {
         } catch (error) {
             console.error("Ошибка отправки формы:", error);
         }
-    }, [name, phone, email, address, validateForm, file, fileError, selectedService, preferredContact]);
+    }, [name, phone, address, validateForm, file, fileError, selectedService, preferredContact]);
 
     const resetForm = () => {
         setName('');
         setPhone('');
-        setEmail('');
         setAddress('');
         setAddressSuggestions([]);
         setPreferredContact('');
@@ -232,7 +228,7 @@ const PriceForm = () => {
                             <select
                                 value={selectedService}
                                 onChange={(e) => setSelectedService(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 border-2 border-[#218CE9]/20 rounded-[62px] 
+                                className="w-full pl-12 pr-4 py-4 border-2 border-[#218CE9]/20 rounded-[62px]
                         bg-white text-gray-700 focus:ring-2 focus:ring-[#218CE9]
                         appearance-none focus:outline-none"
                                 required
@@ -244,6 +240,12 @@ const PriceForm = () => {
                             </select>
                             <FiChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-[#666]" />
                         </div>
+                        {/* --- НАЧАЛО ДОБАВЛЕННОГО БЛОКА ПОДСКАЗКИ О ФАЙЛЕ --- */}
+                        <p className="text-xs text-gray-500 mt-2 ml-4 flex items-center">
+                            <FiUpload className="w-4 h-4 mr-1 text-[#218CE9] flex-shrink-0" />
+                            Для услуги <span className="text-gray-700 ml-1 mr-1 font-semibold">{'Химический анализ воды'}</span> вы сможете прикрепить файл с результатами.
+                        </p>
+                        {/* --- КОНЕЦ ДОБАВЛЕННОГО БЛОКА --- */}
                     </div>
 
                     {/* Новое поле для выбора способа связи */}
@@ -272,11 +274,11 @@ const PriceForm = () => {
                             icon: FiUser,
                             placeholder: 'Ваше имя',
                             component: (
-                                <IMaskInput
-                                    mask={/^[A-Za-zА-Яа-яЁё\s-]*$/}
+                                <input
+                                    type="text"
                                     placeholder="Ваше имя"
                                     value={name}
-                                    onAccept={(value) => setName(value)}
+                                    onChange={e => setName(e.target.value)}
                                     className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
                                     required
                                 />
@@ -284,29 +286,13 @@ const PriceForm = () => {
                         },
                         {
                             icon: FiPhone,
-                            placeholder: '+7 (___) ___-____',
+                            placeholder: 'Телефон',
                             component: (
                                 <IMaskInput
-                                    mask="+7 (000) 000-0000"
-                                    placeholder="+7 (___) ___-____"
+                                    mask={'+7 (000) 000-0000'}
+                                    placeholder="Телефон"
                                     value={phone}
-                                    onAccept={(value) => setPhone(value.toString())}
-                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
-                                    required
-                                />
-                            )
-                        },
-                        {
-                            icon: FiMail,
-                            placeholder: 'Ваш email',
-                            component: (
-                                <IMaskInput
-                                    mask={/^[\w-.@]*$/}
-                                    placeholder="Ваш email"
-                                    value={email}
-                                    onAccept={(value) => {
-                                        if (value.length <= 254) setEmail(value);
-                                    }}
+                                    onAccept={value => setPhone(value)}
                                     className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
                                     required
                                 />
@@ -350,33 +336,35 @@ const PriceForm = () => {
                         </div>
                     ))}
 
+                    {/* Блок для прикрепления файла (только для "Химический анализ воды") */}
                     <div className="relative">
-                        {selectedService === 'Очистка воды' && (
-                            <label className="block text-sm font-medium text-[#666] mb-2 ml-4">
-                                Прикрепить файл (анализ воды) *
-                            </label>
-                        )}
-
-                        {selectedService === 'Очистка воды' && (
-                            <div className="relative group">
-                                <input
-                                    type="file"
-                                    onChange={handleFileUpload}
-                                    className="w-full opacity-0 absolute z-20 cursor-pointer h-full"
-                                    id="fileInput"
-                                    accept=".pdf,.doc,.docx,image/*"
-                                    required
-                                />
-                                <label
-                                    htmlFor="fileInput"
-                                    className="block w-full pl-12 pr-4 py-4 border-2 border-[#218CE9]/20 
-          rounded-[62px] bg-white text-gray-400 cursor-pointer
-          group-hover:border-[#218CE9]/40 transition-all"
-                                >
-                                    {file ? file.name : 'Выберите файл...'}
+                        {selectedService === 'Химический анализ воды' && (
+                            <>
+                                <label htmlFor="fileInput" className="text-sm font-medium text-[#218CE9] mb-2 ml-4 flex items-center gap-2 cursor-pointer">
+                                    <FiUpload className="w-5 h-5 mr-1" />
+                                    <span>Прикрепить файл с результатами анализа воды *</span>
                                 </label>
-                                <FiUpload className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666]" />
-                            </div>
+                                <p className="text-xs text-gray-500 mb-2 ml-4">
+                                    Это поможет подобрать систему водоочистки. Допустимые форматы: PDF, DOC, DOCX, JPG, PNG.
+                                </p>
+                                <div className="relative group">
+                                    <input
+                                        type="file"
+                                        onChange={handleFileUpload}
+                                        className="w-full opacity-0 absolute z-20 cursor-pointer h-full"
+                                        id="fileInput"
+                                        accept=".pdf,.doc,.docx,image/*"
+                                        required={selectedService === 'Химический анализ воды'}
+                                    />
+                                    <label
+                                        htmlFor="fileInput"
+                                        className="block w-full pl-12 pr-4 py-4 border-2 border-[#218CE9]/20 rounded-[62px] bg-white text-gray-400 cursor-pointer group-hover:border-[#218CE9]/40 transition-all items-center gap-2 justify-center"
+                                    >
+                                        <FiUpload className="w-6 h-6 mr-2 text-[#218CE9]" />
+                                        {file ? file.name : 'Выберите файл или перетащите сюда'}
+                                    </label>
+                                </div>
+                            </>
                         )}
 
                         {fileError && (

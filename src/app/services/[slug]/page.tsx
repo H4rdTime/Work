@@ -43,6 +43,10 @@ export default async function ServicePage({
             );
         }
 
+        // --- ДОБАВЬТЕ ЭТУ КОНСТАНТУ С ПРАВИЛЬНЫМ SLUG ИЗ SUPABASE ---
+        const DRILLING_SERVICE_SLUG = 'well-drilling'; // <--- ВАЖНО: замените на реальный SLUG вашей услуги "Бурение скважин"
+        // --- КОНЕЦ КОНСТАНТЫ ---
+
         return (
             <main className="min-h-screen bg-gradient-to-b from-white to-blue-50">
                 <Header />
@@ -83,32 +87,90 @@ export default async function ServicePage({
                                 <p className="text-lg leading-relaxed">{service.description}</p>
                             </div>
 
-                            {/* Блок преимуществ */}
-                            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-[#218CE9]/10">
-                                <div className="flex items-baseline gap-4 mb-6">
-                                    <span className="text-2xl md:text-3xl font-bold text-[#218CE9]">
-                                        от {service.price.toLocaleString('ru-RU')} ₽
-                                    </span>
-                                    <span className="text-gray-500">·</span>
-                                    <span className="text-gray-600">Гарантия 2 года</span>
-                                </div>
+                            {service.slug === DRILLING_SERVICE_SLUG ? (
+                                // БЛОК ДЛЯ УСЛУГИ "БУРЕНИЕ СКВАЖИНЫ"
+                                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-[#218CE9]/10">
+                                    <div className="mb-6">
 
-                                {service.area_served?.length > 0 && (
-                                    <div className="border-t border-[#218CE9]/10 pt-6">
-                                        <h3 className="text-xl font-semibold text-[#218CE9] mb-4">
-                                            Доступно в регионах:
-                                        </h3>
-                                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                            {service.area_served.map((area: string, index: number) => (
-                                                <li key={index} className="flex items-start gap-2">
-                                                    <FiCheckCircle className="text-[#218CE9] mt-1 flex-shrink-0" />
-                                                    <span className="text-gray-600">{area}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                        {/* Основная цена услуги */}
+                                        <p className="text-xl md:text-2xl font-bold text-gray-800">
+                                            Стоимость услуги: <span className="text-[#218CE9]">от {service.price.toLocaleString('ru-RU')} ₽</span>
+                                        </p>
+
+                                        {/* Цена за метр */}
+                                        <p className="text-xl md:text-2xl font-bold text-gray-800 mt-2">
+                                            Бурение за метр: <span className="text-[#218CE9]">от 2500 ₽</span>
+                                        </p>
+
+                                        {/* Гарантия */}
+                                        <p className="text-gray-600 text-base mt-4">
+                                            Гарантия: 1 год.
+                                        </p>
                                     </div>
-                                )}
-                            </div>
+
+                                    {/* Разделительная линия */}
+                                    <div className="border-t border-[#218CE9]/10 my-6"></div>
+
+                                    {/* Раздел "Как формируется стоимость" */}
+                                    <div>
+                                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                                            Как формируется стоимость:
+                                        </h3>
+                                        <ul className="list-disc pl-5 space-y-2 text-gray-600 text-base leading-relaxed">
+                                            <li><strong className="text-gray-700">Глубина скважины:</strong> чем глубже скважина, тем выше общая стоимость бурения.</li>
+                                            <li><strong className="text-gray-700">Удаленность и региональные особенности:</strong> цена может варьироваться в зависимости от местоположения вашего объекта в Республике Карелия, учитывая логистику и региональные факторы ценообразования.</li>
+                                        </ul>
+                                        <p className="text-gray-700 text-base md:text-lg mt-6">
+                                            Для получения максимально точного расчета и детальной консультации, пожалуйста, оставьте заявку через форму ниже. Мы оперативно свяжемся с вами и предложим оптимальное решение, учитывающее все особенности вашего участка и потребности!
+                                        </p>
+                                    </div>
+
+                                    {/* Блок с регионами, если он существует (оставляем без изменений) */}
+                                    {service.area_served?.length > 0 && (
+                                        <div className="border-t border-[#218CE9]/10 pt-6 mt-6">
+                                            <h3 className="text-xl font-semibold text-[#218CE9] mb-4">
+                                                Доступно в регионах:
+                                            </h3>
+                                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                {service.area_served.map((area: string, index: number) => (
+                                                    <li key={index} className="flex items-start gap-2">
+                                                        <FiCheckCircle className="text-[#218CE9] mt-1 flex-shrink-0" />
+                                                        <span className="text-gray-600">{area}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                // БЛОК ДЛЯ ВСЕХ ОСТАЛЬНЫХ УСЛУГ (ОСТАВЛЯЕМ КАК БЫЛ ДО ПРЕДЫДУЩИХ ИЗМЕНЕНИЙ)
+                                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-[#218CE9]/10">
+                                    <div className="flex items-baseline gap-4 mb-6">
+                                        <span className="text-2xl md:text-3xl font-bold text-[#218CE9]">
+                                            от {service.price.toLocaleString('ru-RU')} ₽
+                                        </span>
+                                        <span className="text-gray-500">·</span>
+                                        <span className="text-gray-600">Гарантия 2 года</span>
+                                    </div>
+
+                                    {service.area_served?.length > 0 && (
+                                        <div className="border-t border-[#218CE9]/10 pt-6">
+                                            <h3 className="text-xl font-semibold text-[#218CE9] mb-4">
+                                                Доступно в регионах:
+                                            </h3>
+                                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                {service.area_served.map((area: string, index: number) => (
+                                                    <li key={index} className="flex items-start gap-2">
+                                                        <FiCheckCircle className="text-[#218CE9] mt-1 flex-shrink-0" />
+                                                        <span className="text-gray-600">{area}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                         </div>
                     </div>
                     <PriceForm />

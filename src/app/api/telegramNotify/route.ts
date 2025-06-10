@@ -2,37 +2,59 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-        const { name, phone, email, address, service, file_url, preferred_contact } = await req.json();
+        // Деструктурируем с предоставлением значений по умолчанию, если поля отсутствуют
+        const { 
+            name = 'Не указано', 
+            phone = 'Не указан', 
+            email = 'Не указан', // <-- Установили значение по умолчанию
+            address = 'Не указан', 
+            service = 'Не выбрана', 
+            file_url, // file_url может быть undefined, это нормально
+            preferred_contact = 'Не указан' 
+        } = await req.json();
 
         const token = process.env.TELEGRAM_BOT_TOKEN;
         const chatIdsStr = process.env.TELEGRAM_CHAT_IDS;
         if (!token || !chatIdsStr) {
-            console.error("Отсутствуют переменные окружения");
+            console.error("Отсутствуют переменные окружения: TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_IDS"); // Уточняем сообщение
             return NextResponse.json({ error: "Ошибка конфигурации сервера" }, { status: 500 });
         }
 
         const chatIds = chatIdsStr.split(',').map(id => id.trim());
 
-        // Escape underscores in the email address
-        const escapedEmail = email.replace(/_/g, '\\_');
+        // Экранирование подчеркиваний только если email не "Не указан"
+        // И также экранировать точки, так как они могут быть интерпретированы как Markdown
+        const displayEmail = (email === 'Не указан' || !email.trim()) 
+                             ? 'Не указан' 
+                             : email.replace(/_/g, '\\_').replace(/\./g, '\\.'); // <-- Улучшенное экранирование
 
         // Формируем сообщение с Markdown-разметкой, добавляя способ связи
         let message = `
 📌 *Новая заявка!*
 
-👤 *Имя:* ${name || 'Не указано'}
-📞 *Телефон:* \`${phone || 'Не указан'}\`
-📧 *Email:* ${escapedEmail || 'Не указан'}
-📍 *Адрес:* ${address || 'Не указан'}
-🛠 *Услуга:* ${service || 'Не выбрана'}
-🗣 *Способ связи:* ${preferred_contact || 'Не указан'}
+👤 *Имя:* ${name}
+📞 *Телефон:* \`${phone}\`
+📧 *Email:* ${displayEmail}
+📍 *Адрес:* ${address}
+🛠 *Услуга:* ${service}
+🗣 *Способ связи:* ${preferred_contact}
         `;
 
         if (file_url) {
-            message += `\n📎 *Файл:* [Скачать анализ](${file_url})`;
+            // URL в Markdown должен быть в формате [текст](ссылка)
+            // И сам URL не должен содержать пробелов или спецсимволов без экранирования
+            // Лучше просто передать URL, Telegram сам его сделает кликабельным
+            message += `\n📎 *Файл:* ${file_url}`;
         }
 
         const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+
+        // Добавим больше логов для отладки
+        console.log('Sending message to Telegram:', {
+            chat_ids: chatIds,
+            message_text: message,
+            parse_mode: "Markdown"
+        });
 
         const results = await Promise.allSettled(
             chatIds.map(async (chatId) => {
@@ -45,14 +67,16 @@ export async function POST(req: NextRequest) {
                     body: JSON.stringify({
                         chat_id: chatId,
                         text: message,
-                        parse_mode: "Markdown",
+                        parse_mode: "Markdown", // Или "MarkdownV2" если вы используете все его возможности
                         disable_web_page_preview: true
                     })
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`Chat ${chatId}: ${errorData.description}`);
+                    // Логируем ошибку с конкретным chatId
+                    console.error(`Telegram API Error for chat ${chatId}:`, errorData);
+                    throw new Error(`Chat ${chatId}: ${errorData.description || 'Unknown error'}`);
                 }
                 return response.json();
             })
@@ -73,8 +97,9 @@ export async function POST(req: NextRequest) {
         });
 
     } catch (error) {
-        console.error("Ошибка API:", error);
+        console.error("Критическая ошибка в API роуте /api/telegramNotify:", error); // Уточняем сообщение
         return NextResponse.json({
+            success: false, // Добавим success:false для ясности на фронте
             error: "Внутренняя ошибка сервера",
             details: error instanceof Error ? error.message : 'Unknown error'
         }, { status: 500 });

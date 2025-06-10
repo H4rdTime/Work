@@ -10,6 +10,7 @@ import PriceForm from './components/PriceForm';
 import Footer from './components/Footer';
 import FullscreenSlider from './components/FullscreenSlider';
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
+import ProjectsSlider from './components/ProjectsSlider'; // Импортируем ProjectsSlider
 
 // Динамический импорт MapSection с отключённым SSR
 const MapSection = dynamic(() => import('./components/MapSection').then(mod => mod.default), { ssr: false });
@@ -41,10 +42,11 @@ export default function Home() {
       <Header />
       <FullscreenSlider
         scrollToForm={scrollToForm}
-        scrollToMap={scrollToMap} // Добавляем новый пропс
+        scrollToMap={scrollToMap}
       />
       <MapSection />
       <PriceForm />
+      <ProjectsSlider /> 
       <ServicesSlider />
       <EquipmentSlider />
       <Advantages />

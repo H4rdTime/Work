@@ -31,6 +31,7 @@ const Header = () => {
     { href: "/", text: "Главная" },
     { href: "/services", text: "Услуги" },
     { href: "/equipment", text: "Оборудование" },
+    { href: "/projects", text: "Проекты" },
     { href: "/about", text: "О нас" },
     { href: "/blog", text: "Блог" },
     { href: "/contacts", text: "Контакты" },
@@ -126,7 +127,7 @@ const Header = () => {
               </Link>
             </div>
 
-            
+
           </div>
         </div>
       </header>

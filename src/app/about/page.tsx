@@ -8,13 +8,29 @@ import EquipmentSlider from "../components/EquipmentSlider";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from 'embla-carousel-autoplay';
+import { supabase } from '@/lib/supabase'; // <-- ДОБАВЛЕНО
+import Link from 'next/link'; // <-- ДОБАВЛЕНО для ссылки на детальную страницу проекта
 import { useEffect, useState } from 'react';
+
+// Определяем интерфейс для данных проекта, аналогичный ProjectDetail в projects/[slug]/page.tsx
+interface Project {
+  id: string;
+  title: string;
+  slug: string;
+  location?: string;
+  short_description?: string;
+  main_image_url?: string;
+  video_url?: string;
+  depth?: number;
+}
 
 export default function AboutPage() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000 })
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [projects, setProjects] = useState<Project[]>([]); // <-- ДОБАВЛЕНО
+  const [loadingProjects, setLoadingProjects] = useState(true); // <-- ДОБАВЛЕНО
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -27,6 +43,27 @@ export default function AboutPage() {
       emblaApi.off('select', updateIndex);
     };
   }, [emblaApi]);
+
+  // <-- ДОБАВЛЕН НОВЫЙ useEffect ДЛЯ ЗАГРУЗКИ ПРОЕКТОВ
+  useEffect(() => {
+    async function fetchProjects() {
+      setLoadingProjects(true);
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('id, title, slug, main_image_url, location, depth')
+          .order('created_at', { ascending: false })
+          .limit(4);
+        if (error) throw error;
+        setProjects(data || []);
+      } catch (err) {
+        console.error('Ошибка загрузки проектов для AboutPage:', err);
+      } finally {
+        setLoadingProjects(false);
+      }
+    }
+    fetchProjects();
+  }, []);
 
   return (
     <main className="flex flex-col min-h-screen">
@@ -79,33 +116,47 @@ export default function AboutPage() {
             <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg">
               <div className="embla overflow-hidden" ref={emblaRef}>
                 <div className="embla__container flex">
-                  {[
-                    '/images/about/equipment-1.jpg',
-                    '/images/about/process-1.jpg',
-                    '/images/about/team-1.jpg',
-                    '/images/about/result-1.jpg'
-                  ].map((img, index) => (
-                    <div className="embla__slide flex-[0_0_100%] min-w-0" key={index}>
-                      <Image
-                        src={img}
-                        alt={`Пример работы ${index + 1}`}
-                        width={1600}
-                        height={900}
-                        className="w-full h-full object-cover"
-                      />
+                  {loadingProjects ? (
+                    <div className="embla__slide flex-[0_0_100%] min-w-0 flex items-center justify-center bg-gray-200 animate-pulse text-gray-500">
+                      Загрузка проектов...
                     </div>
-                  ))}
+                  ) : projects.length > 0 ? (
+                    projects.map((project) => (
+                      <div className="embla__slide flex-[0_0_100%] min-w-0" key={project.id}>
+                        {project.main_image_url ? (
+                          <Link href={`/projects/${project.slug}`} className="block relative w-full h-full">
+                            <Image
+                              src={project.main_image_url}
+                              alt={project.title}
+                              width={1600}
+                              height={900}
+                              className="w-full h-full object-cover"
+                            />
+                            {/* Структурированный текст: фиксированное позиционирование блока с данными */}
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-white flex flex-col gap-1">
+                              <h3 className="text-xl md:text-2xl font-bold mb-1">{project.title}</h3>
+                              {project.location && <p className="text-sm opacity-90 mb-0">{project.location}</p>}
+                              {project.depth && <p className="text-sm opacity-90 mb-0">Глубина: {project.depth} м</p>}
+                            </div>
+                          </Link>
+                        ) : (
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+                            Нет изображения
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="embla__slide flex-[0_0_100%] min-w-0 flex items-center justify-center bg-gray-100 text-gray-500">
+                      Проекты пока не добавлены.
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Навигационные точки */}
               <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                {[
-                  '/images/about/equipment-1.jpg',
-                  '/images/about/process-1.jpg',
-                  '/images/about/team-1.jpg',
-                  '/images/about/result-1.jpg'
-                ].map((_, index) => (
+                {projects.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => emblaApi?.scrollTo(index)}
