@@ -17,7 +17,6 @@
     "@next/third-parties": "^15.2.1",
     "@supabase/supabase-js": "^2.49.1",
     "@types/react-input-mask": "^3.0.6",
-    "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.7.9",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
