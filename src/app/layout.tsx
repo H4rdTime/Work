@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactNode, Suspense } from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script';
 // import Image from 'next/image'; // Импорт Image должен быть удален, если не используется
 
@@ -49,7 +48,6 @@ export default function RootLayout({ children }: LayoutProps) {
     <html lang="ru" suppressHydrationWarning className={`${inter.className} antialiased`}>
       <body className="bg-white">
         {children}
-        <SpeedInsights />
 
         {/* Yandex.Metrika counter - Основной скрипт */}
         <Script id="yandex-metrika" strategy="afterInteractive">
