@@ -7,7 +7,7 @@ import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Image from 'next/image'
-import { FiArrowRight, FiCheckCircle, FiMapPin, FiStar, FiClock } from 'react-icons/fi'
+import { FiArrowRight, FiCheckCircle, FiStar, FiClock } from 'react-icons/fi'
 
 const FullscreenSlider = ({
   scrollToForm,
@@ -16,19 +16,19 @@ const FullscreenSlider = ({
   scrollToForm: () => void;
   scrollToMap: () => void;
 }) => {
-  const cities = [
-    { name: 'Петрозаводск', lat: 61.7849, lon: 34.3469 },
-    { name: 'Кондопога', lat: 62.20595, lon: 34.26817 },
-    { name: 'Пряжа', lat: 61.6928, lon: 33.6195 },
-    { name: 'Шуя', lat: 61.8980, lon: 34.2401 },
-    { name: 'Новая Вилга', lat: 61.8106, lon: 34.1511 },
-    { name: 'Сортавала', lat: 61.7045, lon: 30.6879 },
-    { name: 'Питкяранта', lat: 61.5684, lon: 31.4781 },
-    { name: 'Олонец', lat: 60.9848, lon: 32.9724 },
-    { name: 'Суоярви', lat: 62.0879, lon: 32.3733 },
-    { name: 'Сегежа', lat: 63.7437, lon: 34.3126 },
-    { name: 'Надвоицы', lat: 63.8925, lon: 34.2641 },
-  ];
+  // const cities = [
+  //   { name: 'Петрозаводск', lat: 61.7849, lon: 34.3469 },
+  //   { name: 'Кондопога', lat: 62.20595, lon: 34.26817 },
+  //   { name: 'Пряжа', lat: 61.6928, lon: 33.6195 },
+  //   { name: 'Шуя', lat: 61.8980, lon: 34.2401 },
+  //   { name: 'Новая Вилга', lat: 61.8106, lon: 34.1511 },
+  //   { name: 'Сортавала', lat: 61.7045, lon: 30.6879 },
+  //   { name: 'Питкяранта', lat: 61.5684, lon: 31.4781 },
+  //   { name: 'Олонец', lat: 60.9848, lon: 32.9724 },
+  //   { name: 'Суоярви', lat: 62.0879, lon: 32.3733 },
+  //   { name: 'Сегежа', lat: 63.7437, lon: 34.3126 },
+  //   { name: 'Надвоицы', lat: 63.8925, lon: 34.2641 },
+  // ];
 
   return (
     <div className="relative">
