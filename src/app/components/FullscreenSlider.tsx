@@ -42,7 +42,7 @@ const FullscreenSlider = ({
         className="h-screen w-full"
       >
         <SwiperSlide className="relative bg-gradient-to-b from-blue-900 to-cyan-900 overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/path-to-noise-texture.png')] opacity-5"></div>
+          <div className="absolute inset-0 bg-transparent opacity-5"></div>
           <div className="container mx-auto h-full flex flex-col justify-center px-4 py-12">
             <div className="grid md:grid-cols-2 gap-8 items-center w-full max-w-7xl mx-auto">
               <div className="text-left space-y-6 md:space-y-8 z-10">
