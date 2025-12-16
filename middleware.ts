@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
     "style-src 'self' 'unsafe-inline' https://yastatic.net https://fonts.googleapis.com",
     "img-src 'self' data: https://*.supabase.co https://yastatic.net https://mc.yandex.ru",
     "font-src 'self' data: https://yastatic.net https://fonts.gstatic.com",
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://api-maps.yandex.ru https://www.google-analytics.com",
+    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://api-maps.yandex.ru https://www.google-analytics.com https://region1.google-analytics.com",
     "frame-src 'self' https://yandex.ru https://api-maps.yandex.ru",
   ]
   const cspHeader = cspDirectives.join('; ')
