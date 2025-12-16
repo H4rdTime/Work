@@ -7,7 +7,8 @@ export function middleware(request: NextRequest) {
   const cspDirectives = [
     "default-src 'self'",
     // allow site scripts, Google Tag Manager and Yandex resources
-    `script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net https://api-maps.yandex.ru`,
+    // allow unsafe-inline to avoid blocking framework-injected inline scripts (hydration, next/runtime)
+    `script-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net https://api-maps.yandex.ru`,
     "style-src 'self' 'unsafe-inline' https://yastatic.net",
     "img-src 'self' data: https://yastatic.net https://mc.yandex.ru",
     "font-src 'self' data: https://yastatic.net",
