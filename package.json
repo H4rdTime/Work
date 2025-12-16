@@ -14,7 +14,7 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
-    "@next/third-parties": "^15.2.1",
+    "@next/third-parties": "^16.0.0",
     "@supabase/supabase-js": "^2.49.1",
     "@types/react-input-mask": "^3.0.6",
     "@vercel/speed-insights": "^1.2.0",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@next/bundle-analyzer": "^15.2.1",
+    "@next/bundle-analyzer": "^16.0.0",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19",
