@@ -2,6 +2,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ReactNode, Suspense } from 'react';
+import { cookies } from 'next/headers';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script';
@@ -44,7 +45,9 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-export default function RootLayout({ children }: LayoutProps) {
+export default async function RootLayout({ children }: LayoutProps) {
+  const cookieStore = await cookies();
+  const nonce = cookieStore.get('csp-nonce')?.value;
   return (
     <html lang="ru" suppressHydrationWarning className={`${inter.className} antialiased`}>
       <body className="bg-white">
@@ -52,7 +55,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <SpeedInsights />
 
         {/* Yandex.Metrika counter - Основной скрипт */}
-        <Script id="yandex-metrika" strategy="afterInteractive">
+        <Script id="yandex-metrika" strategy="afterInteractive" nonce={nonce}>
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();
