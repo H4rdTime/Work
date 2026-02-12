@@ -8,7 +8,7 @@ import Advantages from './components/Advantages';
 import WorkSteps from './components/WorkSteps';
 import PriceForm from './components/PriceForm';
 import Footer from './components/Footer';
-import FullscreenSlider from './components/FullscreenSlider';
+import HeroSection from './components/HeroSection';
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
 import ProjectsSlider from './components/ProjectsSlider'; // Импортируем ProjectsSlider
 
@@ -40,13 +40,10 @@ export default function Home() {
     <main>
       <LocalBusinessSchema />
       <Header />
-      <FullscreenSlider
-        scrollToForm={scrollToForm}
-        scrollToMap={scrollToMap}
-      />
+      <HeroSection scrollToForm={scrollToForm} />
       <MapSection />
       <PriceForm />
-      <ProjectsSlider /> 
+      <ProjectsSlider />
       <ServicesSlider />
       <EquipmentSlider />
       <Advantages />

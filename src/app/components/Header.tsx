@@ -65,7 +65,7 @@ const Header = () => {
 
           <div className="flex items-center space-x-1.5">
             <FiMail className="w-3 h-3 sm:w-4 sm:h-4" />
-            <a href="mailto:info@aqua-ptz.ru" className="hover:text-[#218CE9] truncate max-w-[120px]">info@aqua-ptz.ru</a>
+            <a href="mailto:aquaptz@mail.ru" className="hover:text-[#218CE9] truncate max-w-[120px]">aquaptz@mail.ru</a>
           </div>
 
         </div>

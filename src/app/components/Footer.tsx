@@ -32,8 +32,8 @@ const Footer = () => {
 
               <div className="flex items-center gap-3">
                 <FiMail className="w-5 h-5 text-[#218CE9]" />
-                <a href="mailto:info@aqua-ptz.ru" className="text-gray-600 hover:text-[#218CE9]">
-                  info@aqua-ptz.ru
+                <a href="mailto:aquaptz@mail.ru" className="text-gray-600 hover:text-[#218CE9]">
+                  aquaptz@mail.ru
                 </a>
               </div>
 

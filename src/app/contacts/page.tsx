@@ -46,7 +46,7 @@ const Contacts = () => {
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiMail className="text-[#218CE9]" />
-                                <a href="mailto:info@aqua-ptz.ru" className="hover:text-[#218CE9]">info@aqua-ptz.ru</a>
+                                <a href="mailto:aquaptz@mail.ru" className="hover:text-[#218CE9]">aquaptz@mail.ru</a>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiClock className="text-[#218CE9]" />
