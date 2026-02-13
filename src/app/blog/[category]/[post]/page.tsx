@@ -5,6 +5,7 @@ import Script from 'next/script';
 import Header from '../../../components/Header';
 import Image from 'next/image';
 import Head from 'next/head';
+import { FiArrowRight } from 'react-icons/fi';
 
 export async function generateStaticParams() {
     const { data: posts, error } = await supabase
@@ -14,10 +15,13 @@ export async function generateStaticParams() {
 
     if (error) return [];
 
-    return posts.map((post) => ({
-        category: post.blog_categories[0]?.slug || '',
-        post: post.slug
-    })).filter(p => p.category);
+    return posts.map((post) => {
+        const cat = Array.isArray(post.blog_categories) ? post.blog_categories[0] : post.blog_categories;
+        return {
+            category: cat?.slug || '',
+            post: post.slug
+        };
+    }).filter(p => p.category);
 }
 
 // Обновляем интерфейс PageParams
@@ -115,38 +119,19 @@ export default async function PostPage({ params }: PageParams) {
 
             <section className="container mx-auto px-4 py-8 max-w-4xl">
                 {/* Хлебные крошки */}
-                <nav className="mb-8 text-sm text-gray-500" aria-label="Навигация">
-                    <ol className="flex flex-wrap items-center space-x-2">
+                <nav className="mb-6 md:mb-8 text-sm text-gray-600">
+                    <ol className="flex flex-wrap items-center gap-2">
+                        <li><Link href="/" className="hover:text-[#218CE9] transition-colors">Главная</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li><Link href="/blog" className="hover:text-[#218CE9] transition-colors">Блог</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
                         <li>
-                            <Link
-                                href="/"
-                                className="hover:text-[#218CE9] transition-colors"
-                            >
-                                Главная
+                            <Link href={`/blog/${category}`} className="hover:text-[#218CE9] transition-colors">
+                                {(Array.isArray(blogPost.blog_categories) ? blogPost.blog_categories[0]?.title : blogPost.blog_categories?.title) || category}
                             </Link>
                         </li>
-                        <li>/</li>
-                        <li>
-                            <Link
-                                href="/blog"
-                                className="hover:text-[#218CE9] transition-colors"
-                            >
-                                Блог
-                            </Link>
-                        </li>
-                        <li>/</li>
-                        <li>
-                            <Link
-                                href={`/blog/${category}`}
-                                className="hover:text-[#218CE9] transition-colors"
-                            >
-                                {blogPost.blog_categories.title || category}
-                            </Link>
-                        </li>
-                        <li>/</li>
-                        <li className="text-gray-400 truncate max-w-[200px]">
-                            {blogPost.title}
-                        </li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li className="text-[#218CE9] font-medium truncate max-w-[200px]">{blogPost.title}</li>
                     </ol>
                 </nav>
                 {/* Заголовок и метаданные */}

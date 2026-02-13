@@ -2,6 +2,8 @@
 import { supabase } from '@/lib/supabase';
 import Header from "../components/Header";
 import EquipmentCategoryCard from "../components/EquipmentCategoryCard";
+import Link from 'next/link';
+import { FiArrowRight } from 'react-icons/fi';
 
 interface Category {
   name: string;
@@ -48,6 +50,15 @@ export default async function EquipmentPage() {
     <main>
       <Header />
       <section className="container mx-auto px-4 py-8">
+        {/* Хлебные крошки */}
+        <nav className="mb-6 md:mb-8 text-sm text-gray-600">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li><Link href="/" className="hover:text-[#218CE9] transition-colors">Главная</Link></li>
+            <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+            <li className="text-[#218CE9] font-medium">Оборудование</li>
+          </ol>
+        </nav>
+
         <h1 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8">
           Категории оборудования
         </h1>
@@ -55,7 +66,7 @@ export default async function EquipmentPage() {
         {categories.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category) => (
-              <EquipmentCategoryCard 
+              <EquipmentCategoryCard
                 key={category.name}
                 category={category}
               />

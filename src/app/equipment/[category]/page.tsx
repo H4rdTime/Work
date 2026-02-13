@@ -4,6 +4,8 @@ import EquipmentCard from '../../components/EquipmentCard';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import Header from '../../components/Header';
+import Link from 'next/link';
+import { FiArrowRight } from 'react-icons/fi';
 
 export const dynamicParams = false;
 
@@ -59,6 +61,16 @@ export default async function CategoryPage({ params }: CategoryPageParams) {
         <>
             <Header />
             <section className="container mx-auto px-4 py-8">
+                {/* Хлебные крошки */}
+                <nav className="mb-6 md:mb-8 text-sm text-gray-600">
+                    <ol className="flex flex-wrap items-center gap-2">
+                        <li><Link href="/" className="hover:text-[#218CE9] transition-colors">Главная</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li><Link href="/equipment" className="hover:text-[#218CE9] transition-colors">Оборудование</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li className="text-[#218CE9] font-medium">{decodedCategory}</li>
+                    </ol>
+                </nav>
 
                 {/* Шапка категории */}
                 <div className="mb-8">

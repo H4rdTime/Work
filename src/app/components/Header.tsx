@@ -54,7 +54,7 @@ const Header = () => {
           {/* Центр - Время работы */}
           <div className="flex items-center space-x-1.5">
             <FiClock className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span>пн-пт: 09:00–18:00</span>
+            <span>пн-пт: 09:00 – 17:00</span>
           </div>
 
           {/* Правый блок - Адрес и почта */}
@@ -107,10 +107,10 @@ const Header = () => {
               ))}
             </nav>
             <div className="flex items-center gap-4 px-4">
-              <a href="https://vk.com/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+              {/* <a href="https://vk.com/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaVk className="w-7 h-7" />
-              </a>
-              <a href="https://telegram.org" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+              </a> */}
+              <a href="https://t.me/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaTelegram className="w-7 h-7" />
               </a>
               <a href="https://www.instagram.com/aquaservice.ptz/" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">

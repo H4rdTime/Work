@@ -50,14 +50,14 @@ const Contacts = () => {
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiClock className="text-[#218CE9]" />
-                                <span>пн—пт: 09:00—18:00</span>
+                                <span>пн—пт: 09:00 – 17:00</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             <PriceForm />
-            <Footer/>
+            <Footer />
         </main>
 
     );

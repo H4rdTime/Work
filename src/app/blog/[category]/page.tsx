@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import Header from '../../components/Header';
 import Image from 'next/image';
+import { FiArrowRight } from 'react-icons/fi';
 
 // Define the structure of a post
 interface Post {
@@ -13,6 +14,10 @@ interface Post {
     created_at: string;
     image_url?: string;
     blog_categories: {
+        slug: string;
+        title: string;
+        image_url?: string;
+    } | {
         slug: string;
         title: string;
         image_url?: string;
@@ -35,9 +40,9 @@ export async function generateStaticParams() {
 export default async function CategoryBlogPage({
     params
 }: {
-    params: Promise<{category: string }>
+    params: Promise<{ category: string }>
 }) {
-    const {category} = await params; 
+    const { category } = await params;
     const { data: posts, error } = await supabase
         .from('blog_posts')
         .select(`
@@ -59,20 +64,36 @@ export default async function CategoryBlogPage({
     }
     console.log('Posts data:', JSON.stringify(posts, null, 2));
 
-    const firstPostCategory = posts[0]?.blog_categories?.[0];
+    const firstPostCategory = Array.isArray(posts[0]?.blog_categories)
+        ? posts[0]?.blog_categories[0]
+        : posts[0]?.blog_categories;
+
+    const categoryTitle = firstPostCategory?.title || category;
+
 
     return (
         <main>
             <Header />
 
             <section className="container mx-auto px-4 py-8">
+                {/* Хлебные крошки */}
+                <nav className="mb-6 md:mb-8 text-sm text-gray-600">
+                    <ol className="flex flex-wrap items-center gap-2">
+                        <li><Link href="/" className="hover:text-[#218CE9] transition-colors">Главная</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li><Link href="/blog" className="hover:text-[#218CE9] transition-colors">Блог</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li className="text-[#218CE9] font-medium">{categoryTitle}</li>
+                    </ol>
+                </nav>
+
                 {/* Шапка категории */}
                 <div className="mb-8">
                     <div className="relative h-64 w-full rounded-xl overflow-hidden shadow-lg bg-gray-100">
                         {firstPostCategory?.image_url && (
                             <Image
                                 src={firstPostCategory.image_url}
-                                alt={firstPostCategory.title || category}
+                                alt={categoryTitle}
                                 fill
                                 className="object-cover"
                                 sizes="(max-width: 768px) 100vw, 80vw"
@@ -82,7 +103,7 @@ export default async function CategoryBlogPage({
                         <div className="absolute inset-0 bg-gradient-to-t from-[#218CE9]/80 to-transparent" />
                         <div className="absolute bottom-4 left-4 right-4">
                             <h1 className="text-3xl md:text-4xl font-bold text-white">
-                                {posts[0]?.blog_categories?.title || category}
+                                {categoryTitle}
                             </h1>
                         </div>
                     </div>

@@ -39,7 +39,7 @@ const Footer = () => {
 
               <div className="flex items-center gap-3">
                 <FiClock className="w-5 h-5 text-[#218CE9]" />
-                <p className="text-gray-600">пн-пт: 09:00–18:00</p>
+                <p className="text-gray-600">пн-пт: 09:00 – 17:00</p>
               </div>
             </div>
           </div>
@@ -88,8 +88,8 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-[#218CE9] mb-4">Мы в соцсетях</h3>
             <div className="flex gap-4">
               {[
-                { icon: <FaVk className="w-10 h-10" />, href: 'https://vk.com/aquaservice_ptz', label: 'ВКонтакте' },
-                { icon: <FaTelegram className="w-10 h-10" />, href: '/telegram', label: 'Telegram' },
+                // { icon: <FaVk className="w-10 h-10" />, href: 'https://vk.com/aquaservice_ptz', label: 'ВКонтакте' },
+                { icon: <FaTelegram className="w-10 h-10" />, href: 'https://t.me/aquaservice_ptz', label: 'Telegram' },
                 { icon: <FaInstagram className="w-10 h-10" />, href: 'https://www.instagram.com/aquaservice.ptz/', label: 'Instagram' },
               ].map((item) => (
                 <a

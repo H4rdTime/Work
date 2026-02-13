@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import Header from '../components/Header';
 import Image from 'next/image';
+import { FiArrowRight } from 'react-icons/fi';
 
 export default async function BlogPage() {
     const { data: categories } = await supabase
@@ -14,6 +15,15 @@ export default async function BlogPage() {
             <Header />
 
             <section className="container mx-auto px-4 py-8">
+                {/* Хлебные крошки */}
+                <nav className="mb-6 md:mb-8 text-sm text-gray-600">
+                    <ol className="flex flex-wrap items-center gap-2">
+                        <li><Link href="/" className="hover:text-[#218CE9] transition-colors">Главная</Link></li>
+                        <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+                        <li className="text-[#218CE9] font-medium">Блог</li>
+                    </ol>
+                </nav>
+
                 <h1 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8">
                     Блог о воде и скважинах
                 </h1>

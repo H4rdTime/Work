@@ -79,10 +79,10 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ navLinks }) => {
             </ul>
 
             <div className="flex justify-between gap-4 mt-4 px-6">
-              <a href="https://vk.com/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+              {/* <a href="https://vk.com/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaVk className="w-10 h-10" />
-              </a>
-              <a href="https://telegram.org" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
+              </a> */}
+              <a href="https://t.me/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaTelegram className="w-10 h-10" />
               </a>
               <a href="https://www.instagram.com/aquaservice.ptz/" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">

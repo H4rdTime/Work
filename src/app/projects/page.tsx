@@ -44,6 +44,15 @@ export default async function ProjectsPage() {
     <main className="min-h-screen bg-gradient-to-b from-white to-blue-50">
       <Header />
       <section className="container mx-auto px-4 py-8 md:py-12">
+        {/* Хлебные крошки */}
+        <nav className="mb-6 md:mb-8 text-sm text-gray-600">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li><Link href="/" className="hover:text-[#218CE9] transition-colors">Главная</Link></li>
+            <li><FiArrowRight className="text-[#218CE9]/60" /></li>
+            <li className="text-[#218CE9] font-medium">Проекты</li>
+          </ol>
+        </nav>
+
         <h1 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8">
           Все наши проекты
         </h1>
