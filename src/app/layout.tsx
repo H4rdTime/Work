@@ -10,7 +10,13 @@ import Script from 'next/script';
 
 // Предположим, вы создали этот файл
 import YandexMetrikaSPA from './components/YandexMetrika/YandexMetrikaSPA';
-const inter = Inter({ subsets: ['latin'] });
+// Оптимизация: добавляем display=swap для быстрого отображения системного шрифта
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap', // Улучший CLS и TTFB
+  preload: true,
+  weight: ['400', '500', '600', '700'], // Предварительно загружаем важные веса
+});
 
 
 export const metadata = {
@@ -40,6 +46,9 @@ export const metadata = {
     apple: '/images/apple-touch-icon.png',
   },
 };
+
+// Оптимизация: Добавляем правила кэширования для улучшения TTFB
+export const revalidate = 3600; // ISR: переиндексируем каждый час
 
 interface LayoutProps {
   children: ReactNode;

@@ -75,6 +75,51 @@ const nextConfig = {
               "upgrade-insecure-requests" // Для HTTPS
             ].join("; "),
           },
+          // Оптимизация TTFB: добавляем заголовки кэширования
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+          // Добавляем X-Content-Type-Options для безопасности
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          // Улучшение производительности
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+        ],
+      },
+      // Отдельные правила для изображений - агрессивное кэширование
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Отдельные правила для шрифтов 
+      {
+        source: "/fonts/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Отдельные правила для API эндпоинтов - никакого кэширования
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
         ],
       },
     ];

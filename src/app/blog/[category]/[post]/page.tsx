@@ -3,9 +3,12 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import Script from 'next/script';
 import Header from '../../../components/Header';
-import Image from 'next/image';
 import Head from 'next/head';
 import { FiArrowRight } from 'react-icons/fi';
+import BlogImageOptimized from '../../../../components/BlogImageOptimized';
+
+// Оптимизация TTFB: включить ISR с сокращенным временем кэширования для свежести контента
+export const revalidate = 1800; // Переиндексировать каждые 30 минут
 
 export async function generateStaticParams() {
     const { data: posts, error } = await supabase
@@ -52,7 +55,8 @@ export default async function PostPage({ params }: PageParams) {
         );
     }
 
-    const jsonLd = {
+    // Исправление: включаем image в jsonLd только если оно существует
+    const jsonLdData: Record<string, any> = {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": blogPost.title,
@@ -62,8 +66,14 @@ export default async function PostPage({ params }: PageParams) {
             "@type": "Organization",
             "name": "АкваСервис",
         },
-        "image": blogPost.image_url
     };
+    
+    // Добавляем image только если оно существует
+    if (blogPost.image_url) {
+        jsonLdData.image = `https://aqua-service-karelia.ru/${blogPost.image_url}`;
+    }
+    
+    const jsonLd = jsonLdData;
     console.log('Posts data:', JSON.stringify(blogPost, null, 2));
 
     return (
@@ -90,7 +100,9 @@ export default async function PostPage({ params }: PageParams) {
                 )}
 
                 {/* Дополнительные теги для ВКонтакте */}
-                <meta property="vk:image" content={`https://aqua-service-karelia.ru/${blogPost.image_url}`} />
+                {blogPost.image_url && (
+                    <meta property="vk:image" content={`https://aqua-service-karelia.ru/${blogPost.image_url}`} />
+                )}
                 <meta name="vk:title" content={blogPost.title} />
                 <meta name="vk:description" content={blogPost.excerpt} />
 
@@ -150,19 +162,13 @@ export default async function PostPage({ params }: PageParams) {
                     </div>
                 </div>
 
-                {/* Изображение поста */}
-                {blogPost.image_url && (
-                    <div className="relative h-64 md:h-96 w-full mb-8">
-                        <Image
-                            src={blogPost.image_url}
-                            alt={`Иллюстрация: ${blogPost.title}`} // Описательный alt
-                            fill
-                            className="object-cover rounded-xl"
-                            sizes="(max-width: 768px) 100vw, 80vw"
-                            priority={true} // Приоритетная загрузка для первого изображения
-                        />
-                    </div>
-                )}
+                {/* Изображение поста - использование оптимизированного компонента */}
+                <BlogImageOptimized
+                  src={blogPost.image_url}
+                  alt={`Иллюстрация: ${blogPost.title}`}
+                  title={blogPost.title}
+                  priority={true}
+                />
 
                 {/* Контент */}
                 <article className="prose max-w-none w-full">
