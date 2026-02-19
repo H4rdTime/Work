@@ -1,7 +1,7 @@
 // app/components/ApplicationForm.tsx
 "use client";
 import { useState } from "react";
-import { sendYandexGoal } from "../YandexMetrika/YandexMetrikaSPA";
+import { sendYandexGoal } from "./YandexMetrika/YandexMetrikaSPA";
 
 export default function ApplicationForm() {
   const [formData, setFormData] = useState({
