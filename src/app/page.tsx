@@ -1,5 +1,5 @@
 'use client';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import dynamic from 'next/dynamic';
 import Header from "./components/Header";
 import ServicesSlider from "./components/ServicesSlider";
@@ -8,9 +8,17 @@ import Advantages from './components/Advantages';
 import WorkSteps from './components/WorkSteps';
 import PriceForm from './components/PriceForm';
 import Footer from './components/Footer';
-import HeroSection from './components/HeroSection';
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
-import ProjectsSlider from './components/ProjectsSlider'; // Импортируем ProjectsSlider
+import ProjectsSlider from './components/ProjectsSlider';
+
+// ⚡ Performance: Dynamic import HeroSection для улучшения TTI
+// Компонент загружается после основного контента
+const HeroSection = dynamic(() => import('./components/HeroSection'), {
+  ssr: true,
+  loading: () => (
+    <div className="h-96 bg-gradient-to-b from-blue-50 to-white animate-pulse" />
+  ),
+});
 
 // Динамический импорт MapSection с отключённым SSR
 const MapSection = dynamic(() => import('./components/MapSection').then(mod => mod.default), { ssr: false });

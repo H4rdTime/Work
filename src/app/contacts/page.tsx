@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Script from 'next/script';
 import { FiPhone, FiMail, FiClock, FiMapPin } from 'react-icons/fi';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -9,6 +10,28 @@ import PriceForm from '../components/PriceForm';
 const Contacts = () => {
     return (
         <main>
+            <Script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'ContactPage',
+                  name: 'Контакты АкваСервис',
+                  description: 'Контактная информация и форма обратной связи',
+                  url: 'https://aqua-service-karelia.ru/contacts',
+                  mainEntity: {
+                    '@type': 'LocalBusiness',
+                    name: 'АкваСервис Карелия',
+                    telephone: '+7-921-',
+                    address: {
+                      '@type': 'PostalAddress',
+                      addressCountry: 'RU',
+                      addressRegion: 'Карелия',
+                    },
+                  },
+                }),
+              }}
+            />
             <Header />
             <section className="container mx-auto px-4 py-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8">

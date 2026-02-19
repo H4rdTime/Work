@@ -6,6 +6,7 @@ import Header from '../../../components/Header';
 import Head from 'next/head';
 import { FiArrowRight } from 'react-icons/fi';
 import BlogImageOptimized from '../../../../components/BlogImageOptimized';
+import RelatedPostsSection from '../../../../components/RelatedPostsSection';
 
 // Оптимизация TTFB: включить ISR с сокращенным временем кэширования для свежести контента
 export const revalidate = 1800; // Переиндексировать каждые 30 минут
@@ -55,20 +56,33 @@ export default async function PostPage({ params }: PageParams) {
         );
     }
 
-    // Исправление: включаем image в jsonLd только если оно существует
+    // Улучшенная JSON-LD структура BlogPosting для SEO
     const jsonLdData: Record<string, any> = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "BlogPosting",
         "headline": blogPost.title,
         "description": blogPost.excerpt,
         "datePublished": blogPost.created_at,
+        "dateModified": blogPost.updated_at || blogPost.created_at,
+        "keywords": blogPost.keywords || "анализ воды, скважины, водоснабжение, АкваСервис",
+        "inLanguage": "ru",
         "author": {
             "@type": "Organization",
             "name": "АкваСервис",
+            "url": "https://aqua-service-karelia.ru",
+            "logo": "https://aqua-service-karelia.ru/logo.png"
         },
+        "publisher": {
+            "@type": "Organization",
+            "name": "АкваСервис",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://aqua-service-karelia.ru/logo.png"
+            }
+        }
     };
     
-    // Добавляем image только если оно существует
+    // Добавляем image если существует
     if (blogPost.image_url) {
         jsonLdData.image = `https://aqua-service-karelia.ru/${blogPost.image_url}`;
     }
@@ -178,7 +192,14 @@ export default async function PostPage({ params }: PageParams) {
                     />
                 </article>
 
-                {/* Кнопка возврата */}
+                {/* Related posts for SEO (internal linking) */}
+                <RelatedPostsSection
+                    categoryId={blogPost.category_id}
+                    currentPostId={blogPost.id}
+                    title="Похожие рекомендации"
+                />
+
+                {/* Back button */}
                 <div className="mt-12">
                     <Link
                         href={`/blog/${category}`}

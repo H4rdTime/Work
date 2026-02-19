@@ -9,6 +9,9 @@
     "lint": "next lint",
     "clean": "Remove-Item -Recurse -Force .cache, dist -ErrorAction SilentlyContinue",
     "clean-build": "npm run clean && npm run build",
+    "test:health": "node test-site-health.js http://localhost:3000",
+    "test:performance": "node test-performance.js http://localhost:3000",
+    "test:prod": "node test-site-health.js https://aqua-service-karelia.ru && node test-performance.js https://aqua-service-karelia.ru",
     "test:perf": "lighthouse http://localhost:3000 --view --preset=desktop --output json --output html",
     "analyze": "ANALYZE=true next build",
     "postbuild": "next-sitemap --config next-sitemap.config.js"
@@ -38,7 +41,8 @@
     "react-input-mask": "^2.0.4",
     "react-intersection-observer": "^9.16.0",
     "react-markdown": "^8.0.6",
-    "swiper": "^12.1.2"
+    "swiper": "^12.1.2",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",

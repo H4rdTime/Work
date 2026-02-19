@@ -1,4 +1,5 @@
 // app/blog/page.tsx
+import Script from 'next/script';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import Header from '../components/Header';
@@ -12,6 +13,23 @@ export default async function BlogPage() {
 
     return (
         <main>
+            <Script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'CollectionPage',
+                  name: 'Блог о воде и скважинах',
+                  description: 'Статьи и гайды о бурении скважин, водоочистке и анализе воды',
+                  url: 'https://aqua-service-karelia.ru/blog',
+                  mainEntity: {
+                    '@type': 'Blog',
+                    name: 'АкваСервис Блог',
+                    description: 'Статьи об услугах водоснабжения',
+                  },
+                }),
+              }}
+            />
             <Header />
 
             <section className="container mx-auto px-4 py-8">

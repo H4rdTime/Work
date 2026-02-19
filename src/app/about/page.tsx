@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import MapSection from "../components/MapSection";
 import EquipmentSlider from "../components/EquipmentSlider";
 import Image from "next/image";
+import Script from "next/script";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from 'embla-carousel-autoplay';
 import { supabase } from '@/lib/supabase'; // <-- ДОБАВЛЕНО
@@ -67,6 +68,23 @@ export default function AboutPage() {
 
   return (
     <main className="flex flex-col min-h-screen">
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            name: 'О компании АкваСервис',
+            description: '15+ лет создаём надёжные системы водоснабжения для загородных домов и коттеджей в Карелии.',
+            url: 'https://aqua-service-karelia.ru/about',
+            mainEntity: {
+              '@type': 'LocalBusiness',
+              name: 'АкваСервис',
+              description: 'Профессиональное бурение скважин и водоочистка',
+            },
+          }),
+        }}
+      />
       <Header />
 
       {/* Герой-секция */}

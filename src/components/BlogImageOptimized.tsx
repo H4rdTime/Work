@@ -50,6 +50,8 @@ export default function BlogImageOptimized({
           }`}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 80vw"
           priority={priority}
+          quality={85} // Баланс между качеством и скоростью
+          loading={priority ? 'eager' : 'lazy'} // Динамическая загрузка
           onLoadingComplete={() => setIsLoading(false)}
           onError={() => {
             setHasError(true);

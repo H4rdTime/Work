@@ -8,8 +8,9 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script';
 // import Image from 'next/image'; // Импорт Image должен быть удален, если не используется
 
-// Предположим, вы создали этот файл
+// Компоненты
 import YandexMetrikaSPA from './components/YandexMetrika/YandexMetrikaSPA';
+import { WebVitalsComponent } from '../components/WebVitalsComponent';
 // Оптимизация: добавляем display=swap для быстрого отображения системного шрифта
 const inter = Inter({ 
   subsets: ['latin'],
@@ -59,9 +60,47 @@ export default async function RootLayout({ children }: LayoutProps) {
   const nonce = cookieStore.get('csp-nonce')?.value;
   return (
     <html lang="ru" suppressHydrationWarning className={`${inter.className} antialiased`}>
+      <head>
+        {/* Character encoding for Cyrillic text */}
+        <meta charSet="utf-8" />
+        
+        {/* ⚡ Performance: Preload Google Fonts для улучшения FCP */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Meta теги для браузера */}
+        <meta name="theme-color" content="#218CE9" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        
+        {/* JSON-LD Schema - Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              '@id': 'https://aqua-service-karelia.ru/#organization',
+              name: 'АкваСервис Карелия',
+              description: 'Профессиональное бурение скважин и системы водоочистки',
+              url: 'https://aqua-service-karelia.ru',
+              image: 'https://aqua-service-karelia.ru/images/og-image.png',
+              logo: 'https://aqua-service-karelia.ru/images/logo.png',
+              sameAs: [],
+              telephone: '+7-921-',
+              areaServed: {
+                '@type': 'State',
+                name: 'Карелия',
+              },
+              priceRange: '$$$',
+            }),
+          }}
+        />
+        {/* /JSON-LD Schema */}
+      </head>
       <body className="bg-white">
         {children}
         <SpeedInsights />
+        <WebVitalsComponent />
 
         {/* Yandex.Metrika counter - Основной скрипт */}
         <Script id="yandex-metrika" strategy="afterInteractive" nonce={nonce}>

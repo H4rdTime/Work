@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ⚡ Performance optimization: Prevent scrollbar shift (CLS) */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
 :root {
   --primary-color: #0070f3;
   --max-width: 1100px;

@@ -28,6 +28,22 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local documentation (service/analysis files)
+DETAILED_ANALYSIS.md
+FINAL_SUMMARY.md
+IMPLEMENTATION_CHECKLIST.md
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)

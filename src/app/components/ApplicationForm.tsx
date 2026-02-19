@@ -1,6 +1,7 @@
 // app/components/ApplicationForm.tsx
 "use client";
 import { useState } from "react";
+import { sendYandexGoal } from "../YandexMetrika/YandexMetrikaSPA";
 
 export default function ApplicationForm() {
   const [formData, setFormData] = useState({
@@ -19,6 +20,14 @@ export default function ApplicationForm() {
         body: JSON.stringify({ data: formData }),
       });
       if (response.ok) alert("Заявка отправлена!");
+      if (response.ok) {
+        // Отправляем цель в Яндекс.Метрику
+        try {
+          sendYandexGoal('form_submit', { formId: 'application' });
+        } catch (e) {
+          // ignore
+        }
+      }
     } catch (error) {
       console.error("Ошибка:", error);
     }

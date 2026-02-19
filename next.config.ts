@@ -7,10 +7,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const nextConfig = {
   images: {
-    // Добавляем оптимизации для LCP
+    // Добавляем оптимизации для LCP и Performance
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/webp'],
+    formats: ['image/avif', 'image/webp'], // AVIF первый (меньший размер)
     minimumCacheTTL: 86400,
     remotePatterns: [
       {
@@ -67,7 +67,9 @@ const nextConfig = {
               "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
 
               // Фреймы - ДОБАВЛЕНО https://mc.yandex.com
-              "frame-src 'self' https://yandex.ru https://mc.yandex.com",
+              "frame-src 'self' https://yandex.ru https://mc.yandex.com https://webvisor.com https://metrika.yandex.ru",
+              // Разрешаем frame-ancestors для Webvisor/Metriкa (нужен для воспроизведения в интерфейсе Метрики)
+              "frame-ancestors 'self' https://webvisor.com https://metrika.yandex.ru",
 
               // Дополнительные настройки
               "base-uri 'self'",
@@ -85,11 +87,7 @@ const nextConfig = {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
-          // Улучшение производительности
-          {
-            key: "X-Frame-Options",
-            value: "SAMEORIGIN",
-          },
+          // Примечание: X-Frame-Options удалён, используем CSP frame-ancestors
         ],
       },
       // Отдельные правила для изображений - агрессивное кэширование
@@ -127,7 +125,8 @@ const nextConfig = {
   // Включаем сжатие
   compress: true,
 
+  // ⚡ Performance: Оптимизации для улучшения TTI и LCP
+  productionBrowserSourceMaps: false, // Не отправляем source maps в продакшен
 };
 
-// module.exports = withBundleAnalyzer(nextConfig); // Если вы используете bundle analyzer, оставьте эту строку
-module.exports = nextConfig; // Если не используете, используйте эту
+module.exports = nextConfig;
