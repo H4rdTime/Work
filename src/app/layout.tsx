@@ -5,6 +5,7 @@ import { ReactNode, Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 // import Image from 'next/image'; // Импорт Image должен быть удален, если не используется
 
@@ -143,6 +144,10 @@ export default async function RootLayout({ children }: LayoutProps) {
         {/* Google Analytics counter */}
         <GoogleAnalytics gaId="G-0YHV1T38RB" />
         {/* /Google Analytics counter */}
+
+        {/* Vercel Web Analytics - Real User Monitoring */}
+        <Analytics />
+        {/* /Vercel Web Analytics */}
       </body>
     </html>
   );
