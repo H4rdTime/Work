@@ -25,8 +25,8 @@ const Footer = () => {
               <div className="flex items-center gap-3">
                 <FiPhone className="w-5 h-5 text-[#218CE9]" />
                 <div className="flex gap-4">
-                  <a href="tel:8142270545" className="text-gray-600 hover:text-[#218CE9]">27-05-45</a>
-                  <a href="tel:8142330090" className="text-gray-600 hover:text-[#218CE9]">33-00-90</a>
+                  <a href="tel:+78142270545" className="text-gray-600 hover:text-[#218CE9]">27-05-45</a>
+                  <a href="tel:+78142330090" className="text-gray-600 hover:text-[#218CE9]">33-00-90</a>
                 </div>
               </div>
 
