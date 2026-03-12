@@ -36,10 +36,14 @@ export default function BlogPreview() {
     return (
         <div className="container mx-auto px-4 py-12 ">
             <section className='bg-[#F5F5F5] rounded-xl mx-auto px-4 py-8'>
-                <div className="text-center mb-8">
-                    <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9]">
-                        Полезные статьи о бурении и воде
+                <div className="text-center mb-12">
+                     <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a365d] mb-4">
+                        Полезные <span className="text-[#218CE9]">статьи</span>
                     </h2>
+                    <div className="w-16 h-1 bg-[#218CE9]/30 mx-auto rounded-full" />
+                    <p className="mt-4 text-gray-600 max-w-xl mx-auto text-base md:text-lg">
+                        Узнайте больше о бурении, водоочистке и обслуживании скважин в нашем блоге
+                    </p>
                 </div>
                 {categories && categories.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

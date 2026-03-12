@@ -2,9 +2,9 @@
 
 export const MapPlaceholder = () => {
   return (
-    <div className="w-full bg-gray-100 rounded-xl animate-pulse h-96">
-      <div className="flex items-center justify-center h-full text-gray-500">
-        <svg className="w-12 h-12 animate-spin" fill="none" viewBox="0 0 24 24">
+    <div className="w-full aspect-[16/10] sm:aspect-[21/9] md:aspect-[3/2] bg-gray-100/50 rounded-2xl animate-pulse flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center text-gray-400">
+        <svg className="w-12 h-12 animate-spin mb-4" fill="none" viewBox="0 0 24 24">
           <circle
             cx="12"
             cy="12"
@@ -19,6 +19,7 @@ export const MapPlaceholder = () => {
             className="opacity-75"
           />
         </svg>
+        <span className="text-sm font-medium">Загрузка карты...</span>
       </div>
     </div>
   );

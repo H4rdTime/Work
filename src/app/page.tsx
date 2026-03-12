@@ -1,4 +1,5 @@
 'use client';
+// Refreshed map section
 import { Suspense, lazy } from 'react';
 import dynamic from 'next/dynamic';
 import Header from "./components/Header";
@@ -20,8 +21,7 @@ const HeroSection = dynamic(() => import('./components/HeroSection'), {
   ),
 });
 
-// Динамический импорт MapSection с отключённым SSR
-const MapSection = dynamic(() => import('./components/MapSection').then(mod => mod.default), { ssr: false });
+import MapSection from './components/MapSection';
 
 // Динамический импорт BlogPreview как серверного компонента
 const BlogPreview = dynamic(() => import('./components/BlogPreview'), { ssr: true });

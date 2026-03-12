@@ -110,12 +110,16 @@ const Advantages = () => {
     ]
 
     return (
-        <section className="container mx-auto px-4 py-4">
-            <div className="border-b border-black border-opacity-10 mb-4"></div>
-
-            <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-8 md:mb-12">
-                НАШИ ПРЕИМУЩЕСТВА
-            </h2>
+        <section className="container mx-auto px-4 py-16">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a365d] mb-4">
+                    Наши <span className="text-[#218CE9]">преимущества</span>
+                </h2>
+                <div className="w-16 h-1 bg-[#218CE9]/30 mx-auto rounded-full" />
+                <p className="mt-4 text-gray-600 max-w-xl mx-auto text-base md:text-lg">
+                    15 лет опыта, собственная техника и гарантия результата в любой точке Карелии
+                </p>
+            </div>
 
             <div className="grid grid-cols-2 gap-4 min-[480px]:gap-6 md:gap-8">
                 {advantages.map((item, index) => (

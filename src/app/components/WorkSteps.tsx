@@ -68,16 +68,16 @@ const WorkSteps: React.FC<WorkStepsProps> = ({
   const displayedSteps = steps || defaultSteps;
 
   return (
-    <section className="container mx-auto px-4 py-8">
-      <div className="border-b border-black border-opacity-10 mb-8"></div>
-
-      <h2 className="text-3xl md:text-4xl font-bold text-[#218CE9] text-center mb-6">
-        {title}
-      </h2>
-      
-      <h3 className="text-xl text-center text-[#666] mb-8">
-        {subtitle}
-      </h3>
+    <section className="container mx-auto px-4 py-16">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a365d] mb-4">
+          Как мы <span className="text-[#218CE9]">работаем</span>
+        </h2>
+        <div className="w-16 h-1 bg-[#218CE9]/30 mx-auto rounded-full" />
+        <p className="mt-4 text-gray-600 max-w-xl mx-auto text-base md:text-lg">
+          Прозрачный процесс от первого звонка до чистой воды в вашем кране
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {displayedSteps.slice(0, 3).map((step, index) => (

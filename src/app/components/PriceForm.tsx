@@ -196,29 +196,42 @@ const PriceForm = () => {
     }, [fetchAddressSuggestions]);
 
     return (
-        <section id="price-form-section" className="container mx-auto px-4 py-8 relative">
+        <section id="price-form-section" className="w-full py-16 px-4 md:px-8 relative overflow-hidden bg-white">
+            {/* Decorative elements similar to MapSection for consistency */}
+            <div className="absolute top-0 left-0 w-96 h-96 bg-[#218CE9]/5 rounded-full blur-3xl -ml-48 -mt-48" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#218CE9]/5 rounded-full blur-3xl -mr-48 -mb-48" />
+
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fadeIn"
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
                     onClick={() => setIsModalOpen(false)}>
-                    <div className="bg-white rounded-2xl p-8 max-w-md w-[90%] relative">
+                    <div className="bg-white rounded-3xl p-10 max-w-md w-[90%] relative shadow-2xl transform transition-all scale-100"
+                        onClick={e => e.stopPropagation()}>
                         <button onClick={() => setIsModalOpen(false)}
-                            className="absolute top-4 right-4 text-[#666] hover:text-[#218CE9]">
+                            className="absolute top-5 right-5 text-gray-400 hover:text-[#218CE9] transition-colors">
                             <FiX size={24} />
                         </button>
                         <div className="text-center">
-                            <FiCheckCircle className="text-[#218CE9] w-16 h-16 mx-auto mb-4" />
-                            <h3 className="text-2xl font-bold text-[#218CE9] mb-2">Заявка принята!</h3>
-                            <p className="text-[#666]">Спасибо, {submittedName}! Мы свяжемся с вами в ближайшее время.</p>
+                            <div className="bg-green-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <FiCheckCircle className="text-green-500 w-10 h-10" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-3">Заявка принята!</h3>
+                            <p className="text-gray-600 leading-relaxed">Спасибо, {submittedName}! Наш специалист свяжется с вами в ближайшее время для уточнения деталей.</p>
                         </div>
                     </div>
                 </div>
             )}
 
-            <h2 className="text-2xl md:text-3xl font-bold text-[#218CE9] mb-4 text-center">
-                Оставьте заявку
-            </h2>
+            <div className="container mx-auto relative z-10">
+                <div className="text-center mb-12">
+                     <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a365d] mb-4">
+                        Оставьте <span className="text-[#218CE9]">заявку</span>
+                    </h2>
+                    <div className="w-16 h-1 bg-[#218CE9]/30 mx-auto rounded-full" />
+                    <p className="mt-4 text-gray-600">Мы поможем подобрать лучшее решение для вашего участка</p>
+                </div>
 
-            <div className="bg-[#F5F5F5] rounded-xl mx-auto px-4 py-8">
+                <div className="bg-white border border-gray-100 shadow-[0_20px_50px_rgba(33,140,233,0.1)] rounded-3xl mx-auto px-6 py-10 md:px-12 max-w-3xl">
+
                 <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
                     <div className="relative">
                         <label className="block text-sm font-medium text-[#666] mb-2 ml-4">
@@ -390,6 +403,7 @@ const PriceForm = () => {
                     </button>
                 </form>
             </div>
+          </div>
         </section>
     );
 };

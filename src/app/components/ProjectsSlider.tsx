@@ -98,11 +98,16 @@ const ProjectsSlider = () => {
   }
 
   return (
-    <section className="px-4 py-8 container mx-auto">
-      <div className="border-b border-black/10 mb-8"></div>
-      <h2 className="text-center font-bold text-3xl text-[#218CE9] mb-8">
-        НАШИ ПРОЕКТЫ
-      </h2>
+    <section className="px-4 py-16 container mx-auto">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a365d] mb-4">
+          Наши <span className="text-[#218CE9]">проекты</span>
+        </h2>
+        <div className="w-16 h-1 bg-[#218CE9]/30 mx-auto rounded-full" />
+        <p className="mt-4 text-gray-600 max-w-xl mx-auto text-base md:text-lg">
+          Посмотрите примеры наших работ по бурению и обустройству скважин
+        </p>
+      </div>
       <div className="flex items-center gap-4">
         <button
           onClick={() => emblaApi?.scrollPrev()}
