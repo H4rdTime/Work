@@ -1,7 +1,4 @@
-'use client'
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { getBlurDataURL } from "@/lib/image-utils";
 import Link from 'next/link';
 
 interface EquipmentCardProps {
@@ -17,17 +14,6 @@ interface EquipmentCardProps {
 }
 
 export default function EquipmentCard({ equipment }: EquipmentCardProps) {
-  const [blurData, setBlurData] = useState<string>("");
-
-  useEffect(() => {
-    getBlurDataURL(equipment.image_url)
-      .then(setBlurData)
-      .catch((error) => {
-        console.error("Ошибка загрузки blurData:", error);
-        setBlurData(""); 
-      });
-  }, [equipment.image_url]);
-
   return (
     <Link 
       href={`/equipment/${encodeURIComponent(equipment.category)}/${equipment.slug}`}
@@ -41,7 +27,6 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
           className="object-cover rounded-lg transition-transform group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 33vw"
           loading="lazy"
-          {...(blurData ? { placeholder: "blur", blurDataURL: blurData } : {})}
         />
       </div>
       

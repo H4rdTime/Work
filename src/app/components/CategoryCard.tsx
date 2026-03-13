@@ -1,5 +1,4 @@
 // components/CategoryCard.tsx
-'use client'
 import Image from "next/image";
 
 interface CategoryCardProps {

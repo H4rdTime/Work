@@ -127,6 +127,7 @@ const nextConfig = {
 
   // ⚡ Performance: Оптимизации для улучшения TTI и LCP
   productionBrowserSourceMaps: false, // Не отправляем source maps в продакшен
+  output: 'standalone', // ⚡ Подготовка для VPS
 };
 
 module.exports = nextConfig;

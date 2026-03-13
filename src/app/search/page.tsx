@@ -1,18 +1,18 @@
-'use client'
-
-import Script from 'next/script'
 import { Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import SearchResults from './SearchResults'
 
-function SearchResults() {
-  const searchParams = useSearchParams()
-  const query = searchParams.get('q') || ''
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>
+}) {
+  const query = (await searchParams).q || ''
 
   return (
     <main>
-      <Script
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -29,17 +29,11 @@ function SearchResults() {
         <h1 className="text-3xl md:text-4xl font-bold text-[#218CE9] mb-8">
           Результаты поиска: {query || 'все'}
         </h1>
-        {/* ... */}
+        <Suspense fallback={<div>Загрузка...</div>}>
+           <SearchResults />
+        </Suspense>
       </div>
       <Footer />
     </main>
-  )
-}
-
-export default function SearchPage() {
-  return (
-    <Suspense fallback={<div>Загрузка...</div>}>
-      <SearchResults />
-    </Suspense>
   )
 }
