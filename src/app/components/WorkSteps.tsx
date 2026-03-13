@@ -1,5 +1,5 @@
 // src/app/components/WorkSteps.tsx
-'use client'
+// ⚡ Серверный компонент — нет hooks/state, статический контент
 import React from 'react'
 
 interface Step {

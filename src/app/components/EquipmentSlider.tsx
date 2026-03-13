@@ -1,4 +1,5 @@
-// components/EquipmentSlider.tsx - Слайдер оборудования на главной (app/page.tsx)
+// components/EquipmentSlider.tsx - Слайдер оборудования
+// ⚡ Данные через props, убраны priority с изображений (были ниже fold)
 "use client";
 import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -6,8 +7,6 @@ import Autoplay from "embla-carousel-autoplay";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
 
 // Тип данных для оборудования
 interface Equipment {
@@ -20,13 +19,11 @@ interface Equipment {
   slug: string;
 }
 
-const EquipmentSlider = () => {
-  const router = useRouter(); // Инициализируем роутер
+interface EquipmentSliderProps {
+  equipment: Equipment[];
+}
 
-  // Состояния компонента
-  const [equipment, setEquipment] = useState<Equipment[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const EquipmentSlider = ({ equipment }: EquipmentSliderProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   // Инициализация слайдера
@@ -42,28 +39,6 @@ const EquipmentSlider = () => {
     [WheelGesturesPlugin(), Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })]
   );
 
-  // Загрузка данных
-  useEffect(() => {
-    const fetchEquipment = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('equipment')
-          .select('*')
-          .order('price', { ascending: true });
-
-        if (error) throw error;
-        setEquipment(data || []);
-      } catch (err) {
-        setError('Ошибка загрузки оборудования');
-        console.error('Ошибка:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEquipment();
-  }, []);
-
   // Обработчик изменения слайда
   useEffect(() => {
     if (!emblaApi) return;
@@ -74,22 +49,8 @@ const EquipmentSlider = () => {
     };
   }, [emblaApi]);
 
-  // Состояния загрузки
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="animate-pulse bg-gray-200 h-64 rounded-xl w-full max-w-4xl mx-auto" />
-      </div>
-    );
-  }
-
-  // Обработка ошибок
-  if (error) {
-    return (
-      <div className="text-red-500 text-center py-8">
-        {error}. Обновите страницу
-      </div>
-    );
+  if (equipment.length === 0) {
+    return null;
   }
 
   return (
@@ -125,7 +86,6 @@ const EquipmentSlider = () => {
               >
                 <article className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-full flex flex-col">
                   <div className="relative h-96 sm:h-64 xl:h-96">
-
                     <Image
                       src={item.image_url}
                       alt={item.title}
@@ -134,10 +94,8 @@ const EquipmentSlider = () => {
                       className={`object-cover rounded-t-xl ${item.image_url.includes('yunilos-astra-5-midi.webp')
                         ? 'object-right'
                         : 'object-center'
-                        }
-                       
-                        `}
-                      priority
+                        }`}
+                      loading="lazy"
                     />
                   </div>
 
@@ -157,7 +115,7 @@ const EquipmentSlider = () => {
                       <Link
                         href={`/equipment/${item.category}/${item.slug}`}
                         className="block w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors text-center"
-                        onMouseEnter={() => router.prefetch(`/equipment/${item.category}/${item.slug}`)}
+                        prefetch={false}
                       >
                         Подробнее
                       </Link>

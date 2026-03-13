@@ -1,3 +1,5 @@
+// components/ProjectsSlider.tsx — Слайдер проектов
+// ⚡ Данные приходят через props — убраны supabase, useRouter
 "use client";
 import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -5,8 +7,6 @@ import Autoplay from "embla-carousel-autoplay";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
 import { FiMapPin, FiDroplet } from 'react-icons/fi';
 
 interface Project {
@@ -20,11 +20,11 @@ interface Project {
   video_url?: string;
 }
 
-const ProjectsSlider = () => {
-  const router = useRouter();
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface ProjectsSliderProps {
+  projects: Project[];
+}
+
+const ProjectsSlider = ({ projects }: ProjectsSliderProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -40,26 +40,6 @@ const ProjectsSlider = () => {
   );
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('id, title, slug, location, short_description, main_image_url, depth, video_url')
-          .order('created_at', { ascending: false })
-          .limit(6);
-        if (error) throw error;
-        setProjects(data || []);
-      } catch (err) {
-        setError('Не удалось загрузить проекты');
-        console.error('Ошибка загрузки проектов для слайдера:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
-
-  useEffect(() => {
     if (!emblaApi) return;
     const updateIndex = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     emblaApi.on("select", updateIndex);
@@ -67,22 +47,6 @@ const ProjectsSlider = () => {
       emblaApi.off("select", updateIndex);
     };
   }, [emblaApi]);
-
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="animate-pulse bg-gray-200 h-64 rounded-xl w-full max-w-4xl mx-auto" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-red-500 text-center py-8">
-        {error}. Попробуйте обновить страницу.
-      </div>
-    );
-  }
 
   if (projects.length === 0) {
     return (
@@ -173,7 +137,7 @@ const ProjectsSlider = () => {
                     <Link
                       href={`/projects/${project.slug}`}
                       className="block w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors text-center mt-4"
-                      onMouseEnter={() => router.prefetch(`/projects/${project.slug}`)}
+                      prefetch={false}
                     >
                       Подробнее
                     </Link>

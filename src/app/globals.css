@@ -6,6 +6,67 @@
 html {
   overflow-y: scroll;
   scrollbar-gutter: stable;
+  scroll-behavior: smooth; /* Плавная прокрутка для якорных ссылок */
+}
+
+/* Scroll offset для sticky header */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ⚡ Hero section animations — замена framer-motion (экономия ~32KB gzip) */
+@keyframes heroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroFadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.hero-animate {
+  opacity: 0;
+  animation: heroFadeInUp 0.8s ease-out forwards;
+}
+.hero-animate-d1 { animation-delay: 0.2s; }
+.hero-animate-d2 { animation-delay: 0.4s; }
+.hero-animate-d3 { animation-delay: 0.6s; }
+.hero-animate-d4 { animation-delay: 0.7s; }
+.hero-animate-d5 { animation-delay: 0.8s; }
+.hero-animate-d6 { animation-delay: 0.9s; }
+
+.hero-animate-left {
+  opacity: 0;
+  animation: heroFadeInLeft 0.5s ease-out forwards;
+}
+
+.hero-animate-right {
+  opacity: 0;
+  animation: heroFadeInRight 1s ease-out 0.4s forwards;
 }
 
 :root {

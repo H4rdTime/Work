@@ -1,4 +1,4 @@
-'use client';
+// ⚡ Серверный компонент — статический placeholder
 
 export const MapPlaceholder = () => {
   return (

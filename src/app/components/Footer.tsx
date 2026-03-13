@@ -1,5 +1,5 @@
 // src/app/components/Footer.tsx
-'use client'
+// ⚡ Серверный компонент — нет hooks/state, статические ссылки
 import React from 'react'
 import Link from 'next/link'
 import { FiPhone, FiMapPin, FiMail, FiClock } from 'react-icons/fi'

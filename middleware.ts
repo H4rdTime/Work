@@ -1,25 +1,20 @@
 // middleware.ts
+// ⚡ Упрощён: убран бесполезный nonce (CSP уже использует 'unsafe-inline')
+// CSP заголовки берутся из next.config.ts headers()
+// Это устраняет конфликт двух CSP и позволяет кешировать HTML
+
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
-  const cspDirectives = [
-    "default-src 'self'",
-    // allow site scripts, Google Tag Manager and Yandex resources
-    // allow unsafe-inline to avoid blocking framework-injected inline scripts (hydration, next/runtime)
-    `script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://mc.yandex.ru https://yastatic.net https://api-maps.yandex.ru`,
-    "style-src 'self' 'unsafe-inline' https://yastatic.net https://fonts.googleapis.com",
-    "img-src 'self' data: https://*.supabase.co https://yastatic.net https://mc.yandex.ru",
-    "font-src 'self' data: https://yastatic.net https://fonts.gstatic.com",
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://api-maps.yandex.ru https://www.google-analytics.com https://region1.google-analytics.com",
-    "frame-src 'self' https://yandex.ru https://api-maps.yandex.ru",
-  ]
-  const cspHeader = cspDirectives.join('; ')
+  // Просто пропускаем запрос — CSP настроен в next.config.ts
+  return NextResponse.next()
+}
 
-  const response = NextResponse.next()
-  // expose the nonce to server-side rendering so inline scripts can include it
-  response.cookies.set('csp-nonce', nonce, { path: '/' })
-  response.headers.set('Content-Security-Policy', cspHeader)
-  return response
+// Ограничиваем middleware только нужными путями (не статика/API)
+export const config = {
+  matcher: [
+    // Пропускаем статику, _next, favicon, images
+    '/((?!_next/static|_next/image|favicon.ico|images|api).*)',
+  ],
 }

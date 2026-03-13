@@ -1,5 +1,5 @@
 // src/app/components/Advantages.tsx
-'use client'
+// ⚡ Серверный компонент — нет hooks/state, статический контент
 import React from 'react'
 import Image from 'next/image'; // Добавить в начале файла
 

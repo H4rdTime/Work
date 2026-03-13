@@ -1,4 +1,5 @@
-// components/ServicesSlider.tsx - Слайдер услуг на главной странице (app/page.tsx)
+// components/ServicesSlider.tsx - Слайдер услуг на главной странице
+// ⚡ 'use client' нужен только для embla carousel hooks
 "use client";
 import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -6,10 +7,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
 
-// Тип данных для услуг из Supabase
+// Тип данных для услуг
 interface Service {
   id: string;
   title: string;
@@ -19,13 +18,12 @@ interface Service {
   slug: string;
 }
 
-const ServicesSlider = () => {
-  const router = useRouter(); // Инициализируем роутер
+interface ServicesSliderProps {
+  services: Service[];
+}
 
-  // Состояния компонента
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+// ⚡ Данные приходят через props с сервера — убран useEffect + supabase клиент
+const ServicesSlider = ({ services }: ServicesSliderProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   // Инициализация слайдера
@@ -41,29 +39,6 @@ const ServicesSlider = () => {
     [WheelGesturesPlugin(), Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })]
   );
 
-  // Загрузка данных при монтировании
-  useEffect(() => {
-    const fetchServices = async () => {
-      console.log('Fetching services...');
-      try {
-        const { data, error } = await supabase
-          .from('services')
-          .select('*');
-        console.log('Data received:', data);
-
-        if (error) throw error;
-        setServices(data || []);
-      } catch (err) {
-        console.error('Ошибка загрузки:', JSON.stringify(err, null, 2));
-        setError('Не удалось загрузить услуги');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, []);
-
   // Обработчик изменения слайда
   useEffect(() => {
     if (!emblaApi) return;
@@ -74,23 +49,8 @@ const ServicesSlider = () => {
     };
   }, [emblaApi]);
 
-
-  // Состояния загрузки
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="animate-spin inline-block w-8 h-8 border-4 rounded-full border-t-blue-500"></div>
-      </div>
-    );
-  }
-
-  // Обработка ошибок
-  if (error) {
-    return (
-      <div className="text-red-500 text-center py-8">
-        {error}. Попробуйте обновить страницу
-      </div>
-    );
+  if (services.length === 0) {
+    return null;
   }
 
   return (
@@ -132,6 +92,7 @@ const ServicesSlider = () => {
                       fill
                       className="object-cover rounded-t-xl"
                       sizes="(max-width: 768px) 100vw, 50vw"
+                      loading="lazy"
                     />
                   </div>
 
@@ -151,7 +112,7 @@ const ServicesSlider = () => {
                       <Link
                         href={`/services/${service.slug}`}
                         className="block w-full bg-[#218CE9] text-white py-2 rounded-lg hover:bg-[#1a6fb9] transition-colors text-center"
-                        onMouseEnter={() => router.prefetch(`/services/${service.slug}`)}
+                        prefetch={false}
                       >
                         Заказать
                       </Link>
