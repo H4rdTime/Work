@@ -1,31 +1,39 @@
 // Header.tsx
 'use client'
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import BurgerMenu from "./BurgerMenu";
 import { FiPhone, FiClock, FiMapPin, FiMail } from "react-icons/fi";
 import Image from "next/image";
-import { FaInstagram, FaTelegram, FaVk } from "react-icons/fa";
+import { FaTelegram, FaInstagram } from "react-icons/fa";
 
 const Header = () => {
   const [showTopBar, setShowTopBar] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
-  const controlNavbar = useCallback(() => {
-    if (window.scrollY > lastScrollY && window.scrollY > 50) {
-      setShowTopBar(false);
-    } else {
-      setShowTopBar(true);
-    }
-    setLastScrollY(window.scrollY);
-  }, [lastScrollY]);
-
+  // ⚡ Оптимизированный scroll listener — requestAnimationFrame вместо setState на каждый scroll event
   useEffect(() => {
-    window.addEventListener('scroll', controlNavbar);
-    return () => {
-      window.removeEventListener('scroll', controlNavbar);
+    let ticking = false;
+    let lastScrollY = window.scrollY;
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          if (currentScrollY > lastScrollY && currentScrollY > 50) {
+            setShowTopBar(false);
+          } else {
+            setShowTopBar(true);
+          }
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-  }, [controlNavbar]);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const navLinks = [
     { href: "/", text: "Главная" },
@@ -107,9 +115,6 @@ const Header = () => {
               ))}
             </nav>
             <div className="flex items-center gap-4 px-4">
-              {/* <a href="https://vk.com/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
-                <FaVk className="w-7 h-7" />
-              </a> */}
               <a href="https://t.me/aquaservice_ptz" target="_blank" rel="noopener" className="text-[#218CE9] hover:text-[#1a6fb9]">
                 <FaTelegram className="w-7 h-7" />
               </a>

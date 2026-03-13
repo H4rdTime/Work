@@ -1,63 +1,63 @@
-'use client';
-// Refreshed map section
-import { Suspense, lazy } from 'react';
-import dynamic from 'next/dynamic';
+// src/app/page.tsx
+// ⚡ СЕРВЕРНЫЙ компонент — данные загружаются на сервере, а не в браузере
+import { Suspense } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import Header from "./components/Header";
-import ServicesSlider from "./components/ServicesSlider";
-import EquipmentSlider from './components/EquipmentSlider';
-import Advantages from './components/Advantages';
-import WorkSteps from './components/WorkSteps';
+import HeroSection from "./components/HeroSection";
+import MapSection from './components/MapSection';
 import PriceForm from './components/PriceForm';
 import Footer from './components/Footer';
+import Advantages from './components/Advantages';
+import WorkSteps from './components/WorkSteps';
 import { LocalBusinessSchema } from "./components/LocalBusinessSchema";
 import ProjectsSlider from './components/ProjectsSlider';
+import ServicesSlider from './components/ServicesSlider';
+import EquipmentSlider from './components/EquipmentSlider';
+import BlogPreview from './components/BlogPreview';
 
-// ⚡ Performance: Dynamic import HeroSection для улучшения TTI
-// Компонент загружается после основного контента
-const HeroSection = dynamic(() => import('./components/HeroSection'), {
-  ssr: true,
-  loading: () => (
-    <div className="h-96 bg-gradient-to-b from-blue-50 to-white animate-pulse" />
-  ),
-});
+// ⚡ ISR: перегенерация каждый час — HTML кешируется и отдаётся мгновенно
+export const revalidate = 3600;
 
-import MapSection from './components/MapSection';
+// Серверный Supabase клиент (не попадает в клиентский бандл)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
-// Динамический импорт BlogPreview как серверного компонента
-const BlogPreview = dynamic(() => import('./components/BlogPreview'), { ssr: true });
-
-export default function Home() {
-  const scrollToForm = () => {
-    scrollToElement('price-form-section');
-  };
-
-  const scrollToMap = () => {
-    scrollToElement('map-section');
-  };
-
-  const scrollToElement = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const yOffset = -80;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
+export default async function Home() {
+  // ⚡ Все 4 запроса выполняются параллельно НА СЕРВЕРЕ
+  // Данные попадают в HTML — пользователь видит контент сразу
+  const [servicesRes, projectsRes, equipmentRes, categoriesRes] = await Promise.all([
+    supabase.from('services').select('*'),
+    supabase
+      .from('projects')
+      .select('id, title, slug, location, short_description, main_image_url, depth, video_url')
+      .order('created_at', { ascending: false })
+      .limit(6),
+    supabase
+      .from('equipment')
+      .select('*')
+      .order('price', { ascending: true }),
+    supabase
+      .from('blog_categories')
+      .select('id, slug, title, description, image_url')
+      .limit(3),
+  ]);
 
   return (
     <main>
       <LocalBusinessSchema />
       <Header />
-      <HeroSection scrollToForm={scrollToForm} />
+      <HeroSection />
       <MapSection />
       <PriceForm />
-      <ProjectsSlider />
-      <ServicesSlider />
-      <EquipmentSlider />
+      <ProjectsSlider projects={projectsRes.data || []} />
+      <ServicesSlider services={servicesRes.data || []} />
+      <EquipmentSlider equipment={equipmentRes.data || []} />
       <Advantages />
       <WorkSteps />
-      <Suspense fallback={<div>Загрузка превью блога...</div>}>
-        <BlogPreview />
+      <Suspense fallback={<div className="text-center py-12 text-gray-400">Загрузка превью блога...</div>}>
+        <BlogPreview categories={categoriesRes.data || []} />
       </Suspense>
       <Footer />
     </main>

@@ -1,7 +1,5 @@
 // app/components/BlogPreview.tsx
-'use client'
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+// ⚡ Серверный компонент — данные приходят через props, 'use client' убран
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -13,26 +11,11 @@ interface Category {
     image_url?: string;
 }
 
-export default function BlogPreview() {
-    const [categories, setCategories] = useState<Category[] | null>(null);
-    const [loading, setLoading] = useState(true);
+interface BlogPreviewProps {
+    categories: Category[];
+}
 
-    useEffect(() => {
-        async function fetchCategories() {
-            const { data } = await supabase
-                .from('blog_categories')
-                .select('id, slug, title, description, image_url')
-                .limit(3);
-            setCategories(data);
-            setLoading(false);
-        }
-        fetchCategories();
-    }, []);
-
-    if (loading) {
-        return <div>Загрузка превью блога...</div>;
-    }
-
+export default function BlogPreview({ categories }: BlogPreviewProps) {
     return (
         <div className="container mx-auto px-4 py-12 ">
             <section className='bg-[#F5F5F5] rounded-xl mx-auto px-4 py-8'>
@@ -61,6 +44,7 @@ export default function BlogPreview() {
                                             fill
                                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                                             sizes="(max-width: 768px) 100vw, 33vw"
+                                            loading="lazy"
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-gray-100 flex items-center justify-center">

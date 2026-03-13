@@ -46,13 +46,13 @@ export default function Home() {
       />
       <MapSection />
       <PriceForm />
-      <ServicesSlider />
-      <EquipmentSlider />
+      <ServicesSlider services={[]} />
+      <EquipmentSlider equipment={[]} />
       <Advantages />
       <WorkSteps />
       <PriceCalculator />
       <Suspense fallback={<div>Загрузка превью блога...</div>}>
-        <BlogPreview />
+        <BlogPreview categories={[]} />
       </Suspense>
       <Footer />
     </main>

@@ -1,10 +1,9 @@
-'use client'
-
+// src/app/components/HeroSection.tsx
+// ⚡ Серверный компонент — framer-motion заменён на CSS-анимации (экономия ~32KB)
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { FiCheckCircle, FiArrowRight, FiMapPin } from 'react-icons/fi'
+import { FiCheckCircle, FiArrowRight } from 'react-icons/fi'
 
-const HeroSection = ({ scrollToForm }: { scrollToForm: () => void }) => {
+const HeroSection = () => {
     return (
         <section
             className="relative h-auto pt-12 pb-12 lg:h-screen lg:pt-0 lg:pb-0 lg:min-h-[600px] lg:max-h-[900px] flex items-center overflow-hidden"
@@ -32,36 +31,24 @@ const HeroSection = ({ scrollToForm }: { scrollToForm: () => void }) => {
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4 items-center">
                     {/* Left — Text & CTA */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="space-y-5 md:space-y-6 order-1"
-                    >
-
+                    <div className="hero-animate space-y-5 md:space-y-6 order-1">
 
                         {/* Heading */}
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase text-white leading-none tracking-tight"
+                        <h1
+                            className="hero-animate hero-animate-d1 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase text-white leading-none tracking-tight"
                         >
                             Бурение скважин{' '}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#218CE9] to-cyan-400">
                                 в Карелии
                             </span>
-                        </motion.h1>
+                        </h1>
 
                         {/* Subtitle */}
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                            className="text-xl sm:text-2xl text-blue-200/90 font-light max-w-lg"
+                        <p
+                            className="hero-animate hero-animate-d2 text-xl sm:text-2xl text-blue-200/90 font-light max-w-lg"
                         >
                             Вода на участке за <span className="font-semibold text-white">48 часов</span>
-                        </motion.p>
+                        </p>
 
                         {/* Benefits list + CTA as a tight block */}
                         <div className="space-y-8">
@@ -71,29 +58,23 @@ const HeroSection = ({ scrollToForm }: { scrollToForm: () => void }) => {
                                     'Гарантия на все работы',
                                     'Оборудование Премиум-класса',
                                 ].map((item, index) => (
-                                    <motion.li
+                                    <li
                                         key={item}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
-                                        className="flex items-center gap-3"
+                                        className={`hero-animate-left flex items-center gap-3`}
+                                        style={{ animationDelay: `${0.6 + index * 0.1}s` }}
                                     >
                                         <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#218CE9]/20 ring-1 ring-[#218CE9]/40 flex-shrink-0">
                                             <FiCheckCircle className="text-[#218CE9] text-sm" />
                                         </span>
                                         <span className="text-white/90 text-base sm:text-lg">{item}</span>
-                                    </motion.li>
+                                    </li>
                                 ))}
                             </ul>
 
-                            {/* CTA button */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.9 }}
-                            >
-                                <button
-                                    onClick={scrollToForm}
+                            {/* CTA button — якорная ссылка, не нужен JS */}
+                            <div className="hero-animate hero-animate-d6">
+                                <a
+                                    href="#price-form-section"
                                     className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-orange-600
                                     hover:from-orange-600 hover:to-orange-700
                                     text-white text-lg font-bold
@@ -107,17 +88,14 @@ const HeroSection = ({ scrollToForm }: { scrollToForm: () => void }) => {
                                 >
                                     Рассчитать стоимость
                                     <FiArrowRight className="text-xl transition-transform duration-300 group-hover:translate-x-1" />
-                                </button>
-                            </motion.div>
+                                </a>
+                            </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Right — GIANT image */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-                        className="hidden lg:flex order-2 justify-center items-center relative z-10"
+                    <div
+                        className="hero-animate-right hidden lg:flex order-2 justify-center items-center relative z-10"
                     >
                         <div className="relative w-[120%] xl:w-[130%] aspect-[4/3] -ml-24 xl:-ml-40">
                             <Image
@@ -131,7 +109,7 @@ const HeroSection = ({ scrollToForm }: { scrollToForm: () => void }) => {
                                 }}
                             />
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
 

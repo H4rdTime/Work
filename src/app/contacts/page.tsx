@@ -47,6 +47,7 @@ const Contacts = () => {
                             height="100%"
                             frameBorder="0"
                             allowFullScreen
+                            loading="lazy"
                             title="Расположение офиса"
                         />
                     </div>

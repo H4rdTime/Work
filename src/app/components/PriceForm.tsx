@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { FiUser, FiPhone, FiMapPin, FiCheckCircle, FiX, FiChevronDown, FiUpload } from 'react-icons/fi';
 import { IMaskInput } from 'react-imask';
 
@@ -24,6 +24,8 @@ const PriceForm = () => {
     const [file, setFile] = useState<File | null>(null);
     const [fileError, setFileError] = useState('');
     const [preferredContact, setPreferredContact] = useState('');
+    const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const services = [
         'Консультация',
@@ -189,10 +191,18 @@ const PriceForm = () => {
         const value = e.target.value;
         setAddress(value);
 
-        const controller = new AbortController();
-        fetchAddressSuggestions(value, controller.signal);
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
 
-        return () => controller.abort();
+        debounceTimeoutRef.current = setTimeout(() => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            const controller = new AbortController();
+            abortControllerRef.current = controller;
+            fetchAddressSuggestions(value, controller.signal);
+        }, 300);
     }, [fetchAddressSuggestions]);
 
     return (

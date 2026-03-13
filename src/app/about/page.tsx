@@ -1,19 +1,22 @@
 // app/about/page.tsx
-"use client";
-
+// ⚡ Серверный компонент — данные загружаются на сервере
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MapSection from "../components/MapSection";
 import EquipmentSlider from "../components/EquipmentSlider";
 import Image from "next/image";
-import Script from "next/script";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from 'embla-carousel-autoplay';
-import { supabase } from '@/lib/supabase'; // <-- ДОБАВЛЕНО
-import Link from 'next/link'; // <-- ДОБАВЛЕНО для ссылки на детальную страницу проекта
-import { useEffect, useState } from 'react';
+import { createClient } from "@supabase/supabase-js";
+import Link from 'next/link';
+import AboutProjectsSlider from "./AboutProjectsSlider";
 
-// Определяем интерфейс для данных проекта, аналогичный ProjectDetail в projects/[slug]/page.tsx
+export const revalidate = 3600;
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+// Определяем интерфейс для данных проекта
 interface Project {
   id: string;
   title: string;
@@ -25,50 +28,26 @@ interface Project {
   depth?: number;
 }
 
-export default function AboutPage() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000 })
+export default async function AboutPage() {
+  // Загружаем данные на сервере
+  const [projectsRes, equipmentRes] = await Promise.all([
+    supabase
+      .from('projects')
+      .select('id, title, slug, main_image_url, location, depth')
+      .order('created_at', { ascending: false })
+      .limit(4),
+    supabase
+      .from('equipment')
+      .select('*')
+      .order('price', { ascending: true }),
   ]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [projects, setProjects] = useState<Project[]>([]); // <-- ДОБАВЛЕНО
-  const [loadingProjects, setLoadingProjects] = useState(true); // <-- ДОБАВЛЕНО
 
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const updateIndex = () => setSelectedIndex(emblaApi.selectedScrollSnap());
-    emblaApi.on('select', updateIndex);
-
-    // Возвращаем функцию очистки с правильным типом
-    return () => {
-      emblaApi.off('select', updateIndex);
-    };
-  }, [emblaApi]);
-
-  // <-- ДОБАВЛЕН НОВЫЙ useEffect ДЛЯ ЗАГРУЗКИ ПРОЕКТОВ
-  useEffect(() => {
-    async function fetchProjects() {
-      setLoadingProjects(true);
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('id, title, slug, main_image_url, location, depth')
-          .order('created_at', { ascending: false })
-          .limit(4);
-        if (error) throw error;
-        setProjects(data || []);
-      } catch (err) {
-        console.error('Ошибка загрузки проектов для AboutPage:', err);
-      } finally {
-        setLoadingProjects(false);
-      }
-    }
-    fetchProjects();
-  }, []);
+  const projects = projectsRes.data || [];
+  const equipment = equipmentRes.data || [];
 
   return (
     <main className="flex flex-col min-h-screen">
-      <Script
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -102,7 +81,6 @@ export default function AboutPage() {
 
       {/* Основной принцип работы */}
       <section className="bg-[#F5F5F5] rounded-2xl p-8 mb-12 container mx-auto">
-
         <div className="max-w-full auto space-y-6">
           <h2 className="text-2xl md:text-3xl font-bold text-[#218CE9] text-center mb-6">
             Наш подход к работе
@@ -130,62 +108,8 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Слайдер справа */}
-            <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg">
-              <div className="embla overflow-hidden" ref={emblaRef}>
-                <div className="embla__container flex">
-                  {loadingProjects ? (
-                    <div className="embla__slide flex-[0_0_100%] min-w-0 flex items-center justify-center bg-gray-200 animate-pulse text-gray-500">
-                      Загрузка проектов...
-                    </div>
-                  ) : projects.length > 0 ? (
-                    projects.map((project) => (
-                      <div className="embla__slide flex-[0_0_100%] min-w-0" key={project.id}>
-                        {project.main_image_url ? (
-                          <Link href={`/projects/${project.slug}`} className="block relative w-full h-full">
-                            <Image
-                              src={project.main_image_url}
-                              alt={project.title}
-                              width={1600}
-                              height={900}
-                              className="w-full h-full object-cover"
-                            />
-                            {/* Структурированный текст: фиксированное позиционирование блока с данными */}
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-white flex flex-col gap-1">
-                              <h3 className="text-xl md:text-2xl font-bold mb-1">{project.title}</h3>
-                              {project.location && <p className="text-sm opacity-90 mb-0">{project.location}</p>}
-                              {project.depth && <p className="text-sm opacity-90 mb-0">Глубина: {project.depth} м</p>}
-                            </div>
-                          </Link>
-                        ) : (
-                          <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
-                            Нет изображения
-                          </div>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <div className="embla__slide flex-[0_0_100%] min-w-0 flex items-center justify-center bg-gray-100 text-gray-500">
-                      Проекты пока не добавлены.
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Навигационные точки */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                {projects.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => emblaApi?.scrollTo(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${selectedIndex === index
-                        ? 'bg-[#218CE9] scale-125'
-                        : 'bg-white/50 hover:scale-110'
-                      }`}
-                  />
-                ))}
-              </div>
-            </div>
+            {/* Слайдер справа — клиентский компонент */}
+            <AboutProjectsSlider projects={projects} />
           </div>
         </div>
       </section>
@@ -228,7 +152,7 @@ export default function AboutPage() {
             width={800}
             height={500}
             className="rounded-xl shadow-lg"
-            priority
+            loading="lazy"
           />
         </div>
       </section>
@@ -264,6 +188,7 @@ export default function AboutPage() {
               width={600}
               height={400}
               className="rounded-xl shadow-lg mt-4"
+              loading="lazy"
             />
           </div>
         </div>
@@ -306,7 +231,7 @@ export default function AboutPage() {
       {/* Оборудование */}
       <section className="py-12 container mx-auto">
         <div className="px-4">
-          <EquipmentSlider />
+          <EquipmentSlider equipment={equipment} />
         </div>
       </section>
 
