@@ -52,24 +52,24 @@ const nextConfig = {
               // Основные директивы
               "default-src 'self'",
 
-              // Скрипты - ДОБАВЛЕНО https://mc.yandex.com
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://mc.yandex.ru https://mc.yandex.com https://www.googletagmanager.com",
+              // Скрипты - ДОБАВЛЕНО https://mc.yandex.md
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com https://www.googletagmanager.com",
               // Стили
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 
-              // Изображения - ДОБАВЛЕНО https://mc.yandex.com
-              "img-src 'self' data: https://*.supabase.co https://mc.yandex.ru https://mc.yandex.com",
+              // Изображения - ДОБАВЛЕНО https://mc.yandex.md
+              "img-src 'self' data: https://*.supabase.co https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com",
 
               // Шрифты
               "font-src 'self' data: https://fonts.gstatic.com",
 
-              // Подключения - ДОБАВЛЕНО https://mc.yandex.com (на всякий случай, хотя в ошибках connect-src его не было) и region1.google-analytics.com
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
+              // Подключения - ДОБАВЛЕНО https://mc.yandex.md
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
 
-              // Фреймы - ДОБАВЛЕНО https://mc.yandex.com
-              "frame-src 'self' https://yandex.ru https://mc.yandex.com https://webvisor.com https://metrika.yandex.ru",
+              // Фреймы - ДОБАВЛЕНО https://mc.yandex.md
+              "frame-src 'self' https://yandex.ru https://mc.yandex.md https://mc.yandex.com https://webvisor.com https://metrika.yandex.ru",
               // Разрешаем frame-ancestors для Webvisor/Metriкa (нужен для воспроизведения в интерфейсе Метрики)
-              "frame-ancestors 'self' https://webvisor.com https://metrika.yandex.ru",
+              "frame-ancestors 'self' https://webvisor.com https://metrika.yandex.ru https://mc.yandex.ru https://mc.yandex.md",
 
               // Дополнительные настройки
               "base-uri 'self'",
