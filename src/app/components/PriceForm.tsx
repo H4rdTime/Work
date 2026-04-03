@@ -316,7 +316,7 @@ const PriceForm = () => {
                                     placeholder="Телефон"
                                     value={phone}
                                     onAccept={value => setPhone(value)}
-                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
+                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9] ym-disable-track"
                                     required
                                 />
                             )
