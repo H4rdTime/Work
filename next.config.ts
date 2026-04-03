@@ -63,8 +63,8 @@ const nextConfig = {
               // Шрифты
               "font-src 'self' data: https://fonts.gstatic.com",
 
-              // Подключения - ДОБАВЛЕНО https://mc.yandex.md
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
+              // Подключения - ДОБАВЛЕНО https://mc.yandex.md и wss://
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com wss://mc.yandex.ru wss://mc.yandex.md wss://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
 
               // Фреймы - ДОБАВЛЕНО https://mc.yandex.md
               "frame-src 'self' https://yandex.ru https://mc.yandex.md https://mc.yandex.com https://webvisor.com https://metrika.yandex.ru",
