@@ -101,7 +101,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <WebVitalsComponent />
 
         {/* Yandex.Metrika counter - Основной скрипт */}
-        <Script id="yandex-metrika" strategy="lazyOnload">
+        <Script id="yandex-metrika" strategy="afterInteractive">
           {`
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();
