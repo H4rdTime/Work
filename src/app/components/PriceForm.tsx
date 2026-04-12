@@ -19,7 +19,7 @@ const PriceForm = () => {
     const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [submittedName, setSubmittedName] = useState('');
-    const [isSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedService, setSelectedService] = useState('');
     const [file, setFile] = useState<File | null>(null);
     const [fileError, setFileError] = useState('');
@@ -104,6 +104,9 @@ const PriceForm = () => {
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Защита от повторных нажатий
+        if (isSubmitting) return;
+
         if (selectedService === 'Очистка воды') {
             if (!file) {
                 setFileError('Необходимо прикрепить файл анализа');
@@ -117,6 +120,9 @@ const PriceForm = () => {
             alert('Пожалуйста, проверьте следующие поля: ' + errors.join(', '));
             return;
         }
+
+        // Блокируем кнопку сразу после валидации
+        setIsSubmitting(true);
 
         let fileUrl = '';
         if (file) {
@@ -133,6 +139,7 @@ const PriceForm = () => {
             } catch (error) {
                 console.error('Ошибка загрузки файла:', error);
                 alert('Ошибка при загрузке файла');
+                setIsSubmitting(false);
                 return;
             }
         }
@@ -158,7 +165,8 @@ const PriceForm = () => {
 
             if (!response.ok) throw new Error(await response.text());
 
-            await fetch('/api/telegramNotify', {
+            // Telegram-уведомление не блокирует показ результата
+            fetch('/api/telegramNotify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -169,15 +177,18 @@ const PriceForm = () => {
                     file_url: fileUrl,
                     preferred_contact: preferredContact
                 })
-            });
+            }).catch(() => {}); // fire-and-forget
 
             setSubmittedName(name);
             setIsModalOpen(true);
             resetForm();
         } catch (error) {
             console.error("Ошибка отправки формы:", error);
+            alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте ещё раз.');
+        } finally {
+            setIsSubmitting(false);
         }
-    }, [name, phone, address, validateForm, file, fileError, selectedService, preferredContact]);
+    }, [name, phone, address, validateForm, file, fileError, selectedService, preferredContact, isSubmitting]);
 
     const resetForm = () => {
         setName('');
@@ -302,7 +313,7 @@ const PriceForm = () => {
                                     placeholder="Ваше имя"
                                     value={name}
                                     onChange={e => setName(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
+                                    className="w-full pl-12 pr-4 py-4 border-2 border-[#c4c4c4] rounded-[62px] focus:outline-none focus:border-[#218CE9] focus:ring-2 focus:ring-[#218CE9]/20 text-gray-800 text-base placeholder:text-gray-400 transition-colors"
                                     required
                                 />
                             )
@@ -316,7 +327,7 @@ const PriceForm = () => {
                                     placeholder="Телефон"
                                     value={phone}
                                     onAccept={value => setPhone(value)}
-                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9] ym-disable-track"
+                                    className="w-full pl-12 pr-4 py-4 border-2 border-[#c4c4c4] rounded-[62px] focus:outline-none focus:border-[#218CE9] focus:ring-2 focus:ring-[#218CE9]/20 text-gray-800 text-base placeholder:text-gray-400 transition-colors ym-disable-track"
                                     required
                                 />
                             )
@@ -330,7 +341,7 @@ const PriceForm = () => {
                                     placeholder="Адрес проведения работ"
                                     value={address}
                                     onChange={handleAddressChange}
-                                    className="w-full pl-12 pr-4 py-4 border border-[#ddd] rounded-[62px] focus:outline-none focus:border-[#218CE9]"
+                                    className="w-full pl-12 pr-4 py-4 border-2 border-[#c4c4c4] rounded-[62px] focus:outline-none focus:border-[#218CE9] focus:ring-2 focus:ring-[#218CE9]/20 text-gray-800 text-base placeholder:text-gray-400 transition-colors"
                                     required
                                 />
                             ),
@@ -404,11 +415,17 @@ const PriceForm = () => {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`w-full py-4 rounded-[62px] font-bold transition-colors ${isSubmitting
-                            ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-[#218CE9] text-white hover:bg-[#1a70c0]'
+                        className={`w-full py-4 rounded-[62px] font-bold transition-all duration-200 flex items-center justify-center gap-2 ${isSubmitting
+                            ? 'bg-gray-400 cursor-not-allowed opacity-70 scale-[0.98]'
+                            : 'bg-[#218CE9] text-white hover:bg-[#1a70c0] active:scale-[0.98]'
                             }`}
                     >
+                        {isSubmitting && (
+                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        )}
                         {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
                     </button>
                 </form>
