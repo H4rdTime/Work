@@ -52,29 +52,34 @@ const nextConfig = {
               // Основные директивы
               "default-src 'self'",
 
-              // Скрипты - ДОБАВЛЕНО https://mc.yandex.md
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com https://www.googletagmanager.com",
+              // Скрипты — все домены Яндекс.Метрики + Google Analytics + Vercel
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://*.yandex.ru https://*.yandex.com https://*.yandex.md https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
+
               // Стили
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 
-              // Изображения - ДОБАВЛЕНО https://mc.yandex.md
-              "img-src 'self' data: https://*.supabase.co https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com",
+              // Изображения
+              "img-src 'self' data: blob: https://*.supabase.co https://*.yandex.ru https://*.yandex.com https://*.yandex.md https://yastatic.net",
 
               // Шрифты
               "font-src 'self' data: https://fonts.gstatic.com",
 
-              // Подключения - ДОБАВЛЕНО https://mc.yandex.md и wss://
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://mc.yandex.ru https://mc.yandex.md https://mc.yandex.com wss://mc.yandex.ru wss://mc.yandex.md wss://mc.yandex.com https://www.google-analytics.com https://region1.google-analytics.com",
+              // Подключения — Метрика отправляет данные на множество поддоменов
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.yandex.ru https://*.yandex.com https://*.yandex.md wss://*.yandex.ru wss://*.yandex.com wss://*.yandex.md https://yastatic.net https://www.google-analytics.com https://region1.google-analytics.com https://va.vercel-scripts.com",
 
-              // Фреймы - ДОБАВЛЕНО https://mc.yandex.md
-              "frame-src 'self' https://yandex.ru https://mc.yandex.md https://mc.yandex.com https://webvisor.com https://metrika.yandex.ru",
-              // Разрешаем frame-ancestors для Webvisor/Metriкa (нужен для воспроизведения в интерфейсе Метрики)
-              "frame-ancestors 'self' https://webvisor.com https://metrika.yandex.ru https://mc.yandex.ru https://mc.yandex.md",
+              // Фреймы
+              "frame-src 'self' https://*.yandex.ru https://*.yandex.com https://*.yandex.md https://webvisor.com",
+
+              // Разрешаем frame-ancestors для Webvisor/Метрика (нужен для воспроизведения в интерфейсе Метрики)
+              "frame-ancestors 'self' https://webvisor.com https://*.yandex.ru https://*.yandex.com https://*.yandex.md",
+
+              // Worker-src нужен Метрике для Webvisor 2.0
+              "worker-src 'self' blob:",
 
               // Дополнительные настройки
               "base-uri 'self'",
               "form-action 'self'",
-              "upgrade-insecure-requests" // Для HTTPS
+              "upgrade-insecure-requests"
             ].join("; "),
           },
           // Оптимизация TTFB: добавляем заголовки кэширования
