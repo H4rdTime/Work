@@ -52,26 +52,26 @@ const nextConfig = {
               // Основные директивы
               "default-src 'self'",
 
-              // Скрипты — все домены Яндекс.Метрики + Google Analytics + Vercel
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://*.yandex.ru https://*.yandex.com https://*.yandex.md https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
+              // Скрипты — все домены Яндекс.Метрики + Карты + Google Analytics + Vercel
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.supabase.co https://yastatic.net https://yandex.ru https://*.yandex.ru https://yandex.com https://*.yandex.com https://yandex.md https://*.yandex.md https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
 
               // Стили
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://yastatic.net",
 
               // Изображения
-              "img-src 'self' data: blob: https://*.supabase.co https://*.yandex.ru https://*.yandex.com https://*.yandex.md https://yastatic.net",
+              "img-src 'self' data: blob: https://*.supabase.co https://yandex.ru https://*.yandex.ru https://yandex.com https://*.yandex.com https://*.yandex.md https://yastatic.net",
 
               // Шрифты
-              "font-src 'self' data: https://fonts.gstatic.com",
+              "font-src 'self' data: https://fonts.gstatic.com https://yastatic.net",
 
-              // Подключения — Метрика отправляет данные на множество поддоменов
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.yandex.ru https://*.yandex.com https://*.yandex.md wss://*.yandex.ru wss://*.yandex.com wss://*.yandex.md https://yastatic.net https://www.google-analytics.com https://region1.google-analytics.com https://va.vercel-scripts.com",
+              // Подключения — Метрика + Карты + Supabase + Analytics
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://yandex.ru https://*.yandex.ru https://yandex.com https://*.yandex.com https://*.yandex.md wss://*.yandex.ru wss://*.yandex.com wss://*.yandex.md https://yastatic.net https://www.google-analytics.com https://region1.google-analytics.com https://va.vercel-scripts.com",
 
-              // Фреймы
-              "frame-src 'self' https://*.yandex.ru https://*.yandex.com https://*.yandex.md https://webvisor.com",
+              // Фреймы — Яндекс.Карты виджет загружается с yandex.ru (без поддомена!)
+              "frame-src 'self' https://yandex.ru https://*.yandex.ru https://yandex.com https://*.yandex.com https://*.yandex.md https://webvisor.com",
 
-              // Разрешаем frame-ancestors для Webvisor/Метрика (нужен для воспроизведения в интерфейсе Метрики)
-              "frame-ancestors 'self' https://webvisor.com https://*.yandex.ru https://*.yandex.com https://*.yandex.md",
+              // Разрешаем frame-ancestors для Webvisor/Метрика
+              "frame-ancestors 'self' https://webvisor.com https://yandex.ru https://*.yandex.ru https://*.yandex.com https://*.yandex.md",
 
               // Worker-src нужен Метрике для Webvisor 2.0
               "worker-src 'self' blob:",
