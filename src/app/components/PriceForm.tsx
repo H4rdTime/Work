@@ -2,6 +2,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { FiUser, FiPhone, FiMapPin, FiCheckCircle, FiX, FiChevronDown, FiUpload } from 'react-icons/fi';
 import { IMaskInput } from 'react-imask';
+import { sendYandexGoal } from './YandexMetrika/YandexMetrikaSPA';
 
 interface YandexSuggestion {
     title?: {
@@ -178,6 +179,13 @@ const PriceForm = () => {
                     preferred_contact: preferredContact
                 })
             }).catch(() => {}); // fire-and-forget
+
+            // Отправляем цель в Яндекс.Метрику
+            try {
+                sendYandexGoal('form_submit', { formId: 'price' });
+            } catch (e) {
+                console.error('Ошибка отправки цели в Метрику:', e);
+            }
 
             setSubmittedName(name);
             setIsModalOpen(true);
