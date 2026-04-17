@@ -45,6 +45,7 @@ export default async function ServicePage({
 
         // --- ДОБАВЬТЕ ЭТУ КОНСТАНТУ С ПРАВИЛЬНЫМ SLUG ИЗ SUPABASE ---
         const DRILLING_SERVICE_SLUG = 'well-drilling'; // <--- ВАЖНО: замените на реальный SLUG вашей услуги "Бурение скважин"
+        const ARRANGEMENT_SERVICE_TITLE = 'Обустройство скважин под ключ';
         // --- КОНЕЦ КОНСТАНТЫ ---
 
         return (
@@ -59,7 +60,9 @@ export default async function ServicePage({
                             <li><FiArrowRight className="text-[#218CE9]/60" /></li>
                             <li><Link href="/services" className="hover:text-[#218CE9] transition-colors">Услуги</Link></li>
                             <li><FiArrowRight className="text-[#218CE9]/60" /></li>
-                            <li className="text-[#218CE9] font-medium truncate max-w-[200px]">{service.title}</li>
+                            <li className="text-[#218CE9] font-medium truncate max-w-[150px] md:max-w-none md:whitespace-normal">
+                                {service.title === ARRANGEMENT_SERVICE_TITLE ? "Обустройство под ключ" : service.title}
+                            </li>
                         </ol>
                     </nav>
 
@@ -67,7 +70,7 @@ export default async function ServicePage({
                         {/* Изображение */}
                         <div className="relative aspect-video lg:aspect-square rounded-2xl overflow-hidden shadow-xl">
                             <Image
-                                src={service.image_url}
+                                src={service.title === ARRANGEMENT_SERVICE_TITLE ? '/images/photo_2025-02-21_20-33-40.jpg' : service.image_url}
                                 alt={service.title}
                                 fill
                                 className="object-cover"
@@ -83,9 +86,32 @@ export default async function ServicePage({
                                 {service.title}
                             </h1>
 
-                            <div className="prose prose-lg max-w-none text-gray-600 mb-8">
-                                <p className="text-lg leading-relaxed">{service.description}</p>
-                            </div>
+                            {service.title === ARRANGEMENT_SERVICE_TITLE ? (
+                                <div className="prose prose-lg max-w-none text-gray-600 mb-8">
+                                    <ul className="list-none space-y-4">
+                                        <li className="flex items-start gap-3">
+                                            <FiCheckCircle className="mt-1 text-[#218CE9] flex-shrink-0" />
+                                            <span><strong className="text-gray-800">Монтаж за 1 день:</strong> оперативно доставим оборудование и выполним обустройство без задержек.</span>
+                                        </li>
+                                        <li className="flex items-start gap-3">
+                                            <FiCheckCircle className="mt-1 text-[#218CE9] flex-shrink-0" />
+                                            <span><strong className="text-gray-800">Выбор обустройства:</strong> с кессоном, со скважинным адаптером или летнее обустройство.</span>
+                                        </li>
+                                        <li className="flex items-start gap-3">
+                                            <FiCheckCircle className="mt-1 text-[#218CE9] flex-shrink-0" />
+                                            <span><strong className="text-gray-800">Надежное оборудование:</strong> проверенные насосы (Waterstry, Belamos, Grundfos), герметичные оголовки и качественная автоматика (реле давления, гидроаккумуляторы).</span>
+                                        </li>
+                                        <li className="flex items-start gap-3">
+                                            <FiCheckCircle className="mt-1 text-[#218CE9] flex-shrink-0" />
+                                            <span><strong className="text-gray-800">Честная работа:</strong> чистая траншея, аккуратный монтаж кессона, собранная гребенка, прокладка водопроводных труб и полная настройка автоматики под ключ.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            ) : (
+                                <div className="prose prose-lg max-w-none text-gray-600 mb-8">
+                                    <p className="text-lg leading-relaxed">{service.description}</p>
+                                </div>
+                            )}
 
                             {service.slug === DRILLING_SERVICE_SLUG ? (
                                 // БЛОК ДЛЯ УСЛУГИ "БУРЕНИЕ СКВАЖИНЫ"
@@ -120,9 +146,12 @@ export default async function ServicePage({
                                             <li><strong className="text-gray-700">Глубина скважины:</strong> чем глубже скважина, тем выше общая стоимость бурения.</li>
                                             <li><strong className="text-gray-700">Удаленность и региональные особенности:</strong> цена может варьироваться в зависимости от местоположения вашего объекта в Республике Карелия, учитывая логистику и региональные факторы ценообразования.</li>
                                         </ul>
-                                        <p className="text-gray-700 text-base md:text-lg mt-6">
+                                        <p className="text-gray-700 text-base md:text-lg mt-6 mb-6">
                                             Для получения максимально точного расчета и детальной консультации, пожалуйста, оставьте заявку через форму ниже. Мы оперативно свяжемся с вами и предложим оптимальное решение, учитывающее все особенности вашего участка и потребности!
                                         </p>
+                                        <Link href="#price-form-section" className="inline-block px-8 py-3 bg-[#218CE9] text-white font-semibold rounded-[62px] hover:bg-[#1a70c0] transition-colors shadow-md">
+                                            Рассчитать смету
+                                        </Link>
                                     </div>
 
                                     {/* Блок с регионами, если он существует (оставляем без изменений) */}
@@ -145,12 +174,18 @@ export default async function ServicePage({
                             ) : (
                                 // БЛОК ДЛЯ ВСЕХ ОСТАЛЬНЫХ УСЛУГ (ОСТАВЛЯЕМ КАК БЫЛ ДО ПРЕДЫДУЩИХ ИЗМЕНЕНИЙ)
                                 <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-[#218CE9]/10">
-                                    <div className="flex items-baseline gap-4 mb-6">
+                                    <div className="flex items-baseline flex-wrap gap-4 mb-6">
                                         <span className="text-2xl md:text-3xl font-bold text-[#218CE9]">
                                             от {service.price.toLocaleString('ru-RU')} ₽
                                         </span>
-                                        <span className="text-gray-500">·</span>
+                                        <span className="text-gray-500 hidden sm:inline">·</span>
                                         <span className="text-gray-600">Гарантия 2 года</span>
+                                    </div>
+                                    
+                                    <div className="mb-6">
+                                        <Link href="#price-form-section" className="inline-block px-8 py-3 bg-[#218CE9] text-white font-semibold rounded-[62px] hover:bg-[#1a70c0] transition-colors shadow-md text-center md:text-left">
+                                            Рассчитать смету
+                                        </Link>
                                     </div>
 
                                     {service.area_served?.length > 0 && (
