@@ -54,8 +54,8 @@ const Header = () => {
           <div className="flex items-center space-x-1.5">
             <FiPhone className="w-3 h-3 sm:w-4 sm:h-4" />
             <div className="flex divide-x divide-gray-400">
-              <a href="tel:+78142270545" className="hover:text-[#218CE9] px-1.5">27-05-45</a>
-              <a href="tel:+78142330090" className="hover:text-[#218CE9] px-1.5">33-00-90</a>
+              <a href="tel:+78142270545" className="hover:text-[#218CE9] px-1.5" suppressHydrationWarning>+7 (8142) 27-05-45</a>
+              <a href="tel:+78142330090" className="hover:text-[#218CE9] px-1.5" suppressHydrationWarning>+7 (8142) 33-00-90</a>
             </div>
           </div>
 
