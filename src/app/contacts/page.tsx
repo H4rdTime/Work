@@ -62,11 +62,11 @@ const Contacts = () => {
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiPhone className="text-[#218CE9]" />
-                                <a href="tel:+78142270545" className="hover:text-[#218CE9]">8 (8142) 27-05-45</a>
+                                <a href="tel:+78142270545" className="hover:text-[#218CE9]" suppressHydrationWarning>+7 (8142) 27-05-45</a>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiPhone className="text-[#218CE9]" />
-                                <a href="tel:+78142330090" className="hover:text-[#218CE9]">8 (8142) 33-00-90</a>
+                                <a href="tel:+78142330090" className="hover:text-[#218CE9]" suppressHydrationWarning>+7 (8142) 33-00-90</a>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiMail className="text-[#218CE9]" />

@@ -7,6 +7,19 @@ import { FiPhone, FiClock, FiMapPin, FiMail } from "react-icons/fi";
 import Image from "next/image";
 import { FaTelegram, FaInstagram } from "react-icons/fa";
 
+// Мемоизированный компонент — не перерисовывается при скролле,
+// поэтому Яндекс Метрика может безопасно модифицировать DOM для скрытия номеров
+const PhoneLinks = React.memo(() => (
+  <div className="flex items-center space-x-1.5">
+    <FiPhone className="w-3 h-3 sm:w-4 sm:h-4" />
+    <div className="flex divide-x divide-gray-400">
+      <a href="tel:+78142270545" className="hover:text-[#218CE9] px-1.5" suppressHydrationWarning>+7 (8142) 27-05-45</a>
+      <a href="tel:+78142330090" className="hover:text-[#218CE9] px-1.5" suppressHydrationWarning>+7 (8142) 33-00-90</a>
+    </div>
+  </div>
+));
+PhoneLinks.displayName = 'PhoneLinks';
+
 const Header = () => {
   const [showTopBar, setShowTopBar] = useState(true);
 
@@ -51,13 +64,7 @@ const Header = () => {
       <div className={`sticky top-0 z-50 bg-white border-b transition-transform duration-300 ${showTopBar ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container mx-auto px-4 py-1.5 flex flex-wrap items-center justify-center text-[11px] sm:text-sm text-gray-600 text-center gap-x-3 gap-y-1 md:justify-between">
           {/* Левый блок - Телефоны */}
-          <div className="flex items-center space-x-1.5">
-            <FiPhone className="w-3 h-3 sm:w-4 sm:h-4" />
-            <div className="flex divide-x divide-gray-400">
-              <a href="tel:+78142270545" className="hover:text-[#218CE9] px-1.5">27-05-45</a>
-              <a href="tel:+78142330090" className="hover:text-[#218CE9] px-1.5">33-00-90</a>
-            </div>
-          </div>
+          <PhoneLinks />
 
           {/* Центр - Время работы */}
           <div className="flex items-center space-x-1.5">
