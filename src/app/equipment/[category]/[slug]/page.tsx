@@ -2,9 +2,11 @@ import { supabase } from '@/lib/supabase';
 import Header from '@/src/app/components/Header';
 import Image from "next/image";
 import Footer from '@/src/app/components/Footer';
-import { FiCheckCircle, FiInfo, FiArrowRight } from "react-icons/fi";
+import { FiCheckCircle, FiInfo, FiArrowRight, FiSend } from "react-icons/fi";
 import PriceForm from '@/src/app/components/PriceForm';
 import Link from 'next/link';
+import ScrollToPriceButton from '@/src/app/components/ScrollToPriceButton';
+import ReactMarkdown from 'react-markdown';
 
 // --- Types ---
 interface Equipment {
@@ -115,10 +117,11 @@ export default async function EquipmentPage({ params }: { params: Params }) {
                                     Цена: от {equipment.price.toLocaleString('ru-RU')} ₽
                                 </div>
                                 {equipment.description && (
-                                    <p className="text-gray-600 text-lg leading-relaxed">
+                                    <p className="text-gray-600 text-lg leading-relaxed mb-6">
                                         {equipment.description}
                                     </p>
                                 )}
+                                <ScrollToPriceButton />
                             </div>
 
                             {/* Блок "В комплект входит" или "Характеристики" */}
@@ -206,12 +209,49 @@ export default async function EquipmentPage({ params }: { params: Params }) {
                                 </h3>
                             </div>
 
-                            {/* whitespace-pre-line сохраняет абзацы из базы данных */}
-                            <div className="prose prose-lg max-w-none text-gray-600 whitespace-pre-line leading-relaxed">
-                                {equipment.description_full}
+                            <div className="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                <ReactMarkdown
+                                    components={{
+                                        p: (props: any) => (
+                                            <p className="text-gray-600 text-lg leading-relaxed mb-4">{props.children}</p>
+                                        ),
+                                        strong: (props: any) => (
+                                            <strong className="text-gray-800 font-semibold">{props.children}</strong>
+                                        ),
+                                        ul: (props: any) => (
+                                            <ul className="space-y-3 my-4">{props.children}</ul>
+                                        ),
+                                        li: (props: any) => (
+                                            <li className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                                <FiCheckCircle className="text-[#218CE9] mt-1 flex-shrink-0" />
+                                                <span className="text-gray-700">{props.children}</span>
+                                            </li>
+                                        ),
+                                        h2: (props: any) => (
+                                            <h2 className="text-xl font-bold text-gray-800 mt-6 mb-3">{props.children}</h2>
+                                        ),
+                                        h3: (props: any) => (
+                                            <h3 className="text-lg font-bold text-gray-800 mt-4 mb-2">{props.children}</h3>
+                                        ),
+                                    }}
+                                >
+                                    {equipment.description_full}
+                                </ReactMarkdown>
                             </div>
                         </div>
                     )}
+
+                    {/* === CTA БЛОК после описания === */}
+                    <div className="bg-gradient-to-r from-[#218CE9] to-[#1a6fbf] rounded-3xl p-8 md:p-10 shadow-lg text-white text-center mt-8">
+                        <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                            Нужна помощь с подбором?
+                        </h3>
+                        <p className="text-white/80 text-lg mb-6 max-w-2xl mx-auto">
+                            Оставьте заявку — мы подберём оптимальное оборудование под ваши условия и рассчитаем точную стоимость
+                        </p>
+                        <ScrollToPriceButton variant="white" />
+                    </div>
 
                 </section>
 

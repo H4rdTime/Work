@@ -70,7 +70,7 @@ export default async function ServicePage({
                         {/* Изображение */}
                         <div className="relative aspect-video lg:aspect-square rounded-2xl overflow-hidden shadow-xl">
                             <Image
-                                src={service.title === ARRANGEMENT_SERVICE_TITLE ? '/images/photo_2025-02-21_20-33-40.jpg' : service.image_url}
+                                src={service.title === ARRANGEMENT_SERVICE_TITLE ? '/images/551975f0-cd5a-4f45-ab8b-cbacc4b29de3.jpg' : service.image_url}
                                 alt={service.title}
                                 fill
                                 className="object-cover"
@@ -99,7 +99,7 @@ export default async function ServicePage({
                                         </li>
                                         <li className="flex items-start gap-3">
                                             <FiCheckCircle className="mt-1 text-[#218CE9] flex-shrink-0" />
-                                            <span><strong className="text-gray-800">Надежное оборудование:</strong> проверенные насосы (Waterstry, Belamos, Grundfos), герметичные оголовки и качественная автоматика (реле давления, гидроаккумуляторы).</span>
+                                            <span><strong className="text-gray-800">Надежное оборудование:</strong> проверенные насосы, герметичные оголовки и качественная автоматика (реле давления, гидроаккумуляторы).</span>
                                         </li>
                                         <li className="flex items-start gap-3">
                                             <FiCheckCircle className="mt-1 text-[#218CE9] flex-shrink-0" />
@@ -181,7 +181,7 @@ export default async function ServicePage({
                                         <span className="text-gray-500 hidden sm:inline">·</span>
                                         <span className="text-gray-600">Гарантия 2 года</span>
                                     </div>
-                                    
+
                                     <div className="mb-6">
                                         <Link href="#price-form-section" className="inline-block px-8 py-3 bg-[#218CE9] text-white font-semibold rounded-[62px] hover:bg-[#1a70c0] transition-colors shadow-md text-center md:text-left">
                                             Рассчитать смету

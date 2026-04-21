@@ -37,11 +37,11 @@ export default function AboutProjectsSlider({ projects }: Props) {
 
   return (
     <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg">
-      <div className="embla overflow-hidden" ref={emblaRef}>
-        <div className="embla__container flex">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
           {projects.length > 0 ? (
             projects.map((project) => (
-              <div className="embla__slide flex-[0_0_100%] min-w-0" key={project.id}>
+              <div className="flex-[0_0_100%] min-w-0 relative" key={project.id}>
                 {project.main_image_url ? (
                   <Link href={`/projects/${project.slug}`} className="block relative w-full h-full">
                     <Image
@@ -66,7 +66,7 @@ export default function AboutProjectsSlider({ projects }: Props) {
               </div>
             ))
           ) : (
-            <div className="embla__slide flex-[0_0_100%] min-w-0 flex items-center justify-center bg-gray-100 text-gray-500">
+            <div className="flex-[0_0_100%] min-w-0 flex items-center justify-center bg-gray-100 text-gray-500">
               Проекты пока не добавлены.
             </div>
           )}
