@@ -213,26 +213,26 @@ export default async function EquipmentPage({ params }: { params: Params }) {
                                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                 <ReactMarkdown
                                     components={{
-                                        p: (props: any) => (
-                                            <p className="text-gray-600 text-lg leading-relaxed mb-4">{props.children}</p>
+                                        p: ({ children }) => (
+                                            <p className="text-gray-600 text-lg leading-relaxed mb-4">{children}</p>
                                         ),
-                                        strong: (props: any) => (
-                                            <strong className="text-gray-800 font-semibold">{props.children}</strong>
+                                        strong: ({ children }) => (
+                                            <strong className="text-gray-800 font-semibold">{children}</strong>
                                         ),
-                                        ul: (props: any) => (
-                                            <ul className="space-y-3 my-4">{props.children}</ul>
+                                        ul: ({ children }) => (
+                                            <ul className="space-y-3 my-4">{children}</ul>
                                         ),
-                                        li: (props: any) => (
+                                        li: ({ children }) => (
                                             <li className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
                                                 <FiCheckCircle className="text-[#218CE9] mt-1 flex-shrink-0" />
-                                                <span className="text-gray-700">{props.children}</span>
+                                                <span className="text-gray-700">{children}</span>
                                             </li>
                                         ),
-                                        h2: (props: any) => (
-                                            <h2 className="text-xl font-bold text-gray-800 mt-6 mb-3">{props.children}</h2>
+                                        h2: ({ children }) => (
+                                            <h2 className="text-xl font-bold text-gray-800 mt-6 mb-3">{children}</h2>
                                         ),
-                                        h3: (props: any) => (
-                                            <h3 className="text-lg font-bold text-gray-800 mt-4 mb-2">{props.children}</h3>
+                                        h3: ({ children }) => (
+                                            <h3 className="text-lg font-bold text-gray-800 mt-4 mb-2">{children}</h3>
                                         ),
                                     }}
                                 >
